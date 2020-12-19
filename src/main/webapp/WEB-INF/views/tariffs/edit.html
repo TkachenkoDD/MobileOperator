@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update tariff</title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/tariffs/{id}(id=${tariff.getId()})}" th:object="${tariff}">
+    <label for="name">Enter tariff name: </label>
+    <input type="text" th:field="*{tariffName}" id="name"/>
+    <br/>
+    <label for="cost">Enter tariffs cost</label>
+    <input type="text" th:field="*{tariffCost}" id="cost"/>
+    <br/>
+    <input type="submit" value="Update!"/>
+</form>
+
+</body>
+</html>

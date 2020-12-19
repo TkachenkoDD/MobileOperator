@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New tariff</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/tariffs}" th:object="${tariff}">
+    <label for="name">Enter tariff name: </label>
+    <input type="text" th:field="*{tariffName}" id="name"/>
+    <br/>
+    <label for="cost">Enter tariffs cost</label>
+    <input type="text" th:field="*{tariffCost}" id="cost"/>
+    <br/>
+    <input type="submit" value="Create!"/>
+</form>
+
+</body>
+</html>
