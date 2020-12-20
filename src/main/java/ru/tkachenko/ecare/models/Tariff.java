@@ -1,8 +1,17 @@
 package ru.tkachenko.ecare.models;
 
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "tariffs")
 public class Tariff {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "tariffname")
     private String tariffName;
+    @Column(name = "tariffcost")
     private int tariffCost;
 
     public Tariff(){}

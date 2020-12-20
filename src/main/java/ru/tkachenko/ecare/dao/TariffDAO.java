@@ -1,113 +1,48 @@
 package ru.tkachenko.ecare.dao;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 import ru.tkachenko.ecare.models.Tariff;
+import ru.tkachenko.ecare.utils.HibernateSessionFactoryUtil;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class TariffDAO {
-    private static int TARIFF_COUNT;
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/ecare";
-    private static final String USERNAME = "tkach";
-    private static final String PASSWORD = "mypassword";
+    public List<Tariff> showAll() {
 
-    private static Connection connection;
-
-    static {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    public List<Tariff> index() {
-        List<Tariff> listOfTariffs = new ArrayList<>();
-        try {
-            Statement statement = connection.createStatement();
-            String SQL = "SELECT * FROM tariffs";
-            ResultSet resultSet = statement.executeQuery(SQL);
-            while (resultSet.next()) {
-                Tariff tariff = new Tariff();
-                tariff.setId(resultSet.getInt("id"));
-                tariff.setTariffName(resultSet.getString("tariffname"));
-                tariff.setTariffCost(resultSet.getInt("tariffcost"));
-                listOfTariffs.add(tariff);
-            }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        List<Tariff> listOfTariffs =
+                (List<Tariff>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("FROM Tariff").list();
         return listOfTariffs;
     }
 
-    public Tariff show(int id) {
-        Tariff tariff = null;
-        try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement("SELECT * FROM tariffs WHERE id = ?");
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            tariff = new Tariff();
-            tariff.setId(resultSet.getInt("id"));
-            tariff.setTariffName(resultSet.getString("tariffname"));
-            tariff.setTariffCost(resultSet.getInt("tariffcost"));
-
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return tariff;
+    public Tariff showId(int id) {
+        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Tariff.class, id);
     }
 
     public void save(Tariff tariff) {
-        try {
-            String SQL = "INSERT INTO tariffs (tariffname, tariffcost)  VALUES (?, ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setString(1, tariff.getTariffName());
-            preparedStatement.setInt(2, tariff.getTariffCost());
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.save(tariff);
+        transaction.commit();
+        session.close();
     }
 
-    public void update(int id, Tariff updatedTariff) {
-        try {
-            String SQL = "UPDATE tariffs SET id = ?, tariffname = ?, tariffcost = ? WHERE id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setInt(1, updatedTariff.getId());
-            preparedStatement.setString(2, updatedTariff.getTariffName());
-            preparedStatement.setInt(3, updatedTariff.getTariffCost());
-            preparedStatement.setInt(4, id);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+    public void update(Tariff updatedTariff) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.update(updatedTariff);
+        transaction.commit();
+        session.close();
     }
 
-    public void delete(int id) {
-        try {
-            String SQL = "DELETE FROM tariffs WHERE id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+    public void delete(Tariff tariff) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.delete(tariff);
+        transaction.commit();
+        session.close();
     }
 }
