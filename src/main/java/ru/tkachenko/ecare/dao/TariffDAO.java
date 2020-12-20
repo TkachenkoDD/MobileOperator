@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 import ru.tkachenko.ecare.models.Tariff;
-import ru.tkachenko.ecare.utils.HibernateSessionFactoryUtil;
+import ru.tkachenko.ecare.config.HibernateSessionFactoryUtil;
 
 import java.util.List;
 
