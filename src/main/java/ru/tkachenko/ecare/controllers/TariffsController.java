@@ -1,30 +1,32 @@
 package ru.tkachenko.ecare.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.tkachenko.ecare.dao.TariffDAO;
+import ru.tkachenko.ecare.service.TariffService;
 import ru.tkachenko.ecare.models.Tariff;
 
 @Controller
 @RequestMapping("/tariffs")
 public class TariffsController {
 
-    private TariffDAO tariffDAO;
+    private TariffService tariffService;
 
-    public TariffsController(TariffDAO tariffDAO) {
-        this.tariffDAO = tariffDAO;
+    @Autowired
+    public TariffsController(TariffService tariffService) {
+        this.tariffService = tariffService;
     }
 
     @GetMapping()
     public String indexTariff(Model model) {
-        model.addAttribute("tariffs", tariffDAO.showAll());
+        model.addAttribute("tariffs", tariffService.showAll());
         return "tariffs/index";
     }
 
     @GetMapping("/{id}")
     public String showTariff(@PathVariable("id") int id, Model model) {
-        model.addAttribute("tariff", tariffDAO.showId(id));
+        model.addAttribute("tariff", tariffService.showId(id));
         return "tariffs/show";
     }
 
@@ -35,25 +37,25 @@ public class TariffsController {
 
     @PostMapping
     public String createTariff(@ModelAttribute("tariff") Tariff tariff) {
-        tariffDAO.save(tariff);
+        tariffService.save(tariff);
         return "redirect:/tariffs";
     }
 
     @GetMapping("/{id}/edit")
     public String editTariff(Model model, @PathVariable("id") int id) {
-        model.addAttribute("tariff", tariffDAO.showId(id));
+        model.addAttribute("tariff", tariffService.showId(id));
         return "tariffs/edit";
     }
 
     @PatchMapping("/{id}")
     public String updateTariff(@ModelAttribute("tariff") Tariff tariff) {
-        tariffDAO.update(tariff);
+        tariffService.update(tariff);
         return "redirect:/tariffs";
     }
 
     @DeleteMapping("/{id}")
     public String deleteTariff(@ModelAttribute("tariff") Tariff tariff){
-        tariffDAO.delete(tariff);
+        tariffService.delete(tariff);
         return "redirect:/tariffs";
     }
 }
