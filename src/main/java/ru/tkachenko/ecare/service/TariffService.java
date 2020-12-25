@@ -5,9 +5,10 @@ import ru.tkachenko.ecare.models.Tariff;
 import java.util.List;
 
 public interface TariffService {
+
     List<Tariff> showAll();
 
-    Tariff showId(int id);
+    Tariff showById(int id);
 
     void save(Tariff tariff);
 

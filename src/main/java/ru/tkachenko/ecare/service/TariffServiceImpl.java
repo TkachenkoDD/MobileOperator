@@ -11,7 +11,6 @@ import java.util.List;
 @Service
 public class TariffServiceImpl implements TariffService {
 
-
     private TariffDAO tariffDAO;
 
     @Autowired
@@ -20,15 +19,15 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Tariff> showAll() {
         return this.tariffDAO.showAll();
     }
 
     @Override
-    @Transactional
-    public Tariff showId(int id) {
-        return this.tariffDAO.showId(id);
+    @Transactional(readOnly = true)
+    public Tariff showById(int id) {
+        return this.tariffDAO.showById(id);
     }
 
     @Override

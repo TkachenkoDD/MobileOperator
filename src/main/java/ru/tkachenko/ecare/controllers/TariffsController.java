@@ -21,13 +21,13 @@ public class TariffsController {
     @GetMapping()
     public String indexTariff(Model model) {
         model.addAttribute("tariffs", tariffService.showAll());
-        return "tariffs/index";
+        return "tariffs/show_all";
     }
 
     @GetMapping("/{id}")
     public String showTariff(@PathVariable("id") int id, Model model) {
-        model.addAttribute("tariff", tariffService.showId(id));
-        return "tariffs/show";
+        model.addAttribute("tariff", tariffService.showById(id));
+        return "tariffs/show_by_id";
     }
 
     @GetMapping("/new")
@@ -43,7 +43,7 @@ public class TariffsController {
 
     @GetMapping("/{id}/edit")
     public String editTariff(Model model, @PathVariable("id") int id) {
-        model.addAttribute("tariff", tariffService.showId(id));
+        model.addAttribute("tariff", tariffService.showById(id));
         return "tariffs/edit";
     }
 

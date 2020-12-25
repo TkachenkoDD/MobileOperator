@@ -8,7 +8,7 @@ public interface TariffDAO {
 
     List<Tariff> showAll();
 
-    Tariff showId(int id);
+    Tariff showById(int id);
 
     void save(Tariff tariff);
 

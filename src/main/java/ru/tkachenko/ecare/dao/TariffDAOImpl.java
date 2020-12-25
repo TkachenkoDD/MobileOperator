@@ -1,8 +1,6 @@
 package ru.tkachenko.ecare.dao;
 
-
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.tkachenko.ecare.models.Tariff;
 
 import javax.persistence.EntityManager;
@@ -17,11 +15,11 @@ public class TariffDAOImpl implements TariffDAO {
 
     @Override
     public List<Tariff> showAll() {
-        return entityManager.createQuery("from Tariff").getResultList();
+        return entityManager.createQuery("FROM Tariff").getResultList();
     }
 
     @Override
-    public Tariff showId(int id) {
+    public Tariff showById(int id) {
         return entityManager.find(Tariff.class, id);
     }
 
