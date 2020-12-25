@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update client</title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/clients/{id}(id=${client.getId()})}" th:object="${client}">
+    <label for="name">Enter name: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <br/>
+    <label for="surname">Enter surname</label>
+    <input type="text" th:field="*{surname}" id="surname"/>
+    <br/>
+    <label for="birthday">Enter date of birth</label>
+    <input type="text" th:field="*{dateOfBirth}" id="birthday"/>
+    <br/>
+    <label for="passport">Enter number of passport</label>
+    <input type="text" th:field="*{numberOfPassport}" id="passport"/>
+    <br/>
+    <label for="address">Enter address</label>
+    <input type="text" th:field="*{address}" id="address"/>
+    <br/>
+    <label for="contracts">Enter contract</label>
+    <input type="text" th:field="*{contractList}" id="contracts"/>
+    <br/>
+    <label for="email">Enter e-mail</label>
+    <input type="text" th:field="*{email}" id="email"/>
+    <br/>
+    <input type="submit" value="Update!"/>
+</form>
+
+</body>
+</html>

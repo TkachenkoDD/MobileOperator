@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class ClientDAOImpl implements ClientDAO {
+public class ClientDAOImpl implements GenericDAO<Client> {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -22,5 +22,21 @@ public class ClientDAOImpl implements ClientDAO {
     @Override
     public Client showById(int id) {
         return entityManager.find(Client.class, id);
+    }
+
+    @Override
+    public void save(Client client) {
+        entityManager.persist(client);
+    }
+
+    @Override
+    public void update(Client client) {
+        entityManager.merge(client);
+    }
+
+    @Override
+    public void delete(Client client) {
+        client = entityManager.find(Client.class, client.getId());
+        entityManager.remove(client);
     }
 }

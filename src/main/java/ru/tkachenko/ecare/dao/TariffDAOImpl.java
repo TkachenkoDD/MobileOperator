@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class TariffDAOImpl implements TariffDAO {
+public class TariffDAOImpl implements GenericDAO<Tariff> {
 
     @PersistenceContext
     private EntityManager entityManager;
