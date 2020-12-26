@@ -1,7 +1,5 @@
 package ru.tkachenko.ecare.service;
 
-import ru.tkachenko.ecare.models.Tariff;
-
 import java.util.List;
 
 public interface GenericService<T> {

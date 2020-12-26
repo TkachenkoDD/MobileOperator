@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Contract</title>
+</head>
+<body>
+
+<p th:text="${contract.getId()}">VALUE</p>
+<p th:text="${contract.getNumber()}">VALUE</p>
+<p th:text="${contract.getTariff()}">VALUE</p>
+<p th:text="${contract.getOptions()}">VALUE</p>
+
+<a th:href="@{/contracts/{id}/edit (id=${contract.getId()})}">edit contract</a>
+
+<form th:method="DELETE" th:action="@{/contracts/{id} (id=${contract.getId()})}" th:object="${contract}">
+    <input type="submit" value="Delete!"/>
+</form>
+
+</body>
+</html>

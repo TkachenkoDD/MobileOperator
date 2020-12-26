@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New contract</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/contracts}" th:object="${contract}">
+    <label for="number">Enter number: </label>
+    <input type="text" th:field="*{number}" id="number"/>
+    <br/>
+    <label for="tariff">Choose tariff</label>
+    <input type="text" th:field="*{tariff}" id="tariff"/>
+    <br/>
+    <label for="options">Choose options</label>
+    <input type="text" th:field="*{options}" id="options"/>
+    <br/>
+    <input type="submit" value="Create!"/>
+</form>
+
+</body>
+</html>
