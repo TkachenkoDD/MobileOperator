@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Option</title>
+</head>
+<body>
+
+<p th:text="${option.getId()}">VALUE</p>
+<p th:text="${option.getOptionName()}">VALUE</p>
+<p th:text="${option.getOptionCost()}">VALUE</p>
+<p th:text="${option.getConnectionCost()}">VALUE</p>
+
+<a th:href="@{/options/{id}/edit (id=${option.getId()})}">edit option</a>
+
+<form th:method="DELETE" th:action="@{/options/{id} (id=${option.getId()})}" th:object="${option}">
+    <input type="submit" value="Delete!"/>
+</form>
+
+</body>
+</html>

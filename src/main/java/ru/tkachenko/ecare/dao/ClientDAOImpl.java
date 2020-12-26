@@ -13,7 +13,6 @@ public class ClientDAOImpl implements GenericDAO<Client> {
     @PersistenceContext
     private EntityManager entityManager;
 
-
     @Override
     public List<Client> showAll() {
         return entityManager.createQuery("FROM Client").getResultList();

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All options</title>
+</head>
+<body>
+
+<div th:each="option : ${options}">
+    <a th:href="@{/options/{id} (id=${option.getId()})}" th:text="${option.getOptionName()}">option</a>
+</div>
+<br/>
+<hr/>
+<a th:href="@{/options/new}">new option</a>
+
+</body>
+</html>

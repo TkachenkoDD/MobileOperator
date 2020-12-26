@@ -19,13 +19,13 @@ public class TariffsController {
     }
 
     @GetMapping()
-    public String indexTariff(Model model) {
+    public String showAllTariffs(Model model) {
         model.addAttribute("tariffs", genericService.showAll());
         return "tariffs/show_all";
     }
 
     @GetMapping("/{id}")
-    public String showTariff(@PathVariable("id") int id, Model model) {
+    public String showTariffById(@PathVariable("id") int id, Model model) {
         model.addAttribute("tariff", genericService.showById(id));
         return "tariffs/show_by_id";
     }

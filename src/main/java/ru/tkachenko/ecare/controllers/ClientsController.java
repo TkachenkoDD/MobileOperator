@@ -9,23 +9,23 @@ import ru.tkachenko.ecare.service.GenericService;
 
 @Controller
 @RequestMapping("/clients")
-public class ClientController {
+public class ClientsController {
 
     private GenericService<Client> genericService;
 
     @Autowired
-    public ClientController(GenericService<Client> genericService) {
+    public ClientsController(GenericService<Client> genericService) {
         this.genericService = genericService;
     }
 
     @GetMapping
-    public String indexClient(Model model) {
+    public String showAllClients(Model model) {
         model.addAttribute("clients", genericService.showAll());
         return "clients/show_all";
     }
 
     @GetMapping("{id}")
-    public String showClient(@PathVariable("id") int id, Model model) {
+    public String showClientById(@PathVariable("id") int id, Model model) {
         model.addAttribute("client", genericService.showById(id));
         return "clients/show_by_id";
     }

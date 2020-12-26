@@ -1,17 +1,32 @@
 package ru.tkachenko.ecare.models;
 
-public class Option {
+import javax.persistence.*;
 
+@Entity
+@Table(name = "options")
+public class Option {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "optionname")
     private String optionName;
+
+    @Column(name = "optioncost")
     private int optionCost;
 
-    public Option(){}
+    @Column(name = "connectioncost")
+    private int connectionCost;
 
-    public Option(int id, String optionName, int optionCost) {
+    public Option() {
+    }
+
+    public Option(int id, String optionName, int optionCost, int connectionCost) {
         this.id = id;
         this.optionName = optionName;
         this.optionCost = optionCost;
+        this.connectionCost = connectionCost;
     }
 
     public int getId() {
@@ -36,5 +51,13 @@ public class Option {
 
     public void setOptionCost(int optionCost) {
         this.optionCost = optionCost;
+    }
+
+    public int getConnectionCost() {
+        return connectionCost;
+    }
+
+    public void setConnectionCost(int connectionCost) {
+        this.connectionCost = connectionCost;
     }
 }
