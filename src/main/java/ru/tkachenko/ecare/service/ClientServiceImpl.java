@@ -3,48 +3,48 @@ package ru.tkachenko.ecare.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.tkachenko.ecare.dao.GenericDAO;
+import ru.tkachenko.ecare.dao.ClientDAO;
 import ru.tkachenko.ecare.models.Client;
 
 import java.util.List;
 
 @Service
-public class ClientServiceImpl implements GenericService<Client> {
+public class ClientServiceImpl implements ClientService {
 
-    private GenericDAO<Client> genericDAO;
+    private ClientDAO clientDAO;
 
     @Autowired
-    public ClientServiceImpl(GenericDAO<Client> genericDAO) {
-        this.genericDAO = genericDAO;
+    public ClientServiceImpl(ClientDAO clientDAO) {
+        this.clientDAO = clientDAO;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Client> showAll() {
-        return genericDAO.showAll();
+        return clientDAO.showAll();
     }
 
     @Override
     @Transactional(readOnly = true)
     public Client showById(int id) {
-        return this.genericDAO.showById(id);
+        return this.clientDAO.showById(id);
     }
 
     @Override
     @Transactional
     public void save(Client client) {
-        genericDAO.save(client);
+        clientDAO.save(client);
     }
 
     @Override
     @Transactional
     public void update(Client client) {
-        genericDAO.update(client);
+        clientDAO.update(client);
     }
 
     @Override
     @Transactional
     public void delete(Client client) {
-        genericDAO.delete(client);
+        clientDAO.delete(client);
     }
 }

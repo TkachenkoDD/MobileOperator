@@ -5,28 +5,28 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.tkachenko.ecare.models.Admin;
-import ru.tkachenko.ecare.service.GenericService;
+import ru.tkachenko.ecare.service.AdminService;
 
 @Controller
 @RequestMapping("/admins")
 public class AdminsController {
 
-    private GenericService<Admin> genericService;
+    private AdminService adminService;
 
     @Autowired
-    public AdminsController(GenericService<Admin> genericService) {
-        this.genericService = genericService;
+    public AdminsController(AdminService adminService) {
+        this.adminService = adminService;
     }
 
     @GetMapping
     public String showAllAdmins(Model model) {
-        model.addAttribute("admins", genericService.showAll());
+        model.addAttribute("admins", adminService.showAll());
         return "admins/show_all";
     }
 
     @GetMapping("{id}")
     public String showAdmintById(@PathVariable("id") int id, Model model) {
-        model.addAttribute("admin", genericService.showById(id));
+        model.addAttribute("admin", adminService.showById(id));
         return "admins/show_by_id";
     }
 
@@ -37,25 +37,25 @@ public class AdminsController {
 
     @PostMapping
     public String createAdmin(@ModelAttribute("client") Admin admin) {
-        genericService.save(admin);
+        adminService.save(admin);
         return "redirect:/admins";
     }
 
     @GetMapping("/{id}/edit")
     public String editAdmin(Model model, @PathVariable("id") int id) {
-        model.addAttribute("admin", genericService.showById(id));
+        model.addAttribute("admin", adminService.showById(id));
         return "admins/edit";
     }
 
     @PatchMapping("/{id}")
     public String updateAdmin(@ModelAttribute("admin") Admin admin) {
-        genericService.update(admin);
+        adminService.update(admin);
         return "redirect:/admins";
     }
 
     @DeleteMapping("/{id}")
     public String deleteAdmin(@ModelAttribute("admin") Admin admin) {
-        genericService.delete(admin);
+        adminService.delete(admin);
         return "redirect:/admins";
     }
 }

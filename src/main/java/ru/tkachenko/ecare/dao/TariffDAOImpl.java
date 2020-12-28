@@ -3,15 +3,15 @@ package ru.tkachenko.ecare.dao;
 import org.springframework.stereotype.Repository;
 import ru.tkachenko.ecare.models.Tariff;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class TariffDAOImpl implements GenericDAO<Tariff> {
+public class TariffDAOImpl extends GenericDAOImpl<Tariff> implements TariffDAO {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Override
+    public void blaBla(Tariff tariff) {
+//test of own method of Tariff
+    }
 
     @Override
     public List<Tariff> showAll() {

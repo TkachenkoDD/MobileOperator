@@ -3,15 +3,10 @@ package ru.tkachenko.ecare.dao;
 import org.springframework.stereotype.Repository;
 import ru.tkachenko.ecare.models.Admin;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class AdminDAOImpl implements GenericDAO<Admin> {
-
-    @PersistenceContext
-    private EntityManager entityManager;
+public class AdminDAOImpl extends GenericDAOImpl<Admin> implements AdminDAO {
 
     @Override
     public List<Admin> showAll() {

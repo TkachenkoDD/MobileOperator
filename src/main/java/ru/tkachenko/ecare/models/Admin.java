@@ -2,6 +2,13 @@ package ru.tkachenko.ecare.models;
 
 import javax.persistence.*;
 
+/**
+ * Simple JavaBean object that represent an Admin
+ *
+ * @author Dmitriy Tkachenko
+ * @version 1.0
+ */
+
 @Entity
 @Table(name = "admins")
 public class Admin {

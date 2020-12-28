@@ -3,15 +3,10 @@ package ru.tkachenko.ecare.dao;
 import org.springframework.stereotype.Repository;
 import ru.tkachenko.ecare.models.Contract;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class ContractDAOImpl implements GenericDAO<Contract> {
-
-    @PersistenceContext
-    private EntityManager entityManager;
+public class ContractDAOImpl extends GenericDAOImpl<Contract> implements ContractDAO {
 
     @Override
     public List<Contract> showAll() {

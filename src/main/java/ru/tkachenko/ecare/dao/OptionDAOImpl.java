@@ -3,15 +3,10 @@ package ru.tkachenko.ecare.dao;
 import org.springframework.stereotype.Repository;
 import ru.tkachenko.ecare.models.Option;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class OptionDAOImpl implements GenericDAO<Option> {
-
-    @PersistenceContext
-    private EntityManager entityManager;
+public class OptionDAOImpl extends GenericDAOImpl<Option> implements OptionDAO {
 
     @Override
     public List<Option> showAll() {

@@ -3,48 +3,56 @@ package ru.tkachenko.ecare.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.tkachenko.ecare.dao.GenericDAO;
+import ru.tkachenko.ecare.dao.AdminDAO;
 import ru.tkachenko.ecare.models.Admin;
 
 import java.util.List;
 
-@Service
-public class AdminServiceImpl implements GenericService<Admin>{
+/**
+ * Service class for {@link Admin}
+ *
+ * @author Dmitriy Tkachenko
+ * @version 1.0
+ */
 
-    private GenericDAO<Admin> genericDAO;
+
+@Service
+public class AdminServiceImpl implements AdminService{
+
+    private AdminDAO adminDAO;
 
     @Autowired
-    public AdminServiceImpl(GenericDAO<Admin> genericDAO) {
-        this.genericDAO = genericDAO;
+    public AdminServiceImpl(AdminDAO adminDAO) {
+        this.adminDAO = adminDAO;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Admin> showAll() {
-        return genericDAO.showAll();
+        return adminDAO.showAll();
     }
 
     @Override
     @Transactional(readOnly = true)
     public Admin showById(int id) {
-        return genericDAO.showById(id);
+        return adminDAO.showById(id);
     }
 
     @Override
     @Transactional
     public void save(Admin admin) {
-        genericDAO.save(admin);
+        adminDAO.save(admin);
     }
 
     @Override
     @Transactional
     public void update(Admin admin) {
-        genericDAO.update(admin);
+        adminDAO.update(admin);
     }
 
     @Override
     @Transactional
     public void delete(Admin admin) {
-        genericDAO.delete(admin);
+        adminDAO.delete(admin);
     }
 }

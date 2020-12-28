@@ -3,48 +3,48 @@ package ru.tkachenko.ecare.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.tkachenko.ecare.dao.GenericDAO;
+import ru.tkachenko.ecare.dao.OptionDAO;
 import ru.tkachenko.ecare.models.Option;
 
 import java.util.List;
 
 @Service
-public class OptionServiceImpl implements GenericService<Option> {
+public class OptionServiceImpl implements OptionService {
 
-    private GenericDAO<Option> genericDAO;
+    private OptionDAO optionDAO;
 
     @Autowired
-    public OptionServiceImpl(GenericDAO<Option> genericDAO) {
-        this.genericDAO = genericDAO;
+    public OptionServiceImpl(OptionDAO optionDAO) {
+        this.optionDAO = optionDAO;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Option> showAll() {
-        return genericDAO.showAll();
+        return optionDAO.showAll();
     }
 
     @Override
     @Transactional(readOnly = true)
     public Option showById(int id) {
-        return genericDAO.showById(id);
+        return optionDAO.showById(id);
     }
 
     @Override
     @Transactional
     public void save(Option option) {
-        genericDAO.save(option);
+        optionDAO.save(option);
     }
 
     @Override
     @Transactional
     public void update(Option option) {
-        genericDAO.update(option);
+        optionDAO.update(option);
     }
 
     @Override
     @Transactional
     public void delete(Option option) {
-        genericDAO.delete(option);
+        optionDAO.delete(option);
     }
 }
