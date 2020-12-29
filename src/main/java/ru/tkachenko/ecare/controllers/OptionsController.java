@@ -54,8 +54,8 @@ public class OptionsController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteOption(@ModelAttribute("option") Option option) {
-        optionService.delete(option);
+    public String deleteOption(@ModelAttribute("option") Option option, @PathVariable("id") int id) {
+        optionService.delete(option, id);
         return "redirect:/options";
     }
 }

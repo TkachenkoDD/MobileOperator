@@ -27,10 +27,4 @@ public class ContractDAOImpl extends GenericDAOImpl<Contract> implements Contrac
     public void update(Contract contract) {
         entityManager.merge(contract);
     }
-
-    @Override
-    public void delete(Contract contract) {
-        contract = entityManager.find(Contract.class, contract.getId());
-        entityManager.remove(contract);
-    }
 }

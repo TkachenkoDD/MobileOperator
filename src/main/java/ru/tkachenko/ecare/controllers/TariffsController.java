@@ -54,8 +54,8 @@ public class TariffsController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteTariff(@ModelAttribute("tariff") Tariff tariff) {
-        tariffService.delete(tariff);
+    public String deleteTariff(@ModelAttribute("tariff") Tariff tariff, @PathVariable("id") int id) {
+        tariffService.delete(tariff, id);
         return "redirect:/tariffs";
     }
 }

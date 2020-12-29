@@ -27,10 +27,4 @@ public class ClientDAOImpl extends GenericDAOImpl<Client> implements ClientDAO {
     public void update(Client client) {
         entityManager.merge(client);
     }
-
-    @Override
-    public void delete(Client client) {
-        client = entityManager.find(Client.class, client.getId());
-        entityManager.remove(client);
-    }
 }

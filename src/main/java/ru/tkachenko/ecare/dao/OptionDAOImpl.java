@@ -27,10 +27,4 @@ public class OptionDAOImpl extends GenericDAOImpl<Option> implements OptionDAO {
     public void update(Option option) {
         entityManager.merge(option);
     }
-
-    @Override
-    public void delete(Option option) {
-    option = entityManager.find(Option.class, option.getId());
-    entityManager.remove(option);
-    }
 }

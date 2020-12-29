@@ -54,8 +54,8 @@ public class ClientsController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteClient(@ModelAttribute("client") Client client) {
-        clientService.delete(client);
+    public String deleteClient(@ModelAttribute("client") Client client, @PathVariable("id") int id) {
+        clientService.delete(client, id);
         return "redirect:/clients";
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @Service
-public class AdminServiceImpl implements AdminService{
+public class AdminServiceImpl implements AdminService {
 
     private AdminDAO adminDAO;
 
@@ -52,7 +52,7 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     @Transactional
-    public void delete(Admin admin) {
-        adminDAO.delete(admin);
+    public void delete(Admin admin, int id) {
+        adminDAO.delete(admin, id);
     }
 }

@@ -44,7 +44,7 @@ public class TariffServiceImpl implements TariffService {
 
     @Override
     @Transactional
-    public void delete(Tariff tariff) {
-        tariffDAO.delete(tariff);
+    public void delete(Tariff tariff, int id) {
+        tariffDAO.delete(tariff, id);
     }
 }

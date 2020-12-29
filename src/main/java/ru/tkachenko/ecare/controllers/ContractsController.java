@@ -54,8 +54,8 @@ public class ContractsController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteContract(@ModelAttribute("contract") Contract contract) {
-        contractService.delete(contract);
+    public String deleteContract(@ModelAttribute("contract") Contract contract, @PathVariable("id") int id) {
+        contractService.delete(contract, id);
         return "redirect:/contracts";
     }
 }

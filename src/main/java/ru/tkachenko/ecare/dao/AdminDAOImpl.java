@@ -27,10 +27,4 @@ public class AdminDAOImpl extends GenericDAOImpl<Admin> implements AdminDAO {
     public void update(Admin admin) {
         entityManager.merge(admin);
     }
-
-    @Override
-    public void delete(Admin admin) {
-        admin = entityManager.find(Admin.class, admin.getId());
-        entityManager.remove(admin);
-    }
 }

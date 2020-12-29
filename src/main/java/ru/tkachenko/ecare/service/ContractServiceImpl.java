@@ -44,7 +44,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     @Transactional
-    public void delete(Contract contract) {
-        contractDAO.delete(contract);
+    public void delete(Contract contract, int id) {
+        contractDAO.delete(contract, id);
     }
 }

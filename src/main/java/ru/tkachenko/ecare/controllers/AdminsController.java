@@ -54,8 +54,8 @@ public class AdminsController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteAdmin(@ModelAttribute("admin") Admin admin) {
-        adminService.delete(admin);
+    public String deleteAdmin(@ModelAttribute("admin") Admin admin, @PathVariable("id") int id) {
+        adminService.delete(admin, id);
         return "redirect:/admins";
     }
 }

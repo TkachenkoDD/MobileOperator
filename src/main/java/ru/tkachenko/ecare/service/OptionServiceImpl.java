@@ -44,7 +44,7 @@ public class OptionServiceImpl implements OptionService {
 
     @Override
     @Transactional
-    public void delete(Option option) {
-        optionDAO.delete(option);
+    public void delete(Option option, int id) {
+        optionDAO.delete(option, id);
     }
 }

@@ -14,5 +14,5 @@ public interface OptionService {
 
     void update(Option option);
 
-    void delete(Option option);
+    void delete(Option option, int id);
 }
