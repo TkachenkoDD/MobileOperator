@@ -27,7 +27,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional(readOnly = true)
     public Client showById(int id) {
-        return this.clientDAO.showById(id);
+        return clientDAO.showById(id);
     }
 
     @Override

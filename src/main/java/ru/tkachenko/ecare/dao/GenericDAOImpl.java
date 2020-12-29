@@ -15,10 +15,6 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
     @PersistenceContext
     public EntityManager entityManager;
 
-    public GenericDAOImpl() {
-    }
-
-
     @Override
     public List<T> showAll() {
         return entityManager.createQuery("FROM " + clazz.getName()).getResultList();
