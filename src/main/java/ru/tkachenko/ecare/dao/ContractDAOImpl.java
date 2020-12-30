@@ -8,6 +8,6 @@ public class ContractDAOImpl extends GenericDAOImpl<Contract> implements Contrac
 
     public ContractDAOImpl() {
         super();
-        setClazz(Contract.class);
+        setEntity(Contract.class);
     }
 }

@@ -1,18 +1,17 @@
 package ru.tkachenko.ecare.service;
 
 import ru.tkachenko.ecare.dto.AdminDTO;
-import ru.tkachenko.ecare.models.Admin;
 
 import java.util.List;
 
 public interface AdminService {
-    List<Admin> showAll();
+    List<AdminDTO> showAll();
 
-    Admin showById(int id);
+    AdminDTO showById(int id);
 
-    void save(Admin admin);
+    void save(AdminDTO adminDTO);
 
-    void update(Admin admin);
+    void update(AdminDTO adminDTO);
 
-    void delete(Admin admin, int id);
+    void delete(AdminDTO adminDTO, int id);
 }

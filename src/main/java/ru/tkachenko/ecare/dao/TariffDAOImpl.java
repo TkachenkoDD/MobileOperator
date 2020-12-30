@@ -8,7 +8,7 @@ public class TariffDAOImpl extends GenericDAOImpl<Tariff> implements TariffDAO {
 
     public TariffDAOImpl() {
         super();
-        setClazz(Tariff.class);
+        setEntity(Tariff.class);
     }
 
     @Override

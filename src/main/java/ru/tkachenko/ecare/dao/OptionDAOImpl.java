@@ -8,6 +8,6 @@ public class OptionDAOImpl extends GenericDAOImpl<Option> implements OptionDAO {
 
     public OptionDAOImpl() {
         super();
-        setClazz(Option.class);
+        setEntity(Option.class);
     }
 }

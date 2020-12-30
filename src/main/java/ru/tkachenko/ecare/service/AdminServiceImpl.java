@@ -1,6 +1,7 @@
 package ru.tkachenko.ecare.service;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,44 +31,42 @@ public class AdminServiceImpl implements AdminService {
     }
 
     Admin admin = new Admin();
-//  AdminDTO adminDTO = modelMapper.map(admin, AdminDTO.class);
 
     @Override
     @Transactional(readOnly = true)
-    public List<Admin> showAll() {
-        return adminDAO.showAll();
+    public List<AdminDTO> showAll() {
+        List<AdminDTO> adminDTOList = modelMapper.map(adminDAO.showAll(), new TypeToken<List<AdminDTO>>() {}.getType());
+        return adminDTOList;
     }
 
     @Override
-    public Admin showById(int id) {
-        return adminDAO.showById(id);
+    @Transactional(readOnly = true)
+    public AdminDTO showById(int id) {
+        return modelMapper.map(adminDAO.showById(id), AdminDTO.class);
     }
 
     @Override
     @Transactional
-    public void save(Admin admin) {
+    public void save(AdminDTO adminDTO) {
+        admin = toEntity(adminDTO);
         adminDAO.save(admin);
     }
 
     @Override
     @Transactional
-    public void update(Admin admin) {
+    public void update(AdminDTO adminDTO) {
+        admin = toEntity(adminDTO);
         adminDAO.update(admin);
     }
 
     @Override
     @Transactional
-    public void delete(Admin admin, int id) {
+    public void delete(AdminDTO adminDTO, int id) {
+        admin = toEntity(adminDTO);
         adminDAO.delete(admin, id);
     }
 
-
     public Admin toEntity(AdminDTO dto) {
         return modelMapper.map(dto, Admin.class);
-    }
-
-
-    public AdminDTO toDto(Admin entity) {
-        return modelMapper.map(entity, AdminDTO.class);
     }
 }

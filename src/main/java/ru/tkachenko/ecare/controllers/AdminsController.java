@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.tkachenko.ecare.models.Admin;
+import ru.tkachenko.ecare.dto.AdminDTO;
 import ru.tkachenko.ecare.service.AdminService;
 
 @Controller
@@ -31,13 +31,13 @@ public class AdminsController {
     }
 
     @GetMapping("/new")
-    public String newAdmin(@ModelAttribute("admin") Admin admin) {
+    public String newAdmin(@ModelAttribute("admin") AdminDTO adminDTO) {
         return "admins/new";
     }
 
     @PostMapping
-    public String createAdmin(@ModelAttribute("client") Admin admin) {
-        adminService.save(admin);
+    public String createAdmin(@ModelAttribute("client") AdminDTO adminDTO) {
+        adminService.save(adminDTO);
         return "redirect:/admins";
     }
 
@@ -48,14 +48,14 @@ public class AdminsController {
     }
 
     @PatchMapping("/{id}")
-    public String updateAdmin(@ModelAttribute("admin") Admin admin) {
-        adminService.update(admin);
+    public String updateAdmin(@ModelAttribute("admin") AdminDTO adminDTO) {
+        adminService.update(adminDTO);
         return "redirect:/admins";
     }
 
     @DeleteMapping("/{id}")
-    public String deleteAdmin(@ModelAttribute("admin") Admin admin, @PathVariable("id") int id) {
-        adminService.delete(admin, id);
+    public String deleteAdmin(@ModelAttribute("admin") AdminDTO adminDTO, @PathVariable("id") int id) {
+        adminService.delete(adminDTO, id);
         return "redirect:/admins";
     }
 }

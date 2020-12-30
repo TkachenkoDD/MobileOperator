@@ -6,10 +6,10 @@ import java.util.List;
 
 public class GenericDAOImpl<T> implements GenericDAO<T> {
 
-    private Class<T> clazz;
+    private Class<T> entity;
 
-    public final void setClazz(final Class<T> clazzToSet) {
-        this.clazz = clazzToSet;
+    public final void setEntity(final Class<T> entityToSet) {
+        this.entity = entityToSet;
     }
 
     @PersistenceContext
@@ -17,12 +17,12 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
 
     @Override
     public List<T> showAll() {
-        return entityManager.createQuery("FROM " + clazz.getName()).getResultList();
+        return entityManager.createQuery("FROM " + entity.getName()).getResultList();
     }
 
     @Override
     public T showById(int id) {
-        return entityManager.find(clazz, id);
+        return entityManager.find(entity, id);
     }
 
     @Override

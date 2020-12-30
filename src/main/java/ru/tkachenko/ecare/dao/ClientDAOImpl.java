@@ -8,6 +8,6 @@ public class ClientDAOImpl extends GenericDAOImpl<Client> implements ClientDAO {
 
     public ClientDAOImpl() {
         super();
-        setClazz(Client.class);
+        setEntity(Client.class);
     }
 }

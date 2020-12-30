@@ -8,6 +8,6 @@ public class AdminDAOImpl extends GenericDAOImpl<Admin> implements AdminDAO {
 
     public AdminDAOImpl() {
         super();
-        setClazz(Admin.class);
+        setEntity(Admin.class);
     }
 }
