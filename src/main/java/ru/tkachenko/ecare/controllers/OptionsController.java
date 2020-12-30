@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.tkachenko.ecare.models.Option;
+import ru.tkachenko.ecare.dto.OptionDTO;
 import ru.tkachenko.ecare.service.OptionService;
 
 @Controller
 @RequestMapping("/options")
 public class OptionsController {
 
-    private OptionService optionService;
+    private final OptionService optionService;
 
     @Autowired
     public OptionsController(OptionService optionService) {
@@ -31,13 +31,13 @@ public class OptionsController {
     }
 
     @GetMapping("/new")
-    public String newOption(@ModelAttribute("option") Option option) {
+    public String newOption(@ModelAttribute("option") OptionDTO optionDTO) {
         return "options/new";
     }
 
     @PostMapping
-    public String createOption(@ModelAttribute("option") Option option) {
-        optionService.save(option);
+    public String createOption(@ModelAttribute("option") OptionDTO optionDTO) {
+        optionService.save(optionDTO);
         return "redirect:/options";
     }
 
@@ -48,14 +48,14 @@ public class OptionsController {
     }
 
     @PatchMapping("/{id}")
-    public String updateOption(@ModelAttribute("option") Option option) {
-        optionService.update(option);
+    public String updateOption(@ModelAttribute("option") OptionDTO optionDTO) {
+        optionService.update(optionDTO);
         return "redirect:/options";
     }
 
     @DeleteMapping("/{id}")
-    public String deleteOption(@ModelAttribute("option") Option option, @PathVariable("id") int id) {
-        optionService.delete(option, id);
+    public String deleteOption(@ModelAttribute("option") OptionDTO optionDTO, @PathVariable("id") int id) {
+        optionService.delete(optionDTO, id);
         return "redirect:/options";
     }
 }

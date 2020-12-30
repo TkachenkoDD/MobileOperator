@@ -1,9 +1,12 @@
 package ru.tkachenko.ecare.service;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tkachenko.ecare.dao.ClientDAO;
+import ru.tkachenko.ecare.dto.ClientDTO;
 import ru.tkachenko.ecare.models.Client;
 
 import java.util.List;
@@ -11,40 +14,52 @@ import java.util.List;
 @Service
 public class ClientServiceImpl implements ClientService {
 
-    private ClientDAO clientDAO;
+    private final ClientDAO clientDAO;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public ClientServiceImpl(ClientDAO clientDAO) {
+    public ClientServiceImpl(ClientDAO clientDAO, ModelMapper modelMapper) {
         this.clientDAO = clientDAO;
+        this.modelMapper = modelMapper;
+    }
+
+    Client client = new Client();
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ClientDTO> showAll() {
+        return modelMapper.map(clientDAO.showAll(), new TypeToken<List<ClientDTO>>() {}.getType());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Client> showAll() {
-        return clientDAO.showAll();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Client showById(int id) {
-        return clientDAO.showById(id);
+    public ClientDTO showById(int id) {
+        return modelMapper.map(clientDAO.showById(id), ClientDTO.class);
     }
 
     @Override
     @Transactional
-    public void save(Client client) {
+    public void save(ClientDTO clientDTO) {
+        client = toEntity(clientDTO);
         clientDAO.save(client);
     }
 
     @Override
     @Transactional
-    public void update(Client client) {
+    public void update(ClientDTO clientDTO) {
+        client = toEntity(clientDTO);
         clientDAO.update(client);
     }
 
     @Override
     @Transactional
-    public void delete(Client client, int id) {
+    public void delete(ClientDTO clientDTO, int id) {
+        client = toEntity(clientDTO);
         clientDAO.delete(client, id);
+    }
+
+    @Override
+    public Client toEntity(ClientDTO clientDTO) {
+        return modelMapper.map(clientDTO, Client.class);
     }
 }

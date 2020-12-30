@@ -1,18 +1,21 @@
 package ru.tkachenko.ecare.service;
 
+import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.models.Contract;
 
 import java.util.List;
 
 public interface ContractService {
 
-    List<Contract> showAll();
+    List<ContractDTO> showAll();
 
-    Contract showById(int id);
+    ContractDTO showById(int id);
 
-    void save(Contract contract);
+    void save(ContractDTO contractDTO);
 
-    void update(Contract contract);
+    void update(ContractDTO contractDTO);
 
-    void delete(Contract contract, int id);
+    void delete(ContractDTO contractDTO, int id);
+
+    Contract toEntity(ContractDTO contractDTO);
 }

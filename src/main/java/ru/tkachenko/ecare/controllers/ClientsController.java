@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.tkachenko.ecare.models.Client;
+import ru.tkachenko.ecare.dto.ClientDTO;
 import ru.tkachenko.ecare.service.ClientService;
 
 @Controller
 @RequestMapping("/clients")
 public class ClientsController {
 
-    private ClientService clientService;
+    private final ClientService clientService;
 
     @Autowired
     public ClientsController(ClientService clientService) {
@@ -31,13 +31,13 @@ public class ClientsController {
     }
 
     @GetMapping("/new")
-    public String newClient(@ModelAttribute("client") Client client) {
+    public String newClient(@ModelAttribute("client") ClientDTO clientDTO) {
         return "clients/new";
     }
 
     @PostMapping
-    public String createClient(@ModelAttribute("client") Client client) {
-        clientService.save(client);
+    public String createClient(@ModelAttribute("client") ClientDTO clientDTO) {
+        clientService.save(clientDTO);
         return "redirect:/clients";
     }
 
@@ -48,14 +48,14 @@ public class ClientsController {
     }
 
     @PatchMapping("/{id}")
-    public String updateClient(@ModelAttribute("client") Client client) {
-        clientService.update(client);
+    public String updateClient(@ModelAttribute("client") ClientDTO clientDTO) {
+        clientService.update(clientDTO);
         return "redirect:/clients";
     }
 
     @DeleteMapping("/{id}")
-    public String deleteClient(@ModelAttribute("client") Client client, @PathVariable("id") int id) {
-        clientService.delete(client, id);
+    public String deleteClient(@ModelAttribute("client") ClientDTO clientDTO, @PathVariable("id") int id) {
+        clientService.delete(clientDTO, id);
         return "redirect:/clients";
     }
 }

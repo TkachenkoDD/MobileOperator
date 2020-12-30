@@ -11,7 +11,7 @@ import ru.tkachenko.ecare.service.AdminService;
 @RequestMapping("/admins")
 public class AdminsController {
 
-    private AdminService adminService;
+    private final AdminService adminService;
 
     @Autowired
     public AdminsController(AdminService adminService) {

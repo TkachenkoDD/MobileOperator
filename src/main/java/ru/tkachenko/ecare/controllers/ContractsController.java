@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.tkachenko.ecare.models.Contract;
+import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.service.ContractService;
 
 @Controller
 @RequestMapping("/contracts")
 public class ContractsController {
 
-    private ContractService contractService;
+    private final ContractService contractService;
 
     @Autowired
     public ContractsController(ContractService contractService) {
@@ -31,13 +31,13 @@ public class ContractsController {
     }
 
     @GetMapping("/new")
-    public String newContract(@ModelAttribute("contract") Contract contract) {
+    public String newContract(@ModelAttribute("contract") ContractDTO contractDTO) {
         return "contracts/new";
     }
 
     @PostMapping
-    public String createContract(@ModelAttribute("contract") Contract contract) {
-        contractService.save(contract);
+    public String createContract(@ModelAttribute("contract") ContractDTO contractDTO) {
+        contractService.save(contractDTO);
         return "redirect:/contracts";
     }
 
@@ -48,14 +48,14 @@ public class ContractsController {
     }
 
     @PatchMapping("/{id}")
-    public String updateContract(@ModelAttribute("contract") Contract contract) {
-        contractService.update(contract);
+    public String updateContract(@ModelAttribute("contract") ContractDTO contractDTO) {
+        contractService.update(contractDTO);
         return "redirect:/contracts";
     }
 
     @DeleteMapping("/{id}")
-    public String deleteContract(@ModelAttribute("contract") Contract contract, @PathVariable("id") int id) {
-        contractService.delete(contract, id);
+    public String deleteContract(@ModelAttribute("contract") ContractDTO contractDTO, @PathVariable("id") int id) {
+        contractService.delete(contractDTO, id);
         return "redirect:/contracts";
     }
 }

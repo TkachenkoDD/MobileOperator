@@ -1,9 +1,12 @@
 package ru.tkachenko.ecare.service;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tkachenko.ecare.dao.ContractDAO;
+import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.models.Contract;
 
 import java.util.List;
@@ -11,40 +14,52 @@ import java.util.List;
 @Service
 public class ContractServiceImpl implements ContractService {
 
-    private ContractDAO contractDAO;
+    private final ContractDAO contractDAO;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public ContractServiceImpl(ContractDAO contractDAO) {
+    public ContractServiceImpl(ContractDAO contractDAO, ModelMapper modelMapper) {
         this.contractDAO = contractDAO;
+        this.modelMapper = modelMapper;
+    }
+
+    Contract contract = new Contract();
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ContractDTO> showAll() {
+        return modelMapper.map(contractDAO.showAll(), new TypeToken<List<ContractDTO>>() {}.getType());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Contract> showAll() {
-        return contractDAO.showAll();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Contract showById(int id) {
-        return contractDAO.showById(id);
+    public ContractDTO showById(int id) {
+        return modelMapper.map(contractDAO.showById(id), ContractDTO.class);
     }
 
     @Override
     @Transactional
-    public void save(Contract contract) {
+    public void save(ContractDTO contractDTO) {
+        contract = toEntity(contractDTO);
         contractDAO.save(contract);
     }
 
     @Override
     @Transactional
-    public void update(Contract contract) {
+    public void update(ContractDTO contractDTO) {
+        contract = toEntity(contractDTO);
         contractDAO.update(contract);
     }
 
     @Override
     @Transactional
-    public void delete(Contract contract, int id) {
+    public void delete(ContractDTO contractDTO, int id) {
+        contract = toEntity(contractDTO);
         contractDAO.delete(contract, id);
+    }
+
+    @Override
+    public Contract toEntity(ContractDTO contractDTO) {
+        return modelMapper.map(contractDTO, Contract.class);
     }
 }

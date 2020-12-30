@@ -1,18 +1,21 @@
 package ru.tkachenko.ecare.service;
 
+import ru.tkachenko.ecare.dto.TariffDTO;
 import ru.tkachenko.ecare.models.Tariff;
 
 import java.util.List;
 
 public interface TariffService {
 
-    List<Tariff> showAll();
+    List<TariffDTO> showAll();
 
-    Tariff showById(int id);
+    TariffDTO showById(int id);
 
-    void save(Tariff tariff);
+    void save(TariffDTO tariffDTO);
 
-    void update(Tariff tariff);
+    void update(TariffDTO tariffDTO);
 
-    void delete(Tariff tariff, int id);
+    void delete(TariffDTO tariffDTO, int id);
+
+    Tariff toEntity(TariffDTO tariffDTO);
 }

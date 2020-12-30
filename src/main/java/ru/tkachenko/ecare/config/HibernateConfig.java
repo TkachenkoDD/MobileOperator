@@ -27,19 +27,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = "ru.tkachenko.ecare.dao")
 public class HibernateConfig {
 
-//    @Autowired
-    private Environment environment;
+    private final Environment environment;
 
-//    public HibernateConfig() {
-//        super();
-//    }
     @Autowired
     public HibernateConfig(Environment environment) {
         this.environment = environment;
     }
-
-
-    // beans
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -86,5 +79,4 @@ public class HibernateConfig {
 
         return hibernateProperties;
     }
-
 }

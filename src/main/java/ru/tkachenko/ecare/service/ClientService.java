@@ -1,18 +1,21 @@
 package ru.tkachenko.ecare.service;
 
+import ru.tkachenko.ecare.dto.ClientDTO;
 import ru.tkachenko.ecare.models.Client;
 
 import java.util.List;
 
 public interface ClientService {
 
-    List<Client> showAll();
+    List<ClientDTO> showAll();
 
-    Client showById(int id);
+    ClientDTO showById(int id);
 
-    void save(Client client);
+    void save(ClientDTO clientDTO);
 
-    void update(Client client);
+    void update(ClientDTO clientDTO);
 
-    void delete(Client client, int id);
+    void delete(ClientDTO clientDTO, int id);
+
+    Client toEntity(ClientDTO clientDTO);
 }

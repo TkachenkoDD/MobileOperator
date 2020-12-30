@@ -1,18 +1,21 @@
 package ru.tkachenko.ecare.service;
 
+import ru.tkachenko.ecare.dto.OptionDTO;
 import ru.tkachenko.ecare.models.Option;
 
 import java.util.List;
 
 public interface OptionService {
 
-    List<Option> showAll();
+    List<OptionDTO> showAll();
 
-    Option showById(int id);
+    OptionDTO showById(int id);
 
-    void save(Option option);
+    void save(OptionDTO optionDTO);
 
-    void update(Option option);
+    void update(OptionDTO optionDTO);
 
-    void delete(Option option, int id);
+    void delete(OptionDTO optionDTO, int id);
+
+    Option toEntity(OptionDTO optionDTO);
 }

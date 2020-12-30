@@ -21,8 +21,8 @@ import java.util.List;
 @Service
 public class AdminServiceImpl implements AdminService {
 
-    private AdminDAO adminDAO;
-    private ModelMapper modelMapper;
+    private final AdminDAO adminDAO;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public AdminServiceImpl(AdminDAO adminDAO, ModelMapper modelMapper) {
@@ -35,8 +35,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional(readOnly = true)
     public List<AdminDTO> showAll() {
-        List<AdminDTO> adminDTOList = modelMapper.map(adminDAO.showAll(), new TypeToken<List<AdminDTO>>() {}.getType());
-        return adminDTOList;
+        return modelMapper.map(adminDAO.showAll(), new TypeToken<List<AdminDTO>>() {}.getType());
     }
 
     @Override
@@ -66,7 +65,8 @@ public class AdminServiceImpl implements AdminService {
         adminDAO.delete(admin, id);
     }
 
-    public Admin toEntity(AdminDTO dto) {
-        return modelMapper.map(dto, Admin.class);
+    @Override
+    public Admin toEntity(AdminDTO adminDTO) {
+        return modelMapper.map(adminDTO, Admin.class);
     }
 }
