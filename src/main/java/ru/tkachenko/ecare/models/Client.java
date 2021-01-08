@@ -1,5 +1,7 @@
 package ru.tkachenko.ecare.models;
 
+import ru.tkachenko.ecare.models.enums.Role;
+
 import javax.persistence.*;
 
 @Entity
@@ -34,9 +36,13 @@ public class Client {
     @Column(name = "clientpassword")
     private String password;
 
+    @Column(name = "role")
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+
     public Client(){}
 
-    public Client(int id, String name, String surname, String dateOfBirth, int numberOfPassport, String address, String contractList, String email, String password) {
+    public Client(int id, String name, String surname, String dateOfBirth, int numberOfPassport, String address, String contractList, String email, String password, Role role) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -46,6 +52,7 @@ public class Client {
         this.contractList = contractList;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public int getId() {
@@ -118,5 +125,13 @@ public class Client {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
