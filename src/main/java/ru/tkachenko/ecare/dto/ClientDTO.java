@@ -1,5 +1,7 @@
 package ru.tkachenko.ecare.dto;
 
+import ru.tkachenko.ecare.models.enums.Role;
+
 public class ClientDTO {
 
     private int id;
@@ -11,6 +13,7 @@ public class ClientDTO {
     private String contractList;
     private String email;
     private String password;
+    private Role role;
 
     public int getId() {
         return id;
@@ -83,4 +86,8 @@ public class ClientDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Role getRole() { return role; }
+
+    public void setRole(Role role) { this.role = role; }
 }

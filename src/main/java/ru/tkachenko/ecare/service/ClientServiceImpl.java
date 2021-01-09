@@ -3,11 +3,13 @@ package ru.tkachenko.ecare.service;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tkachenko.ecare.dao.ClientDAO;
 import ru.tkachenko.ecare.dto.ClientDTO;
 import ru.tkachenko.ecare.models.Client;
+import ru.tkachenko.ecare.models.enums.Role;
 
 import java.util.List;
 
@@ -16,11 +18,13 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientDAO clientDAO;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public ClientServiceImpl(ClientDAO clientDAO, ModelMapper modelMapper) {
+    public ClientServiceImpl(ClientDAO clientDAO, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.clientDAO = clientDAO;
         this.modelMapper = modelMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     Client client = new Client();
@@ -40,6 +44,8 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public void save(ClientDTO clientDTO) {
+        clientDTO.setPassword(passwordEncoder.encode(clientDTO.getPassword()));
+        clientDTO.setRole(Role.USER);
         client = toEntity(clientDTO);
         clientDAO.save(client);
     }

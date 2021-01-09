@@ -9,25 +9,29 @@
 <form th:method="PATCH" th:action="@{/clients/{id}(id=${client.getId()})}" th:object="${client}">
     <label for="name">Enter name: </label>
     <input type="text" th:field="*{name}" id="name"/>
-    <br/>
+    <br>
     <label for="surname">Enter surname</label>
     <input type="text" th:field="*{surname}" id="surname"/>
-    <br/>
+    <br>
     <label for="birthday">Enter date of birth</label>
     <input type="text" th:field="*{dateOfBirth}" id="birthday"/>
-    <br/>
+    <br>
     <label for="passport">Enter number of passport</label>
     <input type="text" th:field="*{numberOfPassport}" id="passport"/>
-    <br/>
+    <br>
     <label for="address">Enter address</label>
     <input type="text" th:field="*{address}" id="address"/>
-    <br/>
+    <br>
     <label for="contracts">Enter contract</label>
     <input type="text" th:field="*{contractList}" id="contracts"/>
-    <br/>
+    <br>
     <label for="email">Enter e-mail</label>
     <input type="text" th:field="*{email}" id="email"/>
-    <br/>
+    <br>
+    <label for="password">Enter password</label>
+    <input type="text" th:field="*{password}" id="password">
+    <br>
+
     <input type="submit" value="Update!"/>
 </form>
 

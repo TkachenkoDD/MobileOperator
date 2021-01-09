@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>New client</title>
+    <title>Registration</title>
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/clients}" th:object="${client}">
+<form th:method="POST" th:action="@{/registration}" th:object="${client}">
     <label for="email">Enter e-mail</label>
     <input type="text" th:field="*{email}" id="email"/>
     <br>
@@ -19,7 +19,8 @@
     <label for="surname">Enter your surname</label>
     <input type="text" th:field="*{surname}" id="surname">
     <br>
-    <input type="submit" value="Create!"/>
+
+    <input type="submit" value="Registration!"/>
 </form>
 
 </body>
