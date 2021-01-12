@@ -32,10 +32,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login")
+                .defaultSuccessUrl("/clients")
                 .permitAll()
                 .and()
                 .logout().invalidateHttpSession(true).clearAuthentication(true).deleteCookies("JSESSIONID")
-//              .logout().logoutSuccessUrl("/login").deleteCookies("JSESSIONID")
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
                 .permitAll();
     }
 

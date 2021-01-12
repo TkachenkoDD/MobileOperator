@@ -1,28 +1,25 @@
 package ru.tkachenko.ecare.security;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.tkachenko.ecare.models.Client;
 
 import java.util.Collection;
-import java.util.List;
 
 public class SecurityUser implements UserDetails {
 
     private final String userName;
     private final String password;
-    private final List<SimpleGrantedAuthority> authorities;
 
-    public SecurityUser(String userName, String password, List<SimpleGrantedAuthority> authorities) {
+
+    public SecurityUser(String userName, String password) {
         this.userName = userName;
         this.password = password;
-        this.authorities = authorities;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return null;
     }
 
     @Override

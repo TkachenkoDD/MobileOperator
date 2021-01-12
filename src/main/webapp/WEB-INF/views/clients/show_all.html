@@ -14,5 +14,10 @@
 <hr/>
 <a th:href="@{/clients/new}">new client</a>
 
+<hr/>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Log out" />
+</form>
+
 </body>
 </html>

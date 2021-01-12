@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Client</title>
+</head>
+<body>
+
+<p th:text="${client.getId()}">VALUE</p>
+<p th:text="${client.getName()}">VALUE</p>
+<p th:text="${client.getSurname()}">VALUE</p>
+<p th:text="${client.getDateOfBirth()}">VALUE</p>
+<p th:text="${client.getNumberOfPassport()}">VALUE</p>
+<p th:text="${client.getAddress()}">VALUE</p>
+<p th:text="${client.getContractList()}">VALUE</p>
+<p th:text="${client.getEmail()}">VALUE</p>
+
+<a th:href="@{/clients/{id}/edit (id=${client.getId()})}">edit client</a>
+
+<form th:method="DELETE" th:action="@{/clients/{id} (id=${client.getId()})}" th:object="${client}">
+    <input type="submit" value="Delete!"/>
+</form>
+<hr/>
+<a th:href="@{/contracts}">Contracts</a>
+<a th:href="@{/tariffs}">Tariffs</a>
+<a th:href="@{/options}">Options</a>
+<hr/>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Log out" />
+</form>
+
+</body>
+</html>

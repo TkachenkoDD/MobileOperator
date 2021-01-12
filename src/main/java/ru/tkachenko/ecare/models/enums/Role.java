@@ -1,27 +1,22 @@
 package ru.tkachenko.ecare.models.enums;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public enum Role {
-    ADMIN(Set.of(Permission.USERS_WRITE, Permission.USERS_READ)),
-    USER(Set.of(Permission.USERS_READ));
+    ADMIN,
+    USER;
 
-    private final Set<Permission> permissions;
+    Role() { }
 
-    Role(Set<Permission> permissions) {
-        this.permissions = permissions;
-    }
-
-    public Set<Permission> getPermissions() {
-        return permissions;
-    }
-
-    public Set<SimpleGrantedAuthority> getAuthorities() {
-        return getPermissions().stream()
-                .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
-                .collect(Collectors.toSet());
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> list = new ArrayList<>();
+        list.add(new SimpleGrantedAuthority(Role.ADMIN.name()));
+        list.add(new SimpleGrantedAuthority(Role.USER.name()));
+        return list;
     }
 }

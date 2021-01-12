@@ -11,6 +11,8 @@ public interface ClientService {
 
     ClientDTO showById(int id);
 
+    ClientDTO showByName();
+
     void save(ClientDTO clientDTO);
 
     void update(ClientDTO clientDTO);

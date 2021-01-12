@@ -3,6 +3,8 @@ package ru.tkachenko.ecare.service;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +41,14 @@ public class ClientServiceImpl implements ClientService {
     @Transactional(readOnly = true)
     public ClientDTO showById(int id) {
         return modelMapper.map(clientDAO.showById(id), ClientDTO.class);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ClientDTO showByName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentName = authentication.getName();
+        return modelMapper.map(clientDAO.showByName(currentName), ClientDTO.class);
     }
 
     @Override

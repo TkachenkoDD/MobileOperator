@@ -18,13 +18,18 @@ public class ClientsController {
         this.clientService = clientService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public String showAllClients(Model model) {
         model.addAttribute("clients", clientService.showAll());
         return "clients/show_all";
     }
 
-    @GetMapping("{id}")
+    @GetMapping
+    public String showByName(Model model){
+        model.addAttribute("client", clientService.showByName());
+        return "clients/show_by_name";}
+
+    @GetMapping("/{id}")
     public String showClientById(@PathVariable("id") int id, Model model) {
         model.addAttribute("client", clientService.showById(id));
         return "clients/show_by_id";
