@@ -14,24 +14,26 @@ public class Contract {
     @Column(name = "number")
     private int number;
 
-    @Column(name = "tariff")
-    private String tariff;
-
     @Column(name = "options")
     private String options;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
+    @JoinColumn(name = "client_id")
     private Client client;
+
+
+    @ManyToOne
+    @JoinColumn(name = "tariff_id")
+    private Tariff tariff;
 
     public Contract(){}
 
-    public Contract(int id, int number, String tariff, String options, Client client) {
+    public Contract(int id, int number, String options, Client client, Tariff tariff) {
         this.id = id;
         this.number = number;
-        this.tariff = tariff;
         this.options = options;
         this.client = client;
+        this.tariff = tariff;
     }
 
     public int getId() {
@@ -50,14 +52,6 @@ public class Contract {
         this.number = number;
     }
 
-    public String getTariff() {
-        return tariff;
-    }
-
-    public void setTariff(String tariff) {
-        this.tariff = tariff;
-    }
-
     public String getOptions() {
         return options;
     }
@@ -72,5 +66,13 @@ public class Contract {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Tariff getTariff() {
+        return tariff;
+    }
+
+    public void setTariff(Tariff tariff) {
+        this.tariff = tariff;
     }
 }

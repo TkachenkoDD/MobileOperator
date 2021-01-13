@@ -1,10 +1,12 @@
 package ru.tkachenko.ecare.dto;
 
+import ru.tkachenko.ecare.models.Tariff;
+
 public class ContractDTO {
 
     private int id;
     private int number;
-    private String tariff;
+    private Tariff tariff;
     private String options;
 
     public int getId() {
@@ -23,11 +25,11 @@ public class ContractDTO {
         this.number = number;
     }
 
-    public String getTariff() {
+    public Tariff getTariff() {
         return tariff;
     }
 
-    public void setTariff(String tariff) {
+    public void setTariff(Tariff tariff) {
         this.tariff = tariff;
     }
 

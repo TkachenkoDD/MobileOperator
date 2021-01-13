@@ -6,17 +6,20 @@
 </head>
 <body>
 
-<p th:text="${client.getId()}">VALUE</p>
 <p th:text="${client.getName()}">VALUE</p>
 <p th:text="${client.getSurname()}">VALUE</p>
 <p th:text="${client.getDateOfBirth()}">VALUE</p>
 <p th:text="${client.getNumberOfPassport()}">VALUE</p>
 <p th:text="${client.getAddress()}">VALUE</p>
-<p th:text="${client.getContractList()}">VALUE</p>
+<p th:text="${client.getContractSet()}">VALUE</p>
 <p th:text="${client.getEmail()}">VALUE</p>
 <hr>
-<p th:text="${client.getContractSet()}">VALUE</p>
-
+<table>
+<div th:each="contract : ${client.getContractSet()}">
+    <a th:href="@{/contracts/{id} (id=${contract.getId()})}" th:text="${contract.getNumber()}">Contract</a>
+</div>
+</table>
+<hr>
 <a th:href="@{/clients/{id}/edit (id=${client.getId()})}">edit client</a>
 
 <form th:method="DELETE" th:action="@{/clients/{id} (id=${client.getId()})}" th:object="${client}">

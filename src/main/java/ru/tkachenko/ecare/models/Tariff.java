@@ -2,6 +2,8 @@ package ru.tkachenko.ecare.models;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tariffs")
@@ -18,13 +20,17 @@ public class Tariff {
     @Column(name = "tariffcost")
     private int tariffCost;
 
+    @OneToMany(mappedBy = "tariff")
+    private Set<Contract> contractSet = new HashSet<>();
+
 
     public Tariff(){}
 
-    public Tariff(int id, String tariffName, int tariffCost) {
+    public Tariff(int id, String tariffName, int tariffCost, Set<Contract> contractSet) {
         this.id = id;
         this.tariffName = tariffName;
         this.tariffCost = tariffCost;
+        this.contractSet = contractSet;
     }
 
     public int getId() {
@@ -49,5 +55,13 @@ public class Tariff {
 
     public void setTariffCost(int tariffCost) {
         this.tariffCost = tariffCost;
+    }
+
+    public Set<Contract> getContractSet() {
+        return contractSet;
+    }
+
+    public void setContractSet(Set<Contract> contractSet) {
+        this.contractSet = contractSet;
     }
 }
