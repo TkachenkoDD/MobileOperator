@@ -20,13 +20,18 @@ public class Contract {
     @Column(name = "options")
     private String options;
 
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
+
     public Contract(){}
 
-    public Contract(int id, int number, String tariff, String options) {
+    public Contract(int id, int number, String tariff, String options, Client client) {
         this.id = id;
         this.number = number;
         this.tariff = tariff;
         this.options = options;
+        this.client = client;
     }
 
     public int getId() {
@@ -59,5 +64,13 @@ public class Contract {
 
     public void setOptions(String options) {
         this.options = options;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

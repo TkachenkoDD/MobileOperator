@@ -28,6 +28,9 @@
     <label for="email">Enter e-mail</label>
     <input type="text" th:field="*{email}" id="email"/>
     <br>
+    <input type="hidden" th:field="*{password}" id="password">
+
+    <input type="hidden" th:field="*{role}" id="role">
 
     <input type="submit" value="Update!"/>
 </form>

@@ -3,6 +3,8 @@ package ru.tkachenko.ecare.models;
 import ru.tkachenko.ecare.models.enums.Role;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "clients")
@@ -27,8 +29,8 @@ public class Client {
     @Column(name = "clientaddress")
     private String address;
 
-    @Column(name = "clientcontracts")
-    private String contractList;
+    @OneToMany(mappedBy = "clients")
+    private Set<Contract> contractSet = new HashSet<>();
 
     @Column(name = "clientemail")
     private String email;
@@ -42,14 +44,14 @@ public class Client {
 
     public Client(){}
 
-    public Client(int id, String name, String surname, String dateOfBirth, int numberOfPassport, String address, String contractList, String email, String password, Role role) {
+    public Client(int id, String name, String surname, String dateOfBirth, int numberOfPassport, String address, Set<Contract> contractSet, String email, String password, Role role) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.dateOfBirth = dateOfBirth;
         this.numberOfPassport = numberOfPassport;
         this.address = address;
-        this.contractList = contractList;
+        this.contractSet = contractSet;
         this.email = email;
         this.password = password;
         this.role = role;
@@ -103,12 +105,12 @@ public class Client {
         this.address = address;
     }
 
-    public String getContractList() {
-        return contractList;
+    public Set<Contract> getContractSet() {
+        return contractSet;
     }
 
-    public void setContractList(String contractList) {
-        this.contractList = contractList;
+    public void setContractSet(Set<Contract> contractSet) {
+        this.contractSet = contractSet;
     }
 
     public String getEmail() {
