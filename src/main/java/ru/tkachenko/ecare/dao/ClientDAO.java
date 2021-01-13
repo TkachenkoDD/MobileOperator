@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ClientDAO extends GenericDAO<Client>{
 
-    Client showByName(String name);
+    Object showByName(String name);
 }
