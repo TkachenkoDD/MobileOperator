@@ -42,9 +42,12 @@ public class Client {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    @Column(name = "status")
+    private boolean status;
+
     public Client(){}
 
-    public Client(int id, String name, String surname, String dateOfBirth, int numberOfPassport, String address, Set<Contract> contractSet, String email, String password, Role role) {
+    public Client(int id, String name, String surname, String dateOfBirth, int numberOfPassport, String address, Set<Contract> contractSet, String email, String password, Role role, boolean status) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -55,6 +58,7 @@ public class Client {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.status = status;
     }
 
     public int getId() {
@@ -135,5 +139,13 @@ public class Client {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

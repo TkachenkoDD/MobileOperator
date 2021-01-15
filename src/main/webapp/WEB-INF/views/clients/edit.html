@@ -22,9 +22,6 @@
     <label for="address">Enter address</label>
     <input type="text" th:field="*{address}" id="address"/>
     <br>
-    <label for="contracts">Enter contract</label>
-    <input type="text" th:field="*{contractList}" id="contracts"/>
-    <br>
     <label for="email">Enter e-mail</label>
     <input type="text" th:field="*{email}" id="email"/>
     <br>
@@ -32,6 +29,10 @@
 
     <input type="hidden" th:field="*{role}" id="role">
 
+    Client's status<br>
+    <input type="radio" th:field="*{status}" value="false" checked>Unblocked
+    <input type="radio" th:field="*{status}" value="true">Blocked
+    <br>
     <input type="submit" value="Update!"/>
 </form>
 

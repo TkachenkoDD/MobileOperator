@@ -14,8 +14,12 @@
     <input type="text" th:field="*{tariff}" id="tariff"/>
     <br/>
     <label for="options">Choose options</label>
-    <input type="text" th:field="*{options}" id="options"/>
+    <input type="" th:field="*{options}" id="options"/>
     <br/>
+    Contract's status<br>
+    <input type="radio" th:field="*{status}" value="false" checked>Unblocked
+    <input type="radio" th:field="*{status}" value="true">Blocked
+    <br>
     <input type="submit" value="Update!"/>
 </form>
 

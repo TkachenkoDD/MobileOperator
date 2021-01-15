@@ -8,6 +8,7 @@ public class ContractDTO {
     private int number;
     private Tariff tariff;
     private String options;
+    private boolean status;
 
     public int getId() {
         return id;
@@ -39,5 +40,13 @@ public class ContractDTO {
 
     public void setOptions(String options) {
         this.options = options;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

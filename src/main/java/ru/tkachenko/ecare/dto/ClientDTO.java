@@ -18,6 +18,7 @@ public class ClientDTO {
     private String email;
     private String password;
     private Role role;
+    private boolean status;
 
     public int getId() {
         return id;
@@ -97,5 +98,13 @@ public class ClientDTO {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

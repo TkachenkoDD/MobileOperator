@@ -6,14 +6,16 @@
 </head>
 <body>
 
-<p th:text="${client.getId()}">VALUE</p>
+<!--<p th:text="${client.getId()}">VALUE</p>-->
 <p th:text="${client.getName()}">VALUE</p>
 <p th:text="${client.getSurname()}">VALUE</p>
 <p th:text="${client.getDateOfBirth()}">VALUE</p>
 <p th:text="${client.getNumberOfPassport()}">VALUE</p>
 <p th:text="${client.getAddress()}">VALUE</p>
-<p th:text="${client.getContractList()}">VALUE</p>
+<!--<p th:text="${client.getContractList()}">VALUE</p>-->
 <p th:text="${client.getEmail()}">VALUE</p>
+<p th:if="${client.isStatus()}">Blocked</p>
+
 
 <a th:href="@{/clients/{id}/edit (id=${client.getId()})}">edit client</a>
 

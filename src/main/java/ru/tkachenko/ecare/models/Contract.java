@@ -26,14 +26,18 @@ public class Contract {
     @JoinColumn(name = "tariff_id")
     private Tariff tariff;
 
+    @Column(name = "status")
+    private boolean status;
+
     public Contract(){}
 
-    public Contract(int id, int number, String options, Client client, Tariff tariff) {
+    public Contract(int id, int number, String options, Client client, Tariff tariff, boolean status) {
         this.id = id;
         this.number = number;
         this.options = options;
         this.client = client;
         this.tariff = tariff;
+        this.status = status;
     }
 
     public int getId() {
@@ -74,5 +78,13 @@ public class Contract {
 
     public void setTariff(Tariff tariff) {
         this.tariff = tariff;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

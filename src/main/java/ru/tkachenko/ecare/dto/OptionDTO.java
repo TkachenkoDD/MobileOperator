@@ -1,11 +1,17 @@
 package ru.tkachenko.ecare.dto;
 
+import ru.tkachenko.ecare.models.Tariff;
+
+import java.util.HashSet;
+import java.util.Set;
+
 public class OptionDTO {
 
     private int id;
     private String optionName;
     private int optionCost;
     private int connectionCost;
+    private Set<Tariff> tariffSet = new HashSet<>();
 
     public int getId() {
         return id;
@@ -37,5 +43,13 @@ public class OptionDTO {
 
     public void setConnectionCost(int connectionCost) {
         this.connectionCost = connectionCost;
+    }
+
+    public Set<Tariff> getTariffSet() {
+        return tariffSet;
+    }
+
+    public void setTariffSet(Set<Tariff> tariffSet) {
+        this.tariffSet = tariffSet;
     }
 }
