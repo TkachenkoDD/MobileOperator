@@ -10,12 +10,16 @@
     <label for="number">Enter number: </label>
     <input type="text" th:field="*{number}" id="number"/>
     <br/>
-    <label for="tariff">Choose tariff</label>
-    <input type="text" th:field="*{tariff}" id="tariff"/>
-    <br/>
     <label for="options">Choose options</label>
-    <input type="" th:field="*{options}" id="options"/>
+    <input type="text" th:field="*{options}" id="options"/>
     <br/>
+    <label for="client">Client</label>
+    <input type="text" th:field="*{clientDTO.id}" id="client"/>
+    <br/>
+<!--    <label for="tariff">Choose tariff</label>-->
+<!--    <input type="hidden" th:field="*{tariff}" id="tariff"/>-->
+<!--    <br/>-->
+
     Contract's status<br>
     <input type="radio" th:field="*{status}" value="false" checked>Unblocked
     <input type="radio" th:field="*{status}" value="true">Blocked

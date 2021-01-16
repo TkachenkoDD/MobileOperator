@@ -13,7 +13,7 @@ public class ClientDAOImpl extends GenericDAOImpl<Client> implements ClientDAO {
 
     @Override
     public Object showByName(String name) {
-  return entityManager.createQuery("FROM Client WHERE email = :castName")
+        return entityManager.createQuery("FROM Client WHERE email = :castName")
           .setParameter("castName", name)
           .getSingleResult();
     }

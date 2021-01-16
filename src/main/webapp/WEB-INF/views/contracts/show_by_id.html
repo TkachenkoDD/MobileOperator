@@ -8,16 +8,11 @@
 
 <p th:text="${contract.getId()}">VALUE</p>
 <p th:text="${contract.getNumber()}">VALUE</p>
-<a th:href="@{/tariffs/{id} (id=${contract.getTariff().getId()})}" th:text="${contract.getTariff().getTariffName()}">tariff</a>
+<p th:text="${contract.getOptions()}">VALUE</p>
+<!--<a th:href="@{/tariffs/{id} (id=${contract.getTariffDTO().getId()})}" th:text="${contract.getTariffDTO().getTariffName()}">tariff</a>-->
 <p th:text="${contract.isStatus()}">Blocked</p>
+<p th:text="${contract.getClientDTO().getName()}">VALUE</p>
 
-<!--<div th:each="option : ${contract.getTariff().getOptionSet()}">-->
-<!--    <p th:text="${option.getOptionName()}">option</p>-->
-<!--</div>-->
-
-<!--<p th:text="${contract.getTariff().getOptionSet()}">option</p>-->
-
-<!--<p th:text="${contract.getOptions()}">VALUE</p>-->
 
 <a th:href="@{/contracts/{id}/edit (id=${contract.getId()})}">edit contract</a>
 

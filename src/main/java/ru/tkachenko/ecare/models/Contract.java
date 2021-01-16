@@ -21,7 +21,6 @@ public class Contract {
     @JoinColumn(name = "client_id")
     private Client client;
 
-
     @ManyToOne
     @JoinColumn(name = "tariff_id")
     private Tariff tariff;

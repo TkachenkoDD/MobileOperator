@@ -10,22 +10,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tkachenko.ecare.dao.ClientDAO;
 import ru.tkachenko.ecare.dto.ClientDTO;
+import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.models.Client;
 import ru.tkachenko.ecare.models.enums.Role;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ClientServiceImpl implements ClientService {
 
     private final ClientDAO clientDAO;
     private final ModelMapper modelMapper;
-    private final PasswordEncoder passwordEncoder;
+    private final ModelMapper mapper;
+   private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public ClientServiceImpl(ClientDAO clientDAO, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+    public ClientServiceImpl(ClientDAO clientDAO, ModelMapper modelMapper, ModelMapper mapper, PasswordEncoder passwordEncoder) {
         this.clientDAO = clientDAO;
         this.modelMapper = modelMapper;
+        this.mapper = mapper;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -40,7 +44,11 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional(readOnly = true)
     public ClientDTO showById(int id) {
-        return modelMapper.map(clientDAO.showById(id), ClientDTO.class);
+        Client client = clientDAO.showById(id);
+        ClientDTO clientDTO = modelMapper.map(clientDAO.showById(id), ClientDTO.class);
+        Set<ContractDTO> contractDTOSet = mapper.map(client.getContractSet(), new TypeToken<Set<ContractDTO>>() {}.getType());
+        clientDTO.setContractSetDTO(contractDTOSet);
+        return clientDTO;
     }
 
     @Override
@@ -48,7 +56,11 @@ public class ClientServiceImpl implements ClientService {
     public ClientDTO showByName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentName = authentication.getName();
-        return modelMapper.map(clientDAO.showByName(currentName), ClientDTO.class);
+        Client client = (Client) clientDAO.showByName(currentName);
+        ClientDTO clientDTO = modelMapper.map(clientDAO.showByName(currentName), ClientDTO.class);
+        Set<ContractDTO> contractDTOSet = mapper.map(client.getContractSet(), new TypeToken<Set<ContractDTO>>() {}.getType());
+        clientDTO.setContractSetDTO(contractDTOSet);
+        return clientDTO;
     }
 
     @Override

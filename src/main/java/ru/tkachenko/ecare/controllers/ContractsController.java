@@ -18,7 +18,7 @@ public class ContractsController {
         this.contractService = contractService;
     }
 
-    @GetMapping()
+    @GetMapping("/all")
     public String showAllContracts(Model model) {
         model.addAttribute("contracts", contractService.showAll());
         return "contracts/show_all";
@@ -50,12 +50,18 @@ public class ContractsController {
     @PatchMapping("/{id}")
     public String updateContract(@ModelAttribute("contract") ContractDTO contractDTO) {
         contractService.update(contractDTO);
-        return "redirect:/contracts";
+        return "contracts/show_by_id";
     }
 
     @DeleteMapping("/{id}")
     public String deleteContract(@ModelAttribute("contract") ContractDTO contractDTO, @PathVariable("id") int id) {
         contractService.delete(contractDTO, id);
         return "redirect:/contracts";
+    }
+
+    @GetMapping
+    public String searchClientByContract(Model model, @RequestParam(value = "number", required = false) int number){
+        model.addAttribute("client", contractService.showClientByNumber(number));
+        return "clients/show_by_id";
     }
 }

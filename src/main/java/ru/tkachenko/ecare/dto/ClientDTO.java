@@ -1,6 +1,5 @@
 package ru.tkachenko.ecare.dto;
 
-import ru.tkachenko.ecare.models.Contract;
 import ru.tkachenko.ecare.models.enums.Role;
 
 import java.util.HashSet;
@@ -14,7 +13,7 @@ public class ClientDTO {
     private String dateOfBirth;
     private int numberOfPassport;
     private String address;
-    private Set<Contract> contractSet = new HashSet<>();
+    private Set<ContractDTO> contractSetDTO = new HashSet<>();
     private String email;
     private String password;
     private Role role;
@@ -68,12 +67,12 @@ public class ClientDTO {
         this.address = address;
     }
 
-    public Set<Contract> getContractSet() {
-        return contractSet;
+    public Set<ContractDTO> getContractSetDTO() {
+        return contractSetDTO;
     }
 
-    public void setContractSet(Set<Contract> contractSet) {
-        this.contractSet = contractSet;
+    public void setContractSetDTO(Set<ContractDTO> contractSetDTO) {
+        this.contractSetDTO = contractSetDTO;
     }
 
     public String getEmail() {

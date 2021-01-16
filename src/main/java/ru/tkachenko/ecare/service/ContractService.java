@@ -1,5 +1,6 @@
 package ru.tkachenko.ecare.service;
 
+import ru.tkachenko.ecare.dto.ClientDTO;
 import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.models.Contract;
 
@@ -16,6 +17,8 @@ public interface ContractService {
     void update(ContractDTO contractDTO);
 
     void delete(ContractDTO contractDTO, int id);
+
+    ClientDTO showClientByNumber(int number);
 
     Contract toEntity(ContractDTO contractDTO);
 }

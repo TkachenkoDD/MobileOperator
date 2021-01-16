@@ -10,4 +10,10 @@ public class ContractDAOImpl extends GenericDAOImpl<Contract> implements Contrac
         super();
         setEntity(Contract.class);
     }
+
+    @Override
+    public Object showClientByNumber(int num) {
+        return entityManager.createQuery("FROM Contract WHERE number = :castNumber")
+                .setParameter("castNumber", num).getSingleResult();
+    }
 }

@@ -55,7 +55,7 @@ public class ClientsController {
     @PatchMapping("/{id}")
     public String updateClient(@ModelAttribute("client") ClientDTO clientDTO) {
         clientService.update(clientDTO);
-        return "redirect:/clients";
+        return "clients/show_by_id";
     }
 
     @DeleteMapping("/{id}")

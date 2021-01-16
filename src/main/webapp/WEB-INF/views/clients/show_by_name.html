@@ -11,29 +11,32 @@
 <p th:text="${client.getDateOfBirth()}">VALUE</p>
 <p th:text="${client.getNumberOfPassport()}">VALUE</p>
 <p th:text="${client.getAddress()}">VALUE</p>
-<p th:text="${client.getContractSet()}">VALUE</p>
 <p th:text="${client.getEmail()}">VALUE</p>
-<p th:if="${client.isStatus()}">Blocked<p/>
+<p th:if="${client.isStatus()}">Blocked</p>
 <hr>
-<table>
-<div th:each="contract : ${client.getContractSet()}">
-    <a th:href="@{/contracts/{id} (id=${contract.getId()})}" th:text="${contract.getNumber()}">Contract</a>
+<div th:each="contract : ${client.getContractSetDTO()}">
+    <a th:href="@{/contracts/{id} (id=${contract.getId()})}" th:text="${contract.getNumber()}">Contracts</a>
 </div>
-</table>
 <hr>
 <a th:href="@{/clients/{id}/edit (id=${client.getId()})}">edit client</a>
 
 <form th:method="DELETE" th:action="@{/clients/{id} (id=${client.getId()})}" th:object="${client}">
     <input type="submit" value="Delete!"/>
 </form>
-<hr/>
-<a th:href="@{/clients/all}">Clients<a/>
-<a th:href="@{/contracts}">Contracts</a>
+<hr>
+<a th:href="@{/clients/all}">Clients</a>
+<a th:href="@{/contracts/all}">Contracts</a>
 <a th:href="@{/tariffs}">Tariffs</a>
 <a th:href="@{/options}">Options</a>
-<hr/>
+<hr>
+<form th:action="@{/contracts}" th:method="GET">
+    <label for="login">Search user with number: </label>
+    <input required type="text" id="login" name="number"/>
+    <input type="submit" value="Search!"/>
+</form>
+<hr>
 <form th:action="@{/logout}" method="post">
-    <input type="submit" value="Log out" />
+    <input type="submit" value="Log out"/>
 </form>
 
 </body>

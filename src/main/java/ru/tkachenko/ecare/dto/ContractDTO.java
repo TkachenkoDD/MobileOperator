@@ -1,13 +1,12 @@
 package ru.tkachenko.ecare.dto;
 
-import ru.tkachenko.ecare.models.Tariff;
-
 public class ContractDTO {
 
     private int id;
     private int number;
-    private Tariff tariff;
     private String options;
+    private ClientDTO clientDTO;
+    private TariffDTO tariffDTO;
     private boolean status;
 
     public int getId() {
@@ -26,20 +25,28 @@ public class ContractDTO {
         this.number = number;
     }
 
-    public Tariff getTariff() {
-        return tariff;
-    }
-
-    public void setTariff(Tariff tariff) {
-        this.tariff = tariff;
-    }
-
     public String getOptions() {
         return options;
     }
 
     public void setOptions(String options) {
         this.options = options;
+    }
+
+    public ClientDTO getClientDTO() {
+        return clientDTO;
+    }
+
+    public void setClientDTO(ClientDTO clientDTO) {
+        this.clientDTO = clientDTO;
+    }
+
+    public TariffDTO getTariffDTO() {
+        return tariffDTO;
+    }
+
+    public void setTariffDTO(TariffDTO tariffDTO) {
+        this.tariffDTO = tariffDTO;
     }
 
     public boolean isStatus() {

@@ -29,7 +29,7 @@ public class Client {
     @Column(name = "clientaddress")
     private String address;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private Set<Contract> contractSet = new HashSet<>();
 
     @Column(name = "clientemail")
