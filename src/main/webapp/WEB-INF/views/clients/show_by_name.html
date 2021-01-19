@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Client</title>
 </head>
 <body>
 
-<p th:text="${client.getName()}">VALUE</p>
-<p th:text="${client.getSurname()}">VALUE</p>
-<p th:text="${client.getDateOfBirth()}">VALUE</p>
-<p th:text="${client.getNumberOfPassport()}">VALUE</p>
-<p th:text="${client.getAddress()}">VALUE</p>
-<p th:text="${client.getEmail()}">VALUE</p>
-<p th:if="${client.isStatus()}">Blocked</p>
+<p th:text="'ID:       ' + ${client.getId()}">ID</p>
+<p th:text="'NAME:     ' + ${client.getName()}">NAME</p>
+<p th:text="'SURNAME:  ' + ${client.getSurname()}">SURNAME</p>
+<p th:text="'BIRTHDAY: ' + ${client.getDateOfBirth()}">BIRTHDAY</p>
+<p th:text="'PASSPORT: ' + ${client.getNumberOfPassport()}">PASSPORT</p>
+<p th:text="'ADDRESS:  ' + ${client.getAddress()}">ADDRESS</p>
+<p th:text="'E-MAIL:   ' + ${client.getEmail()}">E-MAIL</p>
+<p th:if="${client.isStatus()}">STATUS</p>
 <hr>
 <div th:each="contract : ${client.getContractSetDTO()}">
     <a th:href="@{/contracts/{id} (id=${contract.getId()})}" th:text="${contract.getNumber()}">Contracts</a>

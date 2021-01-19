@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.tkachenko.ecare.dto.ContractDTO;
+import ru.tkachenko.ecare.service.ClientService;
 import ru.tkachenko.ecare.service.ContractService;
 
 @Controller
@@ -12,10 +13,12 @@ import ru.tkachenko.ecare.service.ContractService;
 public class ContractsController {
 
     private final ContractService contractService;
+    private final ClientService clientService;
 
     @Autowired
-    public ContractsController(ContractService contractService) {
+    public ContractsController(ContractService contractService, ClientService clientService) {
         this.contractService = contractService;
+        this.clientService = clientService;
     }
 
     @GetMapping("/all")
@@ -30,15 +33,17 @@ public class ContractsController {
         return "contracts/show_by_id";
     }
 
-    @GetMapping("/new")
-    public String newContract(@ModelAttribute("contract") ContractDTO contractDTO) {
+    @GetMapping("/{id}/new")
+    public String newContract(@ModelAttribute("contract") ContractDTO contractDTO,
+                              @PathVariable("id") int id) {
+        contractDTO.setClientDTO(clientService.showById(id));
         return "contracts/new";
     }
 
     @PostMapping
     public String createContract(@ModelAttribute("contract") ContractDTO contractDTO) {
         contractService.save(contractDTO);
-        return "redirect:/contracts";
+        return "redirect:/contracts/all";
     }
 
     @GetMapping("/{id}/edit")
@@ -56,7 +61,7 @@ public class ContractsController {
     @DeleteMapping("/{id}")
     public String deleteContract(@ModelAttribute("contract") ContractDTO contractDTO, @PathVariable("id") int id) {
         contractService.delete(contractDTO, id);
-        return "redirect:/contracts";
+        return "redirect:/contracts/all";
     }
 
     @GetMapping
