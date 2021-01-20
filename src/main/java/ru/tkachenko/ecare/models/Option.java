@@ -22,18 +22,17 @@ public class Option {
     @Column(name = "connectioncost")
     private int connectionCost;
 
-    @ManyToMany(mappedBy = "optionSet")
-    private Set<Tariff> tariffSet = new HashSet<>();
+//    @ManyToMany(mappedBy = "optionSet")
+//    private Set<Tariff> tariffSet = new HashSet<>();
 
     public Option() {
     }
 
-    public Option(int id, String optionName, int optionCost, int connectionCost, Set<Tariff> tariffSet) {
+    public Option(int id, String optionName, int optionCost, int connectionCost) {
         this.id = id;
         this.optionName = optionName;
         this.optionCost = optionCost;
         this.connectionCost = connectionCost;
-        this.tariffSet = tariffSet;
     }
 
     public int getId() {
@@ -66,13 +65,5 @@ public class Option {
 
     public void setConnectionCost(int connectionCost) {
         this.connectionCost = connectionCost;
-    }
-
-    public Set<Tariff> getTariffSet() {
-        return tariffSet;
-    }
-
-    public void setTariffSet(Set<Tariff> tariffSet) {
-        this.tariffSet = tariffSet;
     }
 }

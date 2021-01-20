@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.service.ClientService;
 import ru.tkachenko.ecare.service.ContractService;
+import ru.tkachenko.ecare.service.TariffService;
 
 @Controller
 @RequestMapping("/contracts")
@@ -14,11 +15,13 @@ public class ContractsController {
 
     private final ContractService contractService;
     private final ClientService clientService;
+    private final TariffService tariffService;
 
     @Autowired
-    public ContractsController(ContractService contractService, ClientService clientService) {
+    public ContractsController(ContractService contractService, ClientService clientService, TariffService tariffService) {
         this.contractService = contractService;
         this.clientService = clientService;
+        this.tariffService = tariffService;
     }
 
     @GetMapping("/all")
@@ -49,13 +52,14 @@ public class ContractsController {
     @GetMapping("/{id}/edit")
     public String editContract(Model model, @PathVariable("id") int id) {
         model.addAttribute("contract", contractService.showById(id));
+        model.addAttribute("tariffs", tariffService.showAll());
         return "contracts/edit";
     }
 
     @PatchMapping("/{id}")
     public String updateContract(@ModelAttribute("contract") ContractDTO contractDTO) {
         contractService.update(contractDTO);
-        return "contracts/show_by_id";
+        return "redirect:/contracts/all";
     }
 
     @DeleteMapping("/{id}")
@@ -65,7 +69,7 @@ public class ContractsController {
     }
 
     @GetMapping
-    public String searchClientByContract(Model model, @RequestParam(value = "number", required = false) int number){
+    public String searchClientByContract(Model model, @RequestParam(value = "number", required = false) int number) {
         model.addAttribute("client", contractService.showClientByNumber(number));
         return "clients/show_by_id";
     }

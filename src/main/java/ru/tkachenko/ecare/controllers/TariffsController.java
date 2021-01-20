@@ -18,7 +18,7 @@ public class TariffsController {
         this.tariffService = tariffService;
     }
 
-    @GetMapping()
+    @GetMapping("/all")
     public String showAllTariffs(Model model) {
         model.addAttribute("tariffs", tariffService.showAll());
         return "tariffs/show_all";
@@ -50,12 +50,12 @@ public class TariffsController {
     @PatchMapping("/{id}")
     public String updateTariff(@ModelAttribute("tariff") TariffDTO tariffDTO) {
         tariffService.update(tariffDTO);
-        return "redirect:/tariffs";
+        return "redirect:/tariffs/all";
     }
 
     @DeleteMapping("/{id}")
     public String deleteTariff(@ModelAttribute("tariff") TariffDTO tariffDTO, @PathVariable("id") int id) {
         tariffService.delete(tariffDTO, id);
-        return "redirect:/tariffs";
+        return "redirect:/tariffs/all";
     }
 }

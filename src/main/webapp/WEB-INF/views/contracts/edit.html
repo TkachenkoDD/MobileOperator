@@ -6,24 +6,27 @@
 </head>
 <body>
 
-<form th:method="PATCH" th:action="@{/contracts/{id}(id=${contract.getId()})}" th:object="${contract}">
+<form th:method="PATCH" th:action="@{/contracts/{id}(id=${contract.getId()})}">
     <label for="number">Enter number: </label>
-    <input type="text" th:field="*{number}" id="number"/>
+    <input type="text" th:field="*{contract.number}" id="number"/>
     <br/>
     <label for="options">Choose options</label>
-    <input type="text" th:field="*{options}" id="options"/>
+    <input type="text" th:field="*{contract.options}" id="options"/>
     <br/>
-    <label for="client">Client</label>
-    <input type="text" th:field="*{clientDTO.id}" id="client"/>
-    <br/>
-<!--    <label for="tariff">Choose tariff</label>-->
-<!--    <input type="hidden" th:field="*{tariff}" id="tariff"/>-->
-<!--    <br/>-->
+    <input type="hidden" th:field="*{contract.clientDTO.id}"/>
 
+    <label for="tariff">Tariff</label>
+    <select th:field="*{contract.tariffDTO.id}" id="tariff">
+        <option th:each="tariff : ${tariffs}" th:value="${tariff.getId()}" th:text="${tariff.getTariffName()}">tariff
+        </option>
+    </select>
+    <br/>
     Contract's status<br>
-    <input type="radio" th:field="*{status}" value="false" checked>Unblocked
-    <input type="radio" th:field="*{status}" value="true">Blocked
-    <br>
+    <label>
+        <input type="radio" th:field="*{contract.status}" value="false" checked>Unblocked
+        <input type="radio" th:field="*{contract.status}" value="true">Blocked
+    </label>
+    <br/>
     <input type="submit" value="Update!"/>
 </form>
 

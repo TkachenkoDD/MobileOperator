@@ -11,7 +11,7 @@ public class OptionDTO {
     private String optionName;
     private int optionCost;
     private int connectionCost;
-    private Set<Tariff> tariffSet = new HashSet<>();
+//    private Set<Tariff> tariffSet = new HashSet<>();
 
     public int getId() {
         return id;
@@ -43,13 +43,5 @@ public class OptionDTO {
 
     public void setConnectionCost(int connectionCost) {
         this.connectionCost = connectionCost;
-    }
-
-    public Set<Tariff> getTariffSet() {
-        return tariffSet;
-    }
-
-    public void setTariffSet(Set<Tariff> tariffSet) {
-        this.tariffSet = tariffSet;
     }
 }

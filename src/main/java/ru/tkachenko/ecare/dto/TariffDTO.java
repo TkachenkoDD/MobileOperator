@@ -12,7 +12,7 @@ public class TariffDTO {
     private String tariffName;
     private int tariffCost;
     private Set<Contract> contractSet = new HashSet<>();
-    private Set<Option> optionSet = new HashSet<>();
+//    private Set<Option> optionSet = new HashSet<>();
 
     public int getId() {
         return id;
@@ -46,11 +46,11 @@ public class TariffDTO {
         this.contractSet = contractSet;
     }
 
-    public Set<Option> getOptionSet() {
-        return optionSet;
-    }
-
-    public void setOptionSet(Set<Option> optionSet) {
-        this.optionSet = optionSet;
-    }
+//    public Set<Option> getOptionSet() {
+//        return optionSet;
+//    }
+//
+//    public void setOptionSet(Set<Option> optionSet) {
+//        this.optionSet = optionSet;
+//    }
 }

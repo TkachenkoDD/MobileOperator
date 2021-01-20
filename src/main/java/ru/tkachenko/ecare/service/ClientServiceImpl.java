@@ -22,14 +22,12 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientDAO clientDAO;
     private final ModelMapper modelMapper;
-    private final ModelMapper mapper;
    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public ClientServiceImpl(ClientDAO clientDAO, ModelMapper modelMapper, ModelMapper mapper, PasswordEncoder passwordEncoder) {
+    public ClientServiceImpl(ClientDAO clientDAO, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.clientDAO = clientDAO;
         this.modelMapper = modelMapper;
-        this.mapper = mapper;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -46,7 +44,7 @@ public class ClientServiceImpl implements ClientService {
     public ClientDTO showById(int id) {
         Client client = clientDAO.showById(id);
         ClientDTO clientDTO = modelMapper.map(clientDAO.showById(id), ClientDTO.class);
-        Set<ContractDTO> contractDTOSet = mapper.map(client.getContractSet(), new TypeToken<Set<ContractDTO>>() {}.getType());
+        Set<ContractDTO> contractDTOSet = modelMapper.map(client.getContractSet(), new TypeToken<Set<ContractDTO>>() {}.getType());
         clientDTO.setContractSetDTO(contractDTOSet);
         return clientDTO;
     }
@@ -58,7 +56,7 @@ public class ClientServiceImpl implements ClientService {
         String currentName = authentication.getName();
         Client client = (Client) clientDAO.showByName(currentName);
         ClientDTO clientDTO = modelMapper.map(clientDAO.showByName(currentName), ClientDTO.class);
-        Set<ContractDTO> contractDTOSet = mapper.map(client.getContractSet(), new TypeToken<Set<ContractDTO>>() {}.getType());
+        Set<ContractDTO> contractDTOSet = modelMapper.map(client.getContractSet(), new TypeToken<Set<ContractDTO>>() {}.getType());
         clientDTO.setContractSetDTO(contractDTOSet);
         return clientDTO;
     }

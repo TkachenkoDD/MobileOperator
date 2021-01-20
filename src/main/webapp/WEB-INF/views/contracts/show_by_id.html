@@ -6,19 +6,21 @@
 </head>
 <body>
 
-<p th:text="${contract.getId()}">VALUE</p>
-<p th:text="${contract.getNumber()}">VALUE</p>
-<p th:text="${contract.getOptions()}">VALUE</p>
-<!--<a th:href="@{/tariffs/{id} (id=${contract.getTariffDTO().getId()})}" th:text="${contract.getTariffDTO().getTariffName()}">tariff</a>-->
-<p th:text="${contract.isStatus()}">Blocked</p>
-<p th:text="${contract.getClientDTO().getName()}">VALUE</p>
-
-
+<p>ID: <span th:text="${contract.getId()}">ID</span></p>
+<p>Number: <span th:text="${contract.getNumber()}">Number</span></p>
+<p>Options: <span th:text="${contract.getOptions()}">Options</span></p>
+<p>Status: <span th:text="${contract.isStatus()}">Blocked</span></p>
+<p>Contract owner: <span th:text="${contract.getClientDTO().getName()}">Contract owner</span></p>
+<p>Tariff: <span
+        th:text="${contract.getTariffDTO() != null} ? ${contract.getTariffDTO().getTariffName()} : 'No tariff selected'">Tariff</span>
+</p>
+<br/>
 <a th:href="@{/contracts/{id}/edit (id=${contract.getId()})}">edit contract</a>
 
 <form th:method="DELETE" th:action="@{/contracts/{id} (id=${contract.getId()})}" th:object="${contract}">
     <input type="submit" value="Delete!"/>
 </form>
+<hr>
 
 </body>
 </html>

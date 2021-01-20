@@ -6,18 +6,21 @@
 </head>
 <body>
 
-<p th:text="'ID:       ' + ${client.getId()}">ID</p>
-<p th:text="'NAME:     ' + ${client.getName()}">NAME</p>
-<p th:text="'SURNAME:  ' + ${client.getSurname()}">SURNAME</p>
-<p th:text="'BIRTHDAY: ' + ${client.getDateOfBirth()}">BIRTHDAY</p>
-<p th:text="'PASSPORT: ' + ${client.getNumberOfPassport()}">PASSPORT</p>
-<p th:text="'ADDRESS:  ' + ${client.getAddress()}">ADDRESS</p>
-<p th:text="'E-MAIL:   ' + ${client.getEmail()}">E-MAIL</p>
-<p th:if="${client.isStatus()}">STATUS</p>
+<p>ID: <span th:text="${client.getId()}">ID</span></p>
+<p>Name: <span th:text="${client.getName()}">NAME</span></p>
+<p>Surname: <span th:text="${client.getSurname()}">SURNAME</span></p>
+<p>Birthday: <span th:text="${client.getDateOfBirth()}">BIRTHDAY</span></p>
+<p>Passport: <span th:text="${client.getNumberOfPassport()}">PASSPORT</span></p>
+<p>Address: <span th:text="${client.getAddress()}">ADDRESS</span></p>
+<p>e-mail: <span th:text="${client.getEmail()}">E-MAIL</span></p>
+<p>Status: <span th:if="${client.isStatus()}">BLOCKED</span></p>
 <hr>
 <div th:each="contract : ${client.getContractSetDTO()}">
     <a th:href="@{/contracts/{id} (id=${contract.getId()})}" th:text="${contract.getNumber()}">Contracts</a>
 </div>
+<form th:action="@{/contracts/{id}/new (id=${client.getId()})}">
+    <button>New contract</button>
+</form>
 <hr>
 <a th:href="@{/clients/{id}/edit (id=${client.getId()})}">edit client</a>
 
@@ -27,7 +30,7 @@
 <hr>
 <a th:href="@{/clients/all}">Clients</a>
 <a th:href="@{/contracts/all}">Contracts</a>
-<a th:href="@{/tariffs}">Tariffs</a>
+<a th:href="@{/tariffs/all}">Tariffs</a>
 <a th:href="@{/options}">Options</a>
 <hr>
 <form th:action="@{/contracts}" th:method="GET">

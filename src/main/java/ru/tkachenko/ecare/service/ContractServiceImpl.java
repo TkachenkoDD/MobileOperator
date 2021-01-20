@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.tkachenko.ecare.dao.ContractDAO;
 import ru.tkachenko.ecare.dto.ClientDTO;
 import ru.tkachenko.ecare.dto.ContractDTO;
+import ru.tkachenko.ecare.dto.TariffDTO;
 import ru.tkachenko.ecare.models.Contract;
 
 import java.util.List;
@@ -18,13 +19,11 @@ public class ContractServiceImpl implements ContractService {
 
     private final ContractDAO contractDAO;
     private final ModelMapper modelMapper;
-    private final ModelMapper mapper;
 
     @Autowired
-    public ContractServiceImpl(ContractDAO contractDAO, ModelMapper modelMapper, ModelMapper mapper) {
+    public ContractServiceImpl(ContractDAO contractDAO, ModelMapper modelMapper) {
         this.contractDAO = contractDAO;
         this.modelMapper = modelMapper;
-        this.mapper = mapper;
     }
 
     Contract contract = new Contract();
@@ -40,7 +39,10 @@ public class ContractServiceImpl implements ContractService {
     public ContractDTO showById(int id) {
         Contract contract = contractDAO.showById(id);
         ContractDTO contractDTO = modelMapper.map(contract, ContractDTO.class);
-        contractDTO.setClientDTO(mapper.map(contract.getClient(), ClientDTO.class));
+        contractDTO.setClientDTO(modelMapper.map(contract.getClient(), ClientDTO.class));
+        if (contract.getTariff() != null) {
+            contractDTO.setTariffDTO(modelMapper.map(contract.getTariff(), TariffDTO.class));
+        }
         return contractDTO;
     }
 
@@ -49,9 +51,8 @@ public class ContractServiceImpl implements ContractService {
     public ClientDTO showClientByNumber(int number) {
         Contract contract = (Contract) contractDAO.showClientByNumber(number);
         ContractDTO contractDTO = modelMapper.map(contract, ContractDTO.class);
-        contractDTO.setClientDTO(mapper.map(contract.getClient(), ClientDTO.class));
-        ModelMapper mp = new ModelMapper();
-        Set<ContractDTO> contractDTOSet = mp.map(contract.getClient().getContractSet(), new TypeToken<Set<ContractDTO>>() {}.getType());
+        contractDTO.setClientDTO(modelMapper.map(contract.getClient(), ClientDTO.class));
+        Set<ContractDTO> contractDTOSet = modelMapper.map(contract.getClient().getContractSet(), new TypeToken<Set<ContractDTO>>() {}.getType());
         contractDTO.getClientDTO().setContractSetDTO(contractDTOSet);
         return contractDTO.getClientDTO();
     }
