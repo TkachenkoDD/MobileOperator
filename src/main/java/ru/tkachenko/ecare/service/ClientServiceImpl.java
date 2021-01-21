@@ -43,7 +43,7 @@ public class ClientServiceImpl implements ClientService {
     @Transactional(readOnly = true)
     public ClientDTO showById(int id) {
         Client client = clientDAO.showById(id);
-        ClientDTO clientDTO = modelMapper.map(clientDAO.showById(id), ClientDTO.class);
+        ClientDTO clientDTO = modelMapper.map(client, ClientDTO.class);
         Set<ContractDTO> contractDTOSet = modelMapper.map(client.getContractSet(), new TypeToken<Set<ContractDTO>>() {}.getType());
         clientDTO.setContractSetDTO(contractDTOSet);
         return clientDTO;

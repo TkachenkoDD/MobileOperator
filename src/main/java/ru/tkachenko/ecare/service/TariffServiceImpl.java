@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tkachenko.ecare.dao.TariffDAO;
+import ru.tkachenko.ecare.dto.ContractDTO;
+import ru.tkachenko.ecare.dto.OptionDTO;
 import ru.tkachenko.ecare.dto.TariffDTO;
 import ru.tkachenko.ecare.models.Tariff;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class TariffServiceImpl implements TariffService {
@@ -34,7 +37,13 @@ public class TariffServiceImpl implements TariffService {
     @Override
     @Transactional(readOnly = true)
     public TariffDTO showById(int id) {
-        return modelMapper.map(tariffDAO.showById(id), TariffDTO.class);
+        Tariff tariff = tariffDAO.showById(id);
+        TariffDTO tariffDTO = modelMapper.map(tariff, TariffDTO.class);
+        Set<ContractDTO> contractDTOSet = modelMapper.map(tariff.getContractSet(), new TypeToken<Set<ContractDTO>>() {}.getType());
+        Set<OptionDTO> optionDTOSet = modelMapper.map(tariff.getOptionSet(), new TypeToken<Set<OptionDTO>>() {}.getType());
+        tariffDTO.setContractSet(contractDTOSet);
+        tariffDTO.setOptionSet(optionDTOSet);
+        return tariffDTO;
     }
 
     @Override

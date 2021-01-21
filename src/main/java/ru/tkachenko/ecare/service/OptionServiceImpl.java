@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tkachenko.ecare.dao.OptionDAO;
 import ru.tkachenko.ecare.dto.OptionDTO;
+import ru.tkachenko.ecare.dto.TariffDTO;
 import ru.tkachenko.ecare.models.Option;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class OptionServiceImpl implements OptionService {
@@ -34,7 +36,11 @@ public class OptionServiceImpl implements OptionService {
     @Override
     @Transactional(readOnly = true)
     public OptionDTO showById(int id) {
-        return modelMapper.map(optionDAO.showById(id), OptionDTO.class);
+        Option option = optionDAO.showById(id);
+        OptionDTO optionDTO = modelMapper.map(option, OptionDTO.class);
+        Set<TariffDTO> tariffDTOSet = modelMapper.map(option.getTariffSet(), new TypeToken<Set<TariffDTO>>() {}.getType());
+        optionDTO.setTariffSet(tariffDTOSet);
+        return optionDTO;
     }
 
     @Override

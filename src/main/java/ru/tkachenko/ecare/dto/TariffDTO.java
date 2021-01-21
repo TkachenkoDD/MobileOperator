@@ -1,8 +1,5 @@
 package ru.tkachenko.ecare.dto;
 
-import ru.tkachenko.ecare.models.Contract;
-import ru.tkachenko.ecare.models.Option;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,8 +8,8 @@ public class TariffDTO {
     private int id;
     private String tariffName;
     private int tariffCost;
-    private Set<Contract> contractSet = new HashSet<>();
-//    private Set<Option> optionSet = new HashSet<>();
+    private Set<ContractDTO> contractSet = new HashSet<>();
+    private Set<OptionDTO> optionSet = new HashSet<>();
 
     public int getId() {
         return id;
@@ -38,19 +35,19 @@ public class TariffDTO {
         this.tariffCost = tariffCost;
     }
 
-    public Set<Contract> getContractSet() {
+    public Set<ContractDTO> getContractSet() {
         return contractSet;
     }
 
-    public void setContractSet(Set<Contract> contractSet) {
+    public void setContractSet(Set<ContractDTO> contractSet) {
         this.contractSet = contractSet;
     }
 
-//    public Set<Option> getOptionSet() {
-//        return optionSet;
-//    }
-//
-//    public void setOptionSet(Set<Option> optionSet) {
-//        this.optionSet = optionSet;
-//    }
+    public Set<OptionDTO> getOptionSet() {
+        return optionSet;
+    }
+
+    public void setOptionSet(Set<OptionDTO> optionSet) {
+        this.optionSet = optionSet;
+    }
 }

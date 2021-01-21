@@ -1,5 +1,7 @@
 package ru.tkachenko.ecare.models;
 
+import ru.tkachenko.ecare.models.enums.Category;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,17 +24,23 @@ public class Option {
     @Column(name = "connectioncost")
     private int connectionCost;
 
-//    @ManyToMany(mappedBy = "optionSet")
-//    private Set<Tariff> tariffSet = new HashSet<>();
+    @Column(name = "category")
+    @Enumerated(value = EnumType.STRING)
+    private Category category;
+
+    @ManyToMany(mappedBy = "optionSet")
+    private Set<Tariff> tariffSet = new HashSet<>();
 
     public Option() {
     }
 
-    public Option(int id, String optionName, int optionCost, int connectionCost) {
+    public Option(int id, String optionName, int optionCost, int connectionCost, Category category, Set<Tariff> tariffSet) {
         this.id = id;
         this.optionName = optionName;
         this.optionCost = optionCost;
         this.connectionCost = connectionCost;
+        this.category = category;
+        this.tariffSet = tariffSet;
     }
 
     public int getId() {
@@ -65,5 +73,21 @@ public class Option {
 
     public void setConnectionCost(int connectionCost) {
         this.connectionCost = connectionCost;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Set<Tariff> getTariffSet() {
+        return tariffSet;
+    }
+
+    public void setTariffSet(Set<Tariff> tariffSet) {
+        this.tariffSet = tariffSet;
     }
 }

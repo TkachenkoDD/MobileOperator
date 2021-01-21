@@ -6,12 +6,25 @@
 </head>
 <body>
 
-<form th:method="PATCH" th:action="@{/tariffs/{id}(id=${tariff.getId()})}" th:object="${tariff}">
+<form th:method="PATCH" th:action="@{/tariffs/{id}(id=${tariff.getId()})}">
     <label for="name">Enter tariff name: </label>
-    <input type="text" th:field="*{tariffName}" id="name"/>
+    <input type="text" th:field="*{tariff.tariffName}" id="name"/>
     <br/>
     <label for="cost">Enter tariffs cost</label>
-    <input type="text" th:field="*{tariffCost}" id="cost"/>
+    <input type="text" th:field="*{tariff.tariffCost}" id="cost"/>
+    <br/>
+
+    <label for="tariff">Option:</label>
+    <select th:field="*{tariff.optionSet}" id="tariff">
+        <option th:each="option : ${options}" th:value="${option.getId()}" th:text="${option.getOptionName()}">tariff
+        </option>
+    </select>
+<!--    <label for="option">Choose option</label>-->
+<!--    <div th:each="option, bla: ${options}">-->
+<!--        <input type="checkbox" th:field="*{tariff.optionSet}" th:value="${options[__${bla.index}__].id}" th:text="${option.getOptionName()}" id="option">-->
+<!--    </div>-->
+<!--    <input type="text" th:field="*{tariff.optionSet}" id="option">-->
+
     <br/>
     <input type="submit" value="Update!"/>
 </form>

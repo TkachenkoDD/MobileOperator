@@ -23,20 +23,20 @@ public class Tariff {
     @OneToMany(mappedBy = "tariff", fetch = FetchType.EAGER)
     private Set<Contract> contractSet = new HashSet<>();
 
-//    @ManyToMany
-//    @JoinTable(name = "tariffs_options",
-//            joinColumns = {@JoinColumn(name = "tariff_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "option_id")})
-//    private Set<Option> optionSet = new HashSet<>();
-
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "tariffs_options",
+            joinColumns = {@JoinColumn(name = "tariff_id")},
+            inverseJoinColumns = {@JoinColumn(name = "option_id")})
+    private Set<Option> optionSet = new HashSet<>();
 
     public Tariff(){}
 
-    public Tariff(int id, String tariffName, int tariffCost, Set<Contract> contractSet) {
+    public Tariff(int id, String tariffName, int tariffCost, Set<Contract> contractSet, Set<Option> optionSet) {
         this.id = id;
         this.tariffName = tariffName;
         this.tariffCost = tariffCost;
         this.contractSet = contractSet;
+        this.optionSet = optionSet;
     }
 
     public int getId() {
@@ -69,5 +69,13 @@ public class Tariff {
 
     public void setContractSet(Set<Contract> contractSet) {
         this.contractSet = contractSet;
+    }
+
+    public Set<Option> getOptionSet() {
+        return optionSet;
+    }
+
+    public void setOptionSet(Set<Option> optionSet) {
+        this.optionSet = optionSet;
     }
 }

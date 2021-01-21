@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.tkachenko.ecare.dto.OptionDTO;
 import ru.tkachenko.ecare.dto.TariffDTO;
+import ru.tkachenko.ecare.service.OptionService;
 import ru.tkachenko.ecare.service.TariffService;
 
 @Controller
@@ -12,10 +14,12 @@ import ru.tkachenko.ecare.service.TariffService;
 public class TariffsController {
 
     private final TariffService tariffService;
+    private final OptionService optionService;
 
     @Autowired
-    public TariffsController(TariffService tariffService) {
+    public TariffsController(TariffService tariffService, OptionService optionService) {
         this.tariffService = tariffService;
+        this.optionService = optionService;
     }
 
     @GetMapping("/all")
@@ -44,6 +48,7 @@ public class TariffsController {
     @GetMapping("/{id}/edit")
     public String editTariff(Model model, @PathVariable("id") int id) {
         model.addAttribute("tariff", tariffService.showById(id));
+        model.addAttribute("options", optionService.showAll());
         return "tariffs/edit";
     }
 
