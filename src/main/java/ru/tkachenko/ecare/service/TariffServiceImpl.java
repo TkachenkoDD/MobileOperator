@@ -5,12 +5,15 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.tkachenko.ecare.dao.OptionDAO;
 import ru.tkachenko.ecare.dao.TariffDAO;
 import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.dto.OptionDTO;
 import ru.tkachenko.ecare.dto.TariffDTO;
+import ru.tkachenko.ecare.models.Option;
 import ru.tkachenko.ecare.models.Tariff;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,11 +21,13 @@ import java.util.Set;
 public class TariffServiceImpl implements TariffService {
 
     private final TariffDAO tariffDAO;
+    private final OptionDAO optionDAO;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public TariffServiceImpl(TariffDAO tariffDAO, ModelMapper modelMapper) {
+    public TariffServiceImpl(TariffDAO tariffDAO, OptionDAO optionDAO, ModelMapper modelMapper) {
         this.tariffDAO = tariffDAO;
+        this.optionDAO = optionDAO;
         this.modelMapper = modelMapper;
     }
 
@@ -40,9 +45,9 @@ public class TariffServiceImpl implements TariffService {
         Tariff tariff = tariffDAO.showById(id);
         TariffDTO tariffDTO = modelMapper.map(tariff, TariffDTO.class);
         Set<ContractDTO> contractDTOSet = modelMapper.map(tariff.getContractSet(), new TypeToken<Set<ContractDTO>>() {}.getType());
-        Set<OptionDTO> optionDTOSet = modelMapper.map(tariff.getOptionSet(), new TypeToken<Set<OptionDTO>>() {}.getType());
+        Set<OptionDTO> optionDTOSet = modelMapper.map(tariff.getOptionAvailableSet(), new TypeToken<Set<OptionDTO>>() {}.getType());
         tariffDTO.setContractSet(contractDTOSet);
-        tariffDTO.setOptionSet(optionDTOSet);
+        tariffDTO.setOptionAvailableSet(optionDTOSet);
         return tariffDTO;
     }
 
@@ -55,8 +60,14 @@ public class TariffServiceImpl implements TariffService {
 
     @Override
     @Transactional
-    public void update(TariffDTO tariffDTO) {
+    public void update(TariffDTO tariffDTO, List<Integer> optionList) {
         tariff = toEntity(tariffDTO);
+        Set<Option> optionSet = new HashSet<>();
+        if (optionList != null)
+        for(Integer x: optionList){
+            optionSet.add(optionDAO.showById(x));
+        }
+        tariff.setOptionAvailableSet(optionSet);
         tariffDAO.update(tariff);
     }
 

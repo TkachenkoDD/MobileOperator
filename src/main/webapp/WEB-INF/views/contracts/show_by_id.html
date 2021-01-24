@@ -8,11 +8,14 @@
 
 <p>ID: <span th:text="${contract.getId()}">ID</span></p>
 <p>Number: <span th:text="${contract.getNumber()}">Number</span></p>
-<p>Options: <span th:text="${contract.getOptions()}">Options</span></p>
-<p>Status: <span th:text="${contract.isStatus()}">Blocked</span></p>
 <p>Contract owner: <span th:text="${contract.getClientDTO().getName()}">Contract owner</span></p>
 <p>Tariff: <a th:href="@{/tariffs/{id} (id=${contract.getTariffDTO().getId()})}"
-              th:if="${contract.getTariffDTO()}" th:text="${contract.getTariffDTO().getTariffName()}">tariff</a></p>
+th:if="${contract.getTariffDTO()}" th:text="${contract.getTariffDTO().getTariffName()}">tariff</a></p>
+<p>Options: </p>
+<ul th:each="option: ${contract.getOptionDTOSet()}">
+    <li th:text="${option.getOptionName()}"></li>
+</ul>
+<p>Status: <span th:text="${contract.isStatus()}">Blocked</span></p>
 
 <a th:href="@{/contracts/{id}/edit (id=${contract.getId()})}">edit contract</a>
 

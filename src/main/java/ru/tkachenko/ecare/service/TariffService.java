@@ -13,7 +13,7 @@ public interface TariffService {
 
     void save(TariffDTO tariffDTO);
 
-    void update(TariffDTO tariffDTO);
+    void update(TariffDTO tariffDTO, List<Integer> optionList);
 
     void delete(TariffDTO tariffDTO, int id);
 

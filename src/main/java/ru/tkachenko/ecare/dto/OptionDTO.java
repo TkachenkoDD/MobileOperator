@@ -1,5 +1,7 @@
 package ru.tkachenko.ecare.dto;
 
+import ru.tkachenko.ecare.models.enums.Category;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,7 +11,9 @@ public class OptionDTO {
     private String optionName;
     private int optionCost;
     private int connectionCost;
+    private Category category;
     private Set<TariffDTO> tariffSet = new HashSet<>();
+    private Set<ContractDTO> contractDTOSet = new HashSet<>();
 
     public int getId() {
         return id;
@@ -43,11 +47,27 @@ public class OptionDTO {
         this.connectionCost = connectionCost;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public Set<TariffDTO> getTariffSet() {
         return tariffSet;
     }
 
     public void setTariffSet(Set<TariffDTO> tariffSet) {
         this.tariffSet = tariffSet;
+    }
+
+    public Set<ContractDTO> getContractDTOSet() {
+        return contractDTOSet;
+    }
+
+    public void setContractDTOSet(Set<ContractDTO> contractDTOSet) {
+        this.contractDTOSet = contractDTOSet;
     }
 }

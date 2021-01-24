@@ -7,24 +7,26 @@
 <body>
 
 <form th:method="PATCH" th:action="@{/tariffs/{id}(id=${tariff.getId()})}">
+
     <label for="name">Enter tariff name: </label>
     <input type="text" th:field="*{tariff.tariffName}" id="name"/>
     <br/>
     <label for="cost">Enter tariffs cost</label>
     <input type="text" th:field="*{tariff.tariffCost}" id="cost"/>
     <br/>
-
-    <label for="tariff">Option:</label>
-    <select th:field="*{tariff.optionSet}" id="tariff">
-        <option th:each="option : ${options}" th:value="${option.getId()}" th:text="${option.getOptionName()}">tariff
-        </option>
-    </select>
-<!--    <label for="option">Choose option</label>-->
-<!--    <div th:each="option, bla: ${options}">-->
-<!--        <input type="checkbox" th:field="*{tariff.optionSet}" th:value="${options[__${bla.index}__].id}" th:text="${option.getOptionName()}" id="option">-->
-<!--    </div>-->
-<!--    <input type="text" th:field="*{tariff.optionSet}" id="option">-->
-
+    <label for="options">Select available options:</label>
+    <table>
+        <tr>
+            <td th:each="cat: ${T(ru.tkachenko.ecare.models.enums.Category).values()}">
+                <p th:text="${cat}">Categories: </p>
+                <p th:each="option: ${options}">
+                    <input type="checkbox" th:if="${option.getCategory().equals(cat)}" th:value="${option.getId()}"
+                           th:text="${option.getOptionName()}"
+                           th:checked="${!option.tariffSet.isEmpty()}" id="options" name="options"/>
+                </p>
+            </td>
+        </tr>
+    </table>
     <br/>
     <input type="submit" value="Update!"/>
 </form>

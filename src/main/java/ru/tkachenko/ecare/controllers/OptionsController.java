@@ -50,7 +50,7 @@ public class OptionsController {
     @PatchMapping("/{id}")
     public String updateOption(@ModelAttribute("option") OptionDTO optionDTO) {
         optionService.update(optionDTO);
-        return "redirect:/options";
+        return "redirect:/options/" + optionDTO.getId();
     }
 
     @DeleteMapping("/{id}")

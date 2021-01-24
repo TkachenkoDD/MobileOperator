@@ -16,6 +16,12 @@
     <label for="connection">Enter cost of connection</label>
     <input type="text" th:field="*{connectionCost}" id="connection"/>
     <br/>
+    <label for="category">Select category:</label>
+        <select th:field="*{category}" id="category">
+            <option th:each="cat : ${T(ru.tkachenko.ecare.models.enums.Category).values()}"
+                    th:value="${cat}" th:text="${cat}"></option>
+        </select>
+    <br/>
     <input type="submit" value="Update!"/>
 </form>
 

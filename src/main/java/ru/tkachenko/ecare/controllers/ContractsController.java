@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.service.ClientService;
 import ru.tkachenko.ecare.service.ContractService;
+import ru.tkachenko.ecare.service.OptionService;
 import ru.tkachenko.ecare.service.TariffService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/contracts")
@@ -16,12 +19,14 @@ public class ContractsController {
     private final ContractService contractService;
     private final ClientService clientService;
     private final TariffService tariffService;
+    private final OptionService optionService;
 
     @Autowired
-    public ContractsController(ContractService contractService, ClientService clientService, TariffService tariffService) {
+    public ContractsController(ContractService contractService, ClientService clientService, TariffService tariffService, OptionService optionService) {
         this.contractService = contractService;
         this.clientService = clientService;
         this.tariffService = tariffService;
+        this.optionService = optionService;
     }
 
     @GetMapping("/all")
@@ -53,13 +58,15 @@ public class ContractsController {
     public String editContract(Model model, @PathVariable("id") int id) {
         model.addAttribute("contract", contractService.showById(id));
         model.addAttribute("tariffs", tariffService.showAll());
+        model.addAttribute("options", optionService.showAll());
         return "contracts/edit";
     }
 
     @PatchMapping("/{id}")
-    public String updateContract(@ModelAttribute("contract") ContractDTO contractDTO) {
-        contractService.update(contractDTO);
-        return "redirect:/contracts/all";
+    public String updateContract(@ModelAttribute("contract") ContractDTO contractDTO,
+                                 @RequestParam("options") List<Integer> optionList) {
+        contractService.update(contractDTO, optionList);
+        return "redirect:/contracts/" + contractDTO.getId();
     }
 
     @DeleteMapping("/{id}")

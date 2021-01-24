@@ -10,9 +10,4 @@ public class TariffDAOImpl extends GenericDAOImpl<Tariff> implements TariffDAO {
         super();
         setEntity(Tariff.class);
     }
-
-    @Override
-    public void blaBla(Tariff tariff) {
-
-    }
 }

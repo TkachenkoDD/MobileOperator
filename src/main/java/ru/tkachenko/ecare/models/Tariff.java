@@ -23,20 +23,20 @@ public class Tariff {
     @OneToMany(mappedBy = "tariff", fetch = FetchType.EAGER)
     private Set<Contract> contractSet = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tariffs_options",
             joinColumns = {@JoinColumn(name = "tariff_id")},
             inverseJoinColumns = {@JoinColumn(name = "option_id")})
-    private Set<Option> optionSet = new HashSet<>();
+    private Set<Option> optionAvailableSet = new HashSet<>();
 
     public Tariff(){}
 
-    public Tariff(int id, String tariffName, int tariffCost, Set<Contract> contractSet, Set<Option> optionSet) {
+    public Tariff(int id, String tariffName, int tariffCost, Set<Contract> contractSet, Set<Option> optionAvailableSet) {
         this.id = id;
         this.tariffName = tariffName;
         this.tariffCost = tariffCost;
         this.contractSet = contractSet;
-        this.optionSet = optionSet;
+        this.optionAvailableSet = optionAvailableSet;
     }
 
     public int getId() {
@@ -71,11 +71,11 @@ public class Tariff {
         this.contractSet = contractSet;
     }
 
-    public Set<Option> getOptionSet() {
-        return optionSet;
+    public Set<Option> getOptionAvailableSet() {
+        return optionAvailableSet;
     }
 
-    public void setOptionSet(Set<Option> optionSet) {
-        this.optionSet = optionSet;
+    public void setOptionAvailableSet(Set<Option> optionAvailableSet) {
+        this.optionAvailableSet = optionAvailableSet;
     }
 }

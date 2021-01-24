@@ -1,13 +1,16 @@
 package ru.tkachenko.ecare.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ContractDTO {
 
     private int id;
     private int number;
-    private String options;
-    private ClientDTO clientDTO;
-    private TariffDTO tariffDTO;
     private boolean status;
+    private TariffDTO tariffDTO;
+    private ClientDTO clientDTO;
+    private Set<OptionDTO> optionDTOSet = new HashSet<>();
 
     public int getId() {
         return id;
@@ -25,20 +28,12 @@ public class ContractDTO {
         this.number = number;
     }
 
-    public String getOptions() {
-        return options;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setOptions(String options) {
-        this.options = options;
-    }
-
-    public ClientDTO getClientDTO() {
-        return clientDTO;
-    }
-
-    public void setClientDTO(ClientDTO clientDTO) {
-        this.clientDTO = clientDTO;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public TariffDTO getTariffDTO() {
@@ -49,11 +44,19 @@ public class ContractDTO {
         this.tariffDTO = tariffDTO;
     }
 
-    public boolean isStatus() {
-        return status;
+    public ClientDTO getClientDTO() {
+        return clientDTO;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setClientDTO(ClientDTO clientDTO) {
+        this.clientDTO = clientDTO;
+    }
+
+    public Set<OptionDTO> getOptionDTOSet() {
+        return optionDTOSet;
+    }
+
+    public void setOptionDTOSet(Set<OptionDTO> optionDTOSet) {
+        this.optionDTOSet = optionDTOSet;
     }
 }

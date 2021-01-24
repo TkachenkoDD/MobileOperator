@@ -9,10 +9,10 @@
 <p th:text="${tariff.getId()}">VALUE</p>
 <p th:text="${tariff.getTariffName()}">VALUE</p>
 <p th:text="${tariff.getTariffCost()}">VALUE</p>
-<p>Options: </p>
-<div th:each="option: ${tariff.getOptionSet()}">
-    <p th:text="${option.getOptionName()}"></p>
-</div>
+<p>Available options: </p>
+<ul th:each="option: ${tariff.getOptionAvailableSet()}">
+    <li th:text="${option.getOptionName()}"></li>
+</ul>
 
 <a th:href="@{/tariffs/{id}/edit (id=${tariff.getId()})}">edit tariff</a>
 

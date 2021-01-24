@@ -4,10 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.tkachenko.ecare.dto.OptionDTO;
 import ru.tkachenko.ecare.dto.TariffDTO;
 import ru.tkachenko.ecare.service.OptionService;
 import ru.tkachenko.ecare.service.TariffService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/tariffs")
@@ -53,9 +54,10 @@ public class TariffsController {
     }
 
     @PatchMapping("/{id}")
-    public String updateTariff(@ModelAttribute("tariff") TariffDTO tariffDTO) {
-        tariffService.update(tariffDTO);
-        return "redirect:/tariffs/all";
+    public String updateTariff(@ModelAttribute("tariff") TariffDTO tariffDTO,
+                               @RequestParam("options") List<Integer> optionList) {
+        tariffService.update(tariffDTO, optionList);
+        return "redirect:/tariffs/" + tariffDTO.getId();
     }
 
     @DeleteMapping("/{id}")

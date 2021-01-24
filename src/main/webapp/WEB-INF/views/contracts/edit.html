@@ -9,24 +9,38 @@
 <form th:method="PATCH" th:action="@{/contracts/{id}(id=${contract.getId()})}">
     <label for="number">Enter number: </label>
     <input type="text" th:field="*{contract.number}" id="number"/>
-    <br/>
-    <label for="options">Choose options</label>
-    <input type="text" th:field="*{contract.options}" id="options"/>
-    <br/>
-    <input type="hidden" th:field="*{contract.clientDTO.id}"/>
 
-    <label for="tariff">Tariff</label>
+    <input type="hidden" th:field="*{contract.clientDTO.id}"/>
+    <br>
+    <label for="tariff">Tariff: </label>
     <select th:field="*{contract.tariffDTO.id}" id="tariff">
         <option th:each="tariff : ${tariffs}" th:value="${tariff.getId()}" th:text="${tariff.getTariffName()}">tariff
         </option>
     </select>
-    <br/>
+    <br>
+    <table>
+        <tr>
+            <td th:each="cat: ${T(ru.tkachenko.ecare.models.enums.Category).values()}">
+                <p th:text="${cat}">Categories: </p>
+                <select name="options">
+                    <option th:value="''">Select option</option>
+                    <option th:each="option: ${options}"
+                            th:if="${!option.getTariffSet().isEmpty()} and ${option.getCategory().equals(cat)}"
+                            th:value="${option.getId()}"
+                            th:text="${option.getOptionName()}">Option
+                    </option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <br>
     Contract's status<br>
     <label>
         <input type="radio" th:field="*{contract.status}" value="false" checked>Unblocked
         <input type="radio" th:field="*{contract.status}" value="true">Blocked
     </label>
     <br/>
+    <hr>
     <input type="submit" value="Update!"/>
 </form>
 

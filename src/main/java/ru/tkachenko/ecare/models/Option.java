@@ -28,19 +28,23 @@ public class Option {
     @Enumerated(value = EnumType.STRING)
     private Category category;
 
-    @ManyToMany(mappedBy = "optionSet")
+    @ManyToMany(mappedBy = "optionAvailableSet")
     private Set<Tariff> tariffSet = new HashSet<>();
+
+    @ManyToMany(mappedBy = "optionSet")
+    private Set<Contract> contractSet = new HashSet<>();
 
     public Option() {
     }
 
-    public Option(int id, String optionName, int optionCost, int connectionCost, Category category, Set<Tariff> tariffSet) {
+    public Option(int id, String optionName, int optionCost, int connectionCost, Category category, Set<Tariff> tariffSet, Set<Contract> contractSet) {
         this.id = id;
         this.optionName = optionName;
         this.optionCost = optionCost;
         this.connectionCost = connectionCost;
         this.category = category;
         this.tariffSet = tariffSet;
+        this.contractSet = contractSet;
     }
 
     public int getId() {
@@ -89,5 +93,13 @@ public class Option {
 
     public void setTariffSet(Set<Tariff> tariffSet) {
         this.tariffSet = tariffSet;
+    }
+
+    public Set<Contract> getContractSet() {
+        return contractSet;
+    }
+
+    public void setContractSet(Set<Contract> contractSet) {
+        this.contractSet = contractSet;
     }
 }
