@@ -4,6 +4,7 @@ import ru.tkachenko.ecare.models.enums.Category;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -101,5 +102,22 @@ public class Option {
 
     public void setContractSet(Set<Contract> contractSet) {
         this.contractSet = contractSet;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == this) return true;
+        if (!(obj instanceof Option)) {
+            return false;
+        }
+        Option option = (Option) obj;
+
+        return id == option.id;
     }
 }

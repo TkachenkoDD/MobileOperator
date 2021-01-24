@@ -63,10 +63,11 @@ public class TariffServiceImpl implements TariffService {
     public void update(TariffDTO tariffDTO, List<Integer> optionList) {
         tariff = toEntity(tariffDTO);
         Set<Option> optionSet = new HashSet<>();
-        if (optionList != null)
         for(Integer x: optionList){
+            if (x != null)
             optionSet.add(optionDAO.showById(x));
         }
+        if (!optionSet.isEmpty())
         tariff.setOptionAvailableSet(optionSet);
         tariffDAO.update(tariff);
     }

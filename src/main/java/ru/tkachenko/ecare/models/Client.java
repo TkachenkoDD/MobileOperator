@@ -1,9 +1,11 @@
 package ru.tkachenko.ecare.models;
 
+import ru.tkachenko.ecare.dto.ClientDTO;
 import ru.tkachenko.ecare.models.enums.Role;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -45,7 +47,8 @@ public class Client {
     @Column(name = "status")
     private boolean status;
 
-    public Client(){}
+    public Client() {
+    }
 
     public Client(int id, String name, String surname, String dateOfBirth, int numberOfPassport, String address, Set<Contract> contractSet, String email, String password, Role role, boolean status) {
         this.id = id;
@@ -69,7 +72,7 @@ public class Client {
         this.id = id;
     }
 
-        public String getName() {
+    public String getName() {
         return name;
     }
 
@@ -147,5 +150,22 @@ public class Client {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == this) return true;
+        if (!(obj instanceof Client)) {
+            return false;
+        }
+        Client client = (Client) obj;
+
+        return id == client.id;
     }
 }

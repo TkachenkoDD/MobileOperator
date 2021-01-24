@@ -3,6 +3,7 @@ package ru.tkachenko.ecare.dto;
 import ru.tkachenko.ecare.models.enums.Role;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class ClientDTO {
@@ -105,5 +106,22 @@ public class ClientDTO {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == this) return true;
+        if (!(obj instanceof ClientDTO)) {
+            return false;
+        }
+        ClientDTO clientDTO = (ClientDTO) obj;
+
+        return id == clientDTO.id;
     }
 }

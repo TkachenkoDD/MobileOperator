@@ -30,8 +30,10 @@
     <input type="hidden" th:field="*{role}" id="role">
 
     Client's status<br>
-    <input type="radio" th:field="*{status}" value="false" checked>Unblocked
-    <input type="radio" th:field="*{status}" value="true">Blocked
+    <label>
+        <input type="radio" th:field="*{status}" value="false" checked>Unblocked
+        <input type="radio" th:field="*{status}" value="true">Blocked
+    </label>
     <br>
 
     <input type="submit" value="Update!"/>

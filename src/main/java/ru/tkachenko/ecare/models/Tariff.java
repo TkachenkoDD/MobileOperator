@@ -3,6 +3,7 @@ package ru.tkachenko.ecare.models;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -29,7 +30,8 @@ public class Tariff {
             inverseJoinColumns = {@JoinColumn(name = "option_id")})
     private Set<Option> optionAvailableSet = new HashSet<>();
 
-    public Tariff(){}
+    public Tariff() {
+    }
 
     public Tariff(int id, String tariffName, int tariffCost, Set<Contract> contractSet, Set<Option> optionAvailableSet) {
         this.id = id;
@@ -77,5 +79,22 @@ public class Tariff {
 
     public void setOptionAvailableSet(Set<Option> optionAvailableSet) {
         this.optionAvailableSet = optionAvailableSet;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof Tariff)) {
+            return false;
+        }
+        Tariff tariff = (Tariff) obj;
+
+        return id == tariff.id;
     }
 }

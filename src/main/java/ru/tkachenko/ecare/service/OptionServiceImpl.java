@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tkachenko.ecare.dao.OptionDAO;
+import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.dto.OptionDTO;
 import ru.tkachenko.ecare.dto.TariffDTO;
 import ru.tkachenko.ecare.models.Option;
@@ -30,7 +31,17 @@ public class OptionServiceImpl implements OptionService {
     @Override
     @Transactional(readOnly = true)
     public List<OptionDTO> showAll() {
-        return modelMapper.map(optionDAO.showAll(), new TypeToken<List<OptionDTO>>() {}.getType());
+        List<OptionDTO> optionDTOList = modelMapper.map(optionDAO.showAll(), new TypeToken<List<OptionDTO>>() {
+        }.getType());
+        for (OptionDTO optionDTO : optionDTOList) {
+            Option option = optionDAO.showById(optionDTO.getId());
+            Set<TariffDTO> tariffDTOSet = modelMapper.map(option.getTariffSet(), new TypeToken<Set<TariffDTO>>() {}.getType());
+            Set<ContractDTO> contractDTOSet = modelMapper.map(option.getContractSet(), new TypeToken<Set<ContractDTO>>() {
+            }.getType());
+            optionDTO.setTariffSet(tariffDTOSet);
+            optionDTO.setContractDTOSet(contractDTOSet);
+        }
+        return optionDTOList;
     }
 
     @Override
@@ -38,7 +49,8 @@ public class OptionServiceImpl implements OptionService {
     public OptionDTO showById(int id) {
         Option option = optionDAO.showById(id);
         OptionDTO optionDTO = modelMapper.map(option, OptionDTO.class);
-        Set<TariffDTO> tariffDTOSet = modelMapper.map(option.getTariffSet(), new TypeToken<Set<TariffDTO>>() {}.getType());
+        Set<TariffDTO> tariffDTOSet = modelMapper.map(option.getTariffSet(), new TypeToken<Set<TariffDTO>>() {
+        }.getType());
         optionDTO.setTariffSet(tariffDTOSet);
         return optionDTO;
     }

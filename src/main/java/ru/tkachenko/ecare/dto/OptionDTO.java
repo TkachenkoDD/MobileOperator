@@ -3,6 +3,7 @@ package ru.tkachenko.ecare.dto;
 import ru.tkachenko.ecare.models.enums.Category;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class OptionDTO {
@@ -69,5 +70,22 @@ public class OptionDTO {
 
     public void setContractDTOSet(Set<ContractDTO> contractDTOSet) {
         this.contractDTOSet = contractDTOSet;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == this) return true;
+        if (!(obj instanceof OptionDTO)) {
+            return false;
+        }
+        OptionDTO optionDTO = (OptionDTO) obj;
+
+        return id == optionDTO.id;
     }
 }

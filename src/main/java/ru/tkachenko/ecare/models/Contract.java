@@ -2,6 +2,7 @@ package ru.tkachenko.ecare.models;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -18,8 +19,8 @@ public class Contract {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "contracts_options",
-    joinColumns = {@JoinColumn(name = "contract_id")},
-    inverseJoinColumns = {@JoinColumn(name = "option_id")})
+            joinColumns = {@JoinColumn(name = "contract_id")},
+            inverseJoinColumns = {@JoinColumn(name = "option_id")})
     private Set<Option> optionSet = new HashSet<>();
 
     @ManyToOne
@@ -33,7 +34,8 @@ public class Contract {
     @Column(name = "status")
     private boolean status;
 
-    public Contract(){}
+    public Contract() {
+    }
 
     public Contract(int id, int number, Set<Option> optionSet, Client client, Tariff tariff, boolean status) {
         this.id = id;
@@ -90,5 +92,21 @@ public class Contract {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof Contract)) {
+            return false;
+        }
+        Contract contract = (Contract) obj;
+
+        return id == contract.id;
     }
 }
