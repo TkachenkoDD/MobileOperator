@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>All options</title>
@@ -11,7 +12,7 @@
 </div>
 <br/>
 <hr/>
-<a th:href="@{/options/new}">new option</a>
+<a th:href="@{/options/new}" sec:authorize="hasAuthority('ADMIN')">New option</a>
 
 </body>
 </html>

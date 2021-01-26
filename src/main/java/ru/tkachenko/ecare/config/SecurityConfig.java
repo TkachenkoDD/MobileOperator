@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -28,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/WEB-INF/**", "/registration*").permitAll()
+                .antMatchers("/WEB-INF/**", "/registration*", "/ecare*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login")
@@ -37,12 +39,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().invalidateHttpSession(true).clearAuthentication(true).deleteCookies("JSESSIONID")
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/ecare")
                 .permitAll();
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 

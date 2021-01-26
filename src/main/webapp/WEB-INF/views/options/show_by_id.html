@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Option</title>
 </head>
 <body>
 
-<p th:text="${option.getId()}">VALUE</p>
-<p th:text="${option.getOptionName()}">VALUE</p>
-<p th:text="${option.getOptionCost()}">VALUE</p>
-<p th:text="${option.getConnectionCost()}">VALUE</p>
+<p>Option name: <span th:text="${option.getOptionName()}">OPTION</span></p>
+<p>Option cost: <span th:text="${option.getOptionCost()}">COST</span></p>
+<p>Connection cost: <span th:text="${option.getConnectionCost()}">CONNECTION COST</span></p>
 
-<a th:href="@{/options/{id}/edit (id=${option.getId()})}">edit option</a>
+<a th:href="@{/options/{id}/edit (id=${option.getId()})}" sec:authorize="hasAuthority('ADMIN')">Edit option</a>
 
-<form th:method="DELETE" th:action="@{/options/{id} (id=${option.getId()})}" th:object="${option}">
+<form th:method="DELETE" th:action="@{/options/{id} (id=${option.getId()})}" th:object="${option}"
+      sec:authorize="hasAuthority('ADMIN')">
     <input type="submit" value="Delete!"/>
 </form>
 

@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Tariff</title>
 </head>
 <body>
 
-<p th:text="${tariff.getId()}">VALUE</p>
-<p th:text="${tariff.getTariffName()}">VALUE</p>
-<p th:text="${tariff.getTariffCost()}">VALUE</p>
+<p>Tariff name: <span th:text="${tariff.getTariffName()}">TARIFF</span></p>
+<p>Tariff cost: <span th:text="${tariff.getTariffCost()}">TARIFF COST</span></p>
 <p>Available options: </p>
 <ul th:each="option: ${tariff.getOptionAvailableSet()}">
-    <li th:text="${option.getOptionName()}"></li>
+    <li><a th:href="@{/options/{id} (id=${option.getId()})}" th:text="${option.getOptionName()}">Options</a></li>
 </ul>
 
-<a th:href="@{/tariffs/{id}/edit (id=${tariff.getId()})}">edit tariff</a>
+<a th:href="@{/tariffs/{id}/edit (id=${tariff.getId()})}" sec:authorize="hasAuthority('ADMIN')">Edit tariff</a>
 
-<form th:method="DELETE" th:action="@{/tariffs/{id} (id=${tariff.getId()})}" th:object="${tariff}">
+<form th:method="DELETE" th:action="@{/tariffs/{id} (id=${tariff.getId()})}" th:object="${tariff}"
+      sec:authorize="hasAuthority('ADMIN')">
     <input type="submit" value="Delete!"/>
 </form>
 

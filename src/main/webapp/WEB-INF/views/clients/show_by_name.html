@@ -1,44 +1,50 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Client</title>
 </head>
 <body>
 
-<p>ID: <span th:text="${client.getId()}">ID</span></p>
 <p>Name: <span th:text="${client.getName()}">NAME</span></p>
 <p>Surname: <span th:text="${client.getSurname()}">SURNAME</span></p>
 <p>Birthday: <span th:text="${client.getDateOfBirth()}">BIRTHDAY</span></p>
 <p>Passport: <span th:text="${client.getNumberOfPassport()}">PASSPORT</span></p>
 <p>Address: <span th:text="${client.getAddress()}">ADDRESS</span></p>
 <p>e-mail: <span th:text="${client.getEmail()}">E-MAIL</span></p>
-<p>Status: <span th:if="${client.isStatus()}">BLOCKED</span></p>
-<hr>
-<div th:each="contract : ${client.getContractSetDTO()}">
-    <a th:href="@{/contracts/{id} (id=${contract.getId()})}" th:text="${contract.getNumber()}">Contracts</a>
-</div>
-<form th:action="@{/contracts/{id}/new (id=${client.getId()})}">
-    <button>New contract</button>
-</form>
-<hr>
-<a th:href="@{/clients/{id}/edit (id=${client.getId()})}">edit client</a>
 
-<form th:method="DELETE" th:action="@{/clients/{id} (id=${client.getId()})}" th:object="${client}">
+<a th:href="@{/clients/{id}/edit (id=${client.getId()})}">Edit client</a>
+
+<form th:method="DELETE" th:action="@{/clients/{id} (id=${client.getId()})}" th:object="${client}"
+      sec:authorize="hasAuthority('ADMIN')">
     <input type="submit" value="Delete!"/>
 </form>
 <hr>
-<a th:href="@{/clients/all}">Clients</a>
-<a th:href="@{/contracts/all}">Contracts</a>
-<a th:href="@{/tariffs/all}">Tariffs</a>
-<a th:href="@{/options}">Options</a>
+<p>Contracts:</p>
+<div th:each="contract : ${client.getContractSetDTO()}">
+    <a th:href="@{/contracts/{id} (id=${contract.getId()})}" th:text="${contract.getNumber()}">Contracts</a>
+    <br>
+</div>
+<form th:action="@{/contracts/{id}/new (id=${client.getId()})}"
+      sec:authorize="hasAuthority('ADMIN')">
+    <button>New contract</button>
+</form>
 <hr>
-<form th:action="@{/contracts}" th:method="GET">
+<div sec:authorize="hasAuthority('ADMIN')">
+    <a th:href="@{/clients/all}">Clients</a>
+    <a th:href="@{/contracts/all}">Contracts</a>
+    <a th:href="@{/tariffs/all}">Tariffs</a>
+    <a th:href="@{/options}">Options</a>
+    <hr>
+</div>
+
+<form th:action="@{/contracts}" th:method="GET" sec:authorize="hasAuthority('ADMIN')">
     <label for="number">Search user with number: </label>
     <input required type="search" id="number" name="number"/>
     <input type="submit" value="Search!"/>
+    <hr>
 </form>
-<hr>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Log out"/>
 </form>

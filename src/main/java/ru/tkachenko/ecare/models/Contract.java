@@ -32,12 +32,12 @@ public class Contract {
     private Tariff tariff;
 
     @Column(name = "status")
-    private boolean status;
+    private int status;
 
     public Contract() {
     }
 
-    public Contract(int id, int number, Set<Option> optionSet, Client client, Tariff tariff, boolean status) {
+    public Contract(int id, int number, Set<Option> optionSet, Client client, Tariff tariff, int status) {
         this.id = id;
         this.number = number;
         this.optionSet = optionSet;
@@ -86,11 +86,11 @@ public class Contract {
         this.tariff = tariff;
     }
 
-    public boolean isStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

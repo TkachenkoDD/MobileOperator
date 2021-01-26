@@ -3,14 +3,18 @@ package ru.tkachenko.ecare.service;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.tkachenko.ecare.dao.ClientDAO;
 import ru.tkachenko.ecare.dao.ContractDAO;
 import ru.tkachenko.ecare.dao.OptionDAO;
 import ru.tkachenko.ecare.dto.ClientDTO;
 import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.dto.OptionDTO;
 import ru.tkachenko.ecare.dto.TariffDTO;
+import ru.tkachenko.ecare.models.Client;
 import ru.tkachenko.ecare.models.Contract;
 import ru.tkachenko.ecare.models.Option;
 
@@ -23,12 +27,15 @@ public class ContractServiceImpl implements ContractService {
 
     private final ContractDAO contractDAO;
     private final OptionDAO optionDAO;
+    private final ClientDAO clientDAO;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ContractServiceImpl(ContractDAO contractDAO, OptionDAO optionDAO, ModelMapper modelMapper) {
+    public ContractServiceImpl(ContractDAO contractDAO, OptionDAO optionDAO, ClientDAO clientDAO,
+                               ModelMapper modelMapper) {
         this.contractDAO = contractDAO;
         this.optionDAO = optionDAO;
+        this.clientDAO = clientDAO;
         this.modelMapper = modelMapper;
     }
 
@@ -94,6 +101,30 @@ public class ContractServiceImpl implements ContractService {
         contract = toEntity(contractDTO);
         contractDAO.delete(contract, id);
     }
+
+    @Override
+    @Transactional
+    public void contractBlock(int id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentName = authentication.getName();
+        Contract contract = contractDAO.showById(id);
+        Client client = (Client) clientDAO.showByName(currentName);
+        int status = contract.getStatus();
+        String role = client.getRole().name();
+        if (status == 0) {
+            if (role.equals("USER")) {
+                contract.setStatus(1);
+            } else contract.setStatus(2);
+        }
+        if ((role.equals("USER")) && (status == 1)) {
+            contract.setStatus(0);
+        }
+        if ((role.equals("ADMIN")) && ((status > 0))) {
+            contract.setStatus(0);
+        }
+        contractDAO.update(contract);
+    }
+
 
     @Override
     public Contract toEntity(ContractDTO contractDTO) {

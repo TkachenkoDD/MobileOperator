@@ -1,6 +1,7 @@
 package ru.tkachenko.ecare.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ public class ClientsController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String showAllClients(Model model) {
         model.addAttribute("clients", clientService.showAll());
         return "clients/show_all";

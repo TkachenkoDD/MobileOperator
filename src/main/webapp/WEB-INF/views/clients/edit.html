@@ -14,7 +14,7 @@
     <input type="text" th:field="*{surname}" id="surname"/>
     <br>
     <label for="birthday">Enter date of birth</label>
-    <input type="text" th:field="*{dateOfBirth}" id="birthday"/>
+    <input type="date" th:field="*{dateOfBirth}" id="birthday"/>
     <br>
     <label for="passport">Enter number of passport</label>
     <input type="text" th:field="*{numberOfPassport}" id="passport"/>
@@ -26,16 +26,8 @@
     <input type="text" th:field="*{email}" id="email"/>
     <br>
     <input type="hidden" th:field="*{password}" id="password">
-
     <input type="hidden" th:field="*{role}" id="role">
-
-    Client's status<br>
-    <label>
-        <input type="radio" th:field="*{status}" value="false" checked>Unblocked
-        <input type="radio" th:field="*{status}" value="true">Blocked
-    </label>
     <br>
-
     <input type="submit" value="Update!"/>
 </form>
 

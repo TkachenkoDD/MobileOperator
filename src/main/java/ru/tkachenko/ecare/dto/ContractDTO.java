@@ -8,7 +8,7 @@ public class ContractDTO {
 
     private int id;
     private int number;
-    private boolean status;
+    private int status;
     private TariffDTO tariffDTO;
     private ClientDTO clientDTO;
     private Set<OptionDTO> optionDTOSet = new HashSet<>();
@@ -29,11 +29,11 @@ public class ContractDTO {
         this.number = number;
     }
 
-    public boolean isStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

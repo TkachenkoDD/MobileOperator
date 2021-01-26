@@ -7,11 +7,10 @@
 <body>
 
 <form th:method="PATCH" th:action="@{/contracts/{id}(id=${contract.getId()})}">
-    <label for="number">Enter number: </label>
-    <input type="text" th:field="*{contract.number}" id="number"/>
-
+    <p>Number: <span th:text="${contract.getNumber()}">NUMBER</span></p>
+    <input type="hidden" th:field="*{contract.number}"/>
     <input type="hidden" th:field="*{contract.clientDTO.id}"/>
-    <br>
+
     <label for="tariff">Tariff: </label>
     <select th:field="*{contract.tariffDTO.id}" id="tariff">
         <option th:each="tariff : ${tariffs}" th:value="${tariff.getId()}" th:text="${tariff.getTariffName()}">tariff
@@ -26,7 +25,8 @@
                     <select name="options">
                         <option th:value="''">Select option</option>
                         <option th:each="option: ${options}"
-                                th:if="${!option.getTariffSet().isEmpty()} and ${option.getCategory().equals(cat)}"
+                                th:if="${contract.getTariffDTO().getOptionAvailableSet().contains(option)}
+                                and ${option.getCategory().equals(cat)}"
                                 th:value="${option.getId()}"
                                 th:text="${option.getOptionName()}"
                                 th:selected="${contract.getOptionDTOSet().contains(option)}" id="options">Option
@@ -36,13 +36,6 @@
             </td>
         </tr>
     </table>
-    <br>
-    Contract's status<br>
-    <label>
-        <input type="radio" th:field="*{contract.status}" value="false" checked>Unblocked
-        <input type="radio" th:field="*{contract.status}" value="true">Blocked
-    </label>
-    <br/>
     <hr>
     <input type="submit" value="Update!"/>
 </form>

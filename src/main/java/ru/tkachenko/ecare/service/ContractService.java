@@ -20,5 +20,7 @@ public interface ContractService {
 
     ClientDTO showClientByNumber(int number);
 
+    void contractBlock(int id);
+
     Contract toEntity(ContractDTO contractDTO);
 }

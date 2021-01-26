@@ -53,8 +53,7 @@ public class ClientServiceImpl implements ClientService {
     @Transactional(readOnly = true)
     public ClientDTO showByName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String currentName = authentication.getName();
-        String currentName = "admin";
+        String currentName = authentication.getName();
         Client client = (Client) clientDAO.showByName(currentName);
         ClientDTO clientDTO = modelMapper.map(clientDAO.showByName(currentName), ClientDTO.class);
         Set<ContractDTO> contractDTOSet = modelMapper.map(client.getContractSet(), new TypeToken<Set<ContractDTO>>() {}.getType());

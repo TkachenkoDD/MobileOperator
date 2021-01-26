@@ -1,6 +1,7 @@
 package ru.tkachenko.ecare.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,8 @@ public class ContractsController {
     private final OptionService optionService;
 
     @Autowired
-    public ContractsController(ContractService contractService, ClientService clientService, TariffService tariffService, OptionService optionService) {
+    public ContractsController(ContractService contractService, ClientService clientService,
+                               TariffService tariffService, OptionService optionService) {
         this.contractService = contractService;
         this.clientService = clientService;
         this.tariffService = tariffService;
@@ -30,6 +32,7 @@ public class ContractsController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String showAllContracts(Model model) {
         model.addAttribute("contracts", contractService.showAll());
         return "contracts/show_all";
@@ -79,5 +82,13 @@ public class ContractsController {
     public String searchClientByContract(Model model, @RequestParam(value = "number", required = false) int number) {
         model.addAttribute("client", contractService.showClientByNumber(number));
         return "clients/show_by_id";
+    }
+
+    @PatchMapping("/{id}/block")
+    public String block(@RequestParam("click") boolean click,
+                        @PathVariable("id") int id) {
+        if (click)
+        contractService.contractBlock(id);
+        return "redirect:/contracts/" + id;
     }
 }

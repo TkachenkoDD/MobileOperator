@@ -7,20 +7,23 @@
 <body>
 
 <form th:method="POST" th:action="@{/clients}" th:object="${client}">
+    <label for="name">Enter name: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <br>
+    <label for="surname">Enter surname</label>
+    <input type="text" th:field="*{surname}" id="surname"/>
+    <br>
     <label for="email">Enter e-mail</label>
     <input type="text" th:field="*{email}" id="email"/>
     <br>
     <label for="password">Enter password</label>
-    <input type="text" th:field="*{password}" id="password">
-    <br>
-    <label for="name">Enter your name</label>
-    <input type="text" th:field="*{name}" id="name">
-    <br>
-    <label for="surname">Enter your surname</label>
-    <input type="text" th:field="*{surname}" id="surname">
-    <br>
+    <input type="password" th:field="*{password}" id="password">
 
-
+    <input type="hidden" th:field="*{dateOfBirth}"/>
+    <input type="hidden" th:field="*{numberOfPassport}"/>
+    <input type="hidden" th:field="*{address}"/>
+    <input type="hidden" th:field="*{role}">
+    <br>
     <input type="submit" value="Create!"/>
 </form>
 

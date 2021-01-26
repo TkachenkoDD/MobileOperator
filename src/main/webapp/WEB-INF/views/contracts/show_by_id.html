@@ -1,28 +1,34 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Contract</title>
 </head>
 <body>
 
-<p>ID: <span th:text="${contract.getId()}">ID</span></p>
 <p>Number: <span th:text="${contract.getNumber()}">Number</span></p>
-<p>Contract owner: <span th:text="${contract.getClientDTO().getName()}">Contract owner</span></p>
+<p sec:authorize="hasAuthority('ADMIN')">Contract owner: <span th:text="${contract.getClientDTO().getName()}">Contract owner</span></p>
 <p>Tariff: <a th:href="@{/tariffs/{id} (id=${contract.getTariffDTO().getId()})}"
 th:if="${contract.getTariffDTO()}" th:text="${contract.getTariffDTO().getTariffName()}">tariff</a></p>
 <p>Options: </p>
 <ul th:each="option: ${contract.getOptionDTOSet()}">
-    <li th:text="${option.getOptionName()}"></li>
+    <li><a th:href="@{/options/{id} (id=${option.getId()})}" th:text="${option.getOptionName()}"></a></li>
 </ul>
-<p>Status: <span th:text="${contract.isStatus()}">Blocked</span></p>
+<p th:if="${contract.getStatus()} > '0'">NUMBER BLOCKED!</p>
 
-<a th:href="@{/contracts/{id}/edit (id=${contract.getId()})}">edit contract</a>
+<form th:method="PATCH" th:action="@{/contracts/{id}/block (id=${contract.getId()})}">
+    <button th:value="true" name="click">Block/Unblock</button>
+</form>
+<br>
+<a th:if="${contract.getStatus()} == '0'" th:href="@{/contracts/{id}/edit (id=${contract.getId()})}">Edit contract</a>
 
-<form th:method="DELETE" th:action="@{/contracts/{id} (id=${contract.getId()})}" th:object="${contract}">
+<form th:method="DELETE" th:action="@{/contracts/{id} (id=${contract.getId()})}" th:object="${contract}"
+      sec:authorize="hasAuthority('ADMIN')">
     <input type="submit" value="Delete!"/>
 </form>
 <hr>
+<a th:href="@{/tariffs/all}">Tariffs</a>
 
 </body>
 </html>

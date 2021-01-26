@@ -10,7 +10,6 @@
     <packaging>war</packaging>
 
     <name>eCare Maven Webapp</name>
-    <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 
     <properties>
@@ -107,6 +106,12 @@
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring5</artifactId>
             <version>3.0.7.RC1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5 -->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+            <version>3.0.4.RELEASE</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->

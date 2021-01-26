@@ -18,8 +18,11 @@
     <br>
     <label for="surname">Enter your surname</label>
     <input type="text" th:field="*{surname}" id="surname">
-    <br>
 
+    <input type="hidden" th:field="*{dateOfBirth}"/>
+    <input type="hidden" th:field="*{numberOfPassport}"/>
+    <input type="hidden" th:field="*{address}"/>
+    <br>
     <input type="submit" value="Registration!"/>
 </form>
 
