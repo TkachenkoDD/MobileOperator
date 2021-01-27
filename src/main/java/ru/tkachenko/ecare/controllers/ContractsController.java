@@ -6,12 +6,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.tkachenko.ecare.dto.ContractDTO;
+import ru.tkachenko.ecare.dto.OptionDTO;
 import ru.tkachenko.ecare.service.ClientService;
 import ru.tkachenko.ecare.service.ContractService;
 import ru.tkachenko.ecare.service.OptionService;
 import ru.tkachenko.ecare.service.TariffService;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/contracts")
@@ -32,7 +36,7 @@ public class ContractsController {
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')") //TODO check for error
     public String showAllContracts(Model model) {
         model.addAttribute("contracts", contractService.showAll());
         return "contracts/show_all";
@@ -54,7 +58,7 @@ public class ContractsController {
     @PostMapping
     public String createContract(@ModelAttribute("contract") ContractDTO contractDTO) {
         contractService.save(contractDTO);
-        return "redirect:/contracts/all";
+        return "redirect:/contracts/" + contractDTO.getId();
     }
 
     @GetMapping("/{id}/edit")
@@ -65,10 +69,41 @@ public class ContractsController {
         return "contracts/edit";
     }
 
+    @GetMapping("/{id}/cart")
+    public String contractToCart(Model model, @PathVariable("id") int id) {
+        model.addAttribute("contract", contractService.showById(id));
+        model.addAttribute("tariffs", tariffService.showAll());
+        model.addAttribute("options", optionService.showAll());
+        return "cart";
+    }
+
+    @PatchMapping("/{id}/cart")
+    public String addToCart(@ModelAttribute("contract") ContractDTO contractDTO,
+                            @RequestParam("options") List<Integer> optionList,
+                            HttpSession session) {
+        contractService.showById(contractDTO.getId());
+        contractDTO.setTariffDTO(tariffService.showById(contractDTO.getTariffDTO().getId()));
+        Set<OptionDTO> optionDTOSet = new HashSet<>();
+        for (Integer x : optionList) {
+            if (x != null)
+                optionDTOSet.add(optionService.showById(x));
+        }
+        if (!optionDTOSet.isEmpty())
+            contractDTO.setOptionDTOSet(optionDTOSet);
+        session.setAttribute("contract", contractDTO);
+        return "redirect:/contracts/" + contractDTO.getId();
+    }
+
+    @GetMapping("/cart")
+    public String cart() {
+        return "/cart";
+    }
+
     @PatchMapping("/{id}")
     public String updateContract(@ModelAttribute("contract") ContractDTO contractDTO,
-                                 @RequestParam("options") List<Integer> optionList) {
-        contractService.update(contractDTO, optionList);
+                                 HttpSession session) {
+        contractService.update((ContractDTO) session.getAttribute("contract"));
+        session.removeAttribute("contract");
         return "redirect:/contracts/" + contractDTO.getId();
     }
 

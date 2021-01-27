@@ -14,7 +14,7 @@ public interface ContractService {
 
     void save(ContractDTO contractDTO);
 
-    void update(ContractDTO contractDTO, List<Integer> optionList);
+    void update(ContractDTO contractDTO);
 
     void delete(ContractDTO contractDTO, int id);
 

@@ -20,7 +20,7 @@ public class ClientsController {
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")  //TODO check for error
     public String showAllClients(Model model) {
         model.addAttribute("clients", clientService.showAll());
         return "clients/show_all";
@@ -45,7 +45,7 @@ public class ClientsController {
     @PostMapping
     public String createClient(@ModelAttribute("client") ClientDTO clientDTO) {
         clientService.save(clientDTO);
-        return "redirect:/clients";
+        return "redirect:/clients" + clientDTO.getId();
     }
 
     @GetMapping("/{id}/edit")

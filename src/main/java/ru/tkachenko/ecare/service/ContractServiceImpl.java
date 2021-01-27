@@ -9,16 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tkachenko.ecare.dao.ClientDAO;
 import ru.tkachenko.ecare.dao.ContractDAO;
-import ru.tkachenko.ecare.dao.OptionDAO;
 import ru.tkachenko.ecare.dto.ClientDTO;
 import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.dto.OptionDTO;
 import ru.tkachenko.ecare.dto.TariffDTO;
 import ru.tkachenko.ecare.models.Client;
 import ru.tkachenko.ecare.models.Contract;
-import ru.tkachenko.ecare.models.Option;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,15 +23,13 @@ import java.util.Set;
 public class ContractServiceImpl implements ContractService {
 
     private final ContractDAO contractDAO;
-    private final OptionDAO optionDAO;
-    private final ClientDAO clientDAO;
+   private final ClientDAO clientDAO;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ContractServiceImpl(ContractDAO contractDAO, OptionDAO optionDAO, ClientDAO clientDAO,
+    public ContractServiceImpl(ContractDAO contractDAO, ClientDAO clientDAO,
                                ModelMapper modelMapper) {
         this.contractDAO = contractDAO;
-        this.optionDAO = optionDAO;
         this.clientDAO = clientDAO;
         this.modelMapper = modelMapper;
     }
@@ -83,15 +78,8 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     @Transactional
-    public void update(ContractDTO contractDTO, List<Integer> optionList) {
+    public void update(ContractDTO contractDTO) {
         contract = toEntity(contractDTO);
-        Set<Option> optionSet = new HashSet<>();
-        for (Integer x : optionList) {
-            if (x != null)
-                optionSet.add(optionDAO.showById(x));
-        }
-        if (!optionSet.isEmpty())
-        contract.setOptionSet(optionSet);
         contractDAO.update(contract);
     }
 
@@ -124,7 +112,6 @@ public class ContractServiceImpl implements ContractService {
         }
         contractDAO.update(contract);
     }
-
 
     @Override
     public Contract toEntity(ContractDTO contractDTO) {

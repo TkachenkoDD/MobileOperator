@@ -15,7 +15,7 @@ public class Contract {
     private int id;
 
     @Column(name = "number")
-    private int number;
+    private int number;     //TODO add validation
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "contracts_options",

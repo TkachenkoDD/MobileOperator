@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+</head>
+<body>
+
+<p th:if="${session.contract} == null">Cart is empty!</p>
+
+<div th:if="${session.contract} != null">
+    <p>Selected tariff: <a th:href="@{/tariffs/{id} (id=${session.contract.getTariffDTO().getId()})}"
+                           th:text="${session.contract.getTariffDTO().getTariffName()}">tariff</a></p>
+
+    <p>Selected options:</p>
+    <ul th:each="option: ${session.contract.getOptionDTOSet()}">
+        <li><a th:href="@{/options/{id} (id=${option.getId()})}" th:text="${option.getOptionName()}"></a></li>
+    </ul>
+    <form th:method="PATCH" th:action="@{/contracts/{id} (id=${session.contract.getId()})}"
+          th:object="${session.contract}">
+        <input type="submit" value="Confirm!"/>
+    </form>
+</div>
+
+</body>
+</html>

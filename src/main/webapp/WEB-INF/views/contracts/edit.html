@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form th:method="PATCH" th:action="@{/contracts/{id}(id=${contract.getId()})}">
+<form th:method="PATCH" th:action="@{/contracts/{id}/cart (id=${contract.getId()})}">
     <p>Number: <span th:text="${contract.getNumber()}">NUMBER</span></p>
     <input type="hidden" th:field="*{contract.number}"/>
     <input type="hidden" th:field="*{contract.clientDTO.id}"/>
@@ -37,7 +37,7 @@
         </tr>
     </table>
     <hr>
-    <input type="submit" value="Update!"/>
+    <input type="submit" value="Put to cart!"/>
 </form>
 
 </body>

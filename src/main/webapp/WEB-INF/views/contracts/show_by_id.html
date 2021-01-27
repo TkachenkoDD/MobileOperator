@@ -22,13 +22,14 @@ th:if="${contract.getTariffDTO()}" th:text="${contract.getTariffDTO().getTariffN
 </form>
 <br>
 <a th:if="${contract.getStatus()} == '0'" th:href="@{/contracts/{id}/edit (id=${contract.getId()})}">Edit contract</a>
+<!--<a th:if="${contract.getStatus()} == '0'" th:href="@{/contracts/{id}/cart (id=${contract.getId()})}">Add to cart</a>-->
 
 <form th:method="DELETE" th:action="@{/contracts/{id} (id=${contract.getId()})}" th:object="${contract}"
       sec:authorize="hasAuthority('ADMIN')">
     <input type="submit" value="Delete!"/>
 </form>
 <hr>
-<a th:href="@{/tariffs/all}">Tariffs</a>
+<a th:href="@{/contracts/cart}">Cart</a>
 
 </body>
 </html>
