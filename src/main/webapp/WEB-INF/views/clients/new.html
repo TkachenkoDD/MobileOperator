@@ -1,34 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>New client</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
 </head>
 <body>
-<p align="right"><a align="right" th:href="@{/clients}">Home</a></p>
+<div th:replace="fragments/header :: header"></div>
+<br>
+<div class="container">
+    <form th:method="POST" th:action="@{/clients}" th:object="${client}">
+        <label for="name">Enter name: </label>
+        <input type="text" th:field="*{name}" id="name"/>
+        <br>
+        <label for="surname">Enter surname: </label>
+        <input type="text" th:field="*{surname}" id="surname"/>
+        <br>
+        <label for="email">Enter e-mail: </label>
+        <input type="text" th:field="*{email}" id="email"/>
+        <br>
+        <label for="password">Enter password: </label>
+        <input type="password" th:field="*{password}" id="password">
 
-<form th:method="POST" th:action="@{/clients}" th:object="${client}">
-    <label for="name">Enter name: </label>
-    <input type="text" th:field="*{name}" id="name"/>
-    <br>
-    <label for="surname">Enter surname</label>
-    <input type="text" th:field="*{surname}" id="surname"/>
-    <br>
-    <label for="email">Enter e-mail</label>
-    <input type="text" th:field="*{email}" id="email"/>
-    <br>
-    <label for="password">Enter password</label>
-    <input type="password" th:field="*{password}" id="password">
-
-    <input type="hidden" th:field="*{dateOfBirth}"/>
-    <input type="hidden" th:field="*{numberOfPassport}"/>
-    <input type="hidden" th:field="*{address}"/>
-    <input type="hidden" th:field="*{role}">
-    <br>
-    <input type="submit" value="Create!"/>
-</form>
+        <input type="hidden" th:field="*{dateOfBirth}"/>
+        <input type="hidden" th:field="*{numberOfPassport}"/>
+        <input type="hidden" th:field="*{address}"/>
+        <input type="hidden" th:field="*{role}">
+        <br>
+        <input type="submit" value="Create!"/>
+    </form>
+</div>
 
 </body>
 </html>

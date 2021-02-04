@@ -2,20 +2,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>All options</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
 </head>
 <body>
-<p align="right"><a align="right" th:href="@{/clients}">Home</a></p>
-
-<div th:each="option : ${options}">
-    <a th:href="@{/options/{id} (id=${option.getId()})}" th:text="${option.getOptionName()}">option</a>
+<div th:replace="fragments/header :: header"></div>
+<br>
+<div class="container">
+    <div th:each="option : ${options}">
+        <a th:href="@{/options/{id} (id=${option.getId()})}" th:text="${option.getOptionName()}">option</a>
+    </div>
+    <br/>
+    <hr/>
+    <a th:href="@{/options/new}" sec:authorize="hasAuthority('ADMIN')">New option</a>
 </div>
-<br/>
-<hr/>
-<a th:href="@{/options/new}" sec:authorize="hasAuthority('ADMIN')">New option</a>
 
 </body>
 </html>

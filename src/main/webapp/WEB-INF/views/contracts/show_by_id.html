@@ -2,38 +2,50 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>Contract</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
 </head>
 <body>
-<p align="right"><a align="right" th:href="@{/clients}">Home</a></p>
+<div th:replace="fragments/header :: header"></div>
 
-<p>Number: <span th:text="${contract.getNumber()}">Number</span></p>
-<p sec:authorize="hasAuthority('ADMIN')">Contract owner: <span th:text="${contract.getClientDTO().getName()}">Contract owner</span></p>
-<p>Tariff: <a th:href="@{/tariffs/{id} (id=${contract.getTariffDTO().getId()})}"
-th:if="${contract.getTariffDTO()}" th:text="${contract.getTariffDTO().getTariffName()}">tariff</a></p>
-<p>Options: </p>
-<ul th:each="option: ${contract.getOptionDTOSet()}">
-    <li><a th:href="@{/options/{id} (id=${option.getId()})}" th:text="${option.getOptionName()}"></a></li>
-</ul>
-<p th:if="${contract.getStatus()} > '0'">NUMBER BLOCKED!</p>
-
-<form th:method="PATCH" th:action="@{/contracts/{id}/block (id=${contract.getId()})}">
-    <button th:value="true" name="click">Block/Unblock</button>
-</form>
-<br>
-<a th:if="${contract.getStatus()} == '0'" th:href="@{/contracts/{id}/edit (id=${contract.getId()})}">Edit contract</a>
-<!--<a th:if="${contract.getStatus()} == '0'" th:href="@{/contracts/{id}/cart (id=${contract.getId()})}">Add to cart</a>-->
-
-<form th:method="DELETE" th:action="@{/contracts/{id} (id=${contract.getId()})}" th:object="${contract}"
-      sec:authorize="hasAuthority('ADMIN')">
-    <input type="submit" value="Delete!"/>
-</form>
-<hr>
-<a th:href="@{/contracts/cart}">Cart</a>
-
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+            <nav class="nav flex-column">
+                <br>
+                <a class="nav-link" th:if="${contract.getStatus()} == '0'"
+                   th:href="@{/contracts/{id}/available_tariffs (id=${contract.getId()})}">
+                    Available tariffs</a>
+                <a class="nav-link" th:if="${contract.getStatus()} == '0'"
+                   th:href="@{/contracts/{id}/available_options (id=${contract.getId()})}">
+                    My options</a>
+                <form th:method="PATCH" th:action="@{/contracts/{id}/block (id=${contract.getId()})}">
+                    <button class="btn btn-outline-success" th:value="true" name="click">Block/Unblock</button>
+                </form>
+            </nav>
+        </div>
+        <div class="col-10">
+            <br>
+            <p>Number: <span th:text="${contract.getNumber()}">Number</span></p>
+            <p sec:authorize="hasAuthority('ADMIN')">Contract owner: <span
+                    th:text="${contract.getClientDTO().getName()}">Contract owner</span></p>
+            <p>Tariff: <a th:href="@{/tariffs/{id} (id=${contract.getTariffDTO().getId()})}"
+                          th:if="${contract.getTariffDTO()}"
+                          th:text="${contract.getTariffDTO().getTariffName()}">tariff</a></p>
+            <p>Options: </p>
+            <ul th:each="option: ${contract.getOptionDTOSet()}">
+                <li><a th:href="@{/options/{id} (id=${option.getId()})}" th:text="${option.getOptionName()}"></a></li>
+            </ul>
+            <p th:if="${contract.getStatus()} > '0'">NUMBER BLOCKED!</p>
+            <br>
+            <form th:method="DELETE" th:action="@{/contracts/{id} (id=${contract.getId()})}" th:object="${contract}"
+                  sec:authorize="hasAuthority('ADMIN')">
+                <button class="btn btn-outline-success" type="submit">Delete contract!</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

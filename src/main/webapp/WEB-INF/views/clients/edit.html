@@ -1,38 +1,48 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>Update client</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
 </head>
 <body>
-<p align="right"><a align="right" th:href="@{/clients}">Home</a></p>
+<div th:replace="fragments/header :: header"></div>
 
-<form th:method="PATCH" th:action="@{/clients/{id}(id=${client.getId()})}" th:object="${client}">
-    <label for="name">Enter name: </label>
-    <input type="text" th:field="*{name}" id="name"/>
-    <br>
-    <label for="surname">Enter surname</label>
-    <input type="text" th:field="*{surname}" id="surname"/>
-    <br>
-    <label for="birthday">Enter date of birth</label>
-    <input type="date" th:field="*{dateOfBirth}" id="birthday"/>
-    <br>
-    <label for="passport">Enter number of passport</label>
-    <input type="text" th:field="*{numberOfPassport}" id="passport"/>
-    <br>
-    <label for="address">Enter address</label>
-    <input type="text" th:field="*{address}" id="address"/>
-    <br>
-    <label for="email">Enter e-mail</label>
-    <input type="text" th:field="*{email}" id="email"/>
-    <br>
-    <input type="hidden" th:field="*{password}" id="password">
-    <input type="hidden" th:field="*{role}" id="role">
-    <br>
-    <input type="submit" value="Update!"/>
-</form>
+<br>
+<div class="container">
+    <form th:method="PATCH" th:action="@{/clients/{id}(id=${client.getId()})}" th:object="${client}">
+        <label for="name" class="form-label">Enter name: </label>
+        <input type="text" th:field="*{name}" id="name"/>
+        <br>
+        <label for="surname">Enter surname: </label>
+        <input type="text" th:field="*{surname}" id="surname"/>
+        <br>
+        <label for="birthday">Enter date of birth: </label>
+        <input type="date" th:field="*{dateOfBirth}" id="birthday"/>
+        <br>
+        <label for="passport">Enter number of passport: </label>
+        <input type="text" th:field="*{numberOfPassport}" id="passport"/>
+        <br>
+        <label for="address">Enter address: </label>
+        <input type="text" th:field="*{address}" id="address"/>
+        <br>
+        <label for="email">Enter e-mail: </label>
+        <input type="text" th:field="*{email}" id="email"/>
+        <br>
+        <input type="hidden" th:field="*{password}" id="password">
+        <input type="hidden" th:field="*{role}" id="role">
+        <br>
+        <input type="submit" value="Update!"/>
+    </form>
+</div>
+<br>
+<div class="container">
+    <form th:method="DELETE" th:action="@{/clients/{id} (id=${client.getId()})}" th:object="${client}"
+          sec:authorize="hasAuthority('ADMIN')">
+        <input type="submit" value="Delete!"/>
+    </form>
+</div>
 
 </body>
 </html>
