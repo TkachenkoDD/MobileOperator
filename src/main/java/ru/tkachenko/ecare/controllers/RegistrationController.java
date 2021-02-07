@@ -2,12 +2,15 @@ package ru.tkachenko.ecare.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.tkachenko.ecare.dto.ClientDTO;
 import ru.tkachenko.ecare.service.ClientService;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/registration")
@@ -26,7 +29,11 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String createRegisteredClient(@ModelAttribute("client") ClientDTO clientDTO) {
+    public String createRegisteredClient(@ModelAttribute ("client") ClientDTO clientDTO,
+                                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "registration";
+        }
         clientService.save(clientDTO);
         return "redirect:/login";
     }

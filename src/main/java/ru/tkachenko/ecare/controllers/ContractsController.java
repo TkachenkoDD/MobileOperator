@@ -7,11 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.dto.OptionDTO;
-import ru.tkachenko.ecare.service.ClientService;
-import ru.tkachenko.ecare.service.ContractService;
-import ru.tkachenko.ecare.service.OptionService;
-import ru.tkachenko.ecare.service.TariffService;
+import ru.tkachenko.ecare.service.*;
 
+import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,30 +22,34 @@ public class ContractsController {  //TODO sort all lists
     private final ClientService clientService;
     private final TariffService tariffService;
     private final OptionService optionService;
+    private final MessageService messageService;
 
     @Autowired
     public ContractsController(ContractService contractService, ClientService clientService,
-                               TariffService tariffService, OptionService optionService) {
+                               TariffService tariffService, OptionService optionService, MessageService messageService) {
         this.contractService = contractService;
         this.clientService = clientService;
         this.tariffService = tariffService;
         this.optionService = optionService;
+        this.messageService = messageService;
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('ADMIN')") //TODO check for error
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String showAllContracts(Model model) {
         model.addAttribute("contracts", contractService.showAll());
         return "contracts/show_all";
     }
 
     @GetMapping("/{id}")
-    public String showContractById(@PathVariable("id") int id, Model model) {
+    public String showContractById(@PathVariable("id") int id, Model model) throws NamingException {
         model.addAttribute("contract", contractService.showById(id));
+        messageService.sendMessage("hui");
         return "contracts/show_by_id";
     }
 
     @GetMapping("/{id}/new")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String newContract(@ModelAttribute("contract") ContractDTO contractDTO,
                               @PathVariable("id") int id) {
         contractDTO.setClientDTO(clientService.showById(id));
@@ -55,12 +57,14 @@ public class ContractsController {  //TODO sort all lists
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String createContract(@ModelAttribute("contract") ContractDTO contractDTO) {
         contractService.save(contractDTO);
         return "redirect:/contracts/all";
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String deleteContract(@ModelAttribute("contract") ContractDTO contractDTO, @PathVariable("id") int id) {
         contractService.delete(contractDTO, id);
         return "redirect:/contracts/all";
@@ -131,7 +135,6 @@ public class ContractsController {  //TODO sort all lists
         }
 
         return "redirect:/contracts/" + id + "/available_options";
-//        return "redirect:/contracts/" + id;
     }
 
     @DeleteMapping("/delete_from_cart")
@@ -175,6 +178,7 @@ public class ContractsController {  //TODO sort all lists
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String searchClientByContract(Model model, @RequestParam(value = "number", required = false) int number) {
         model.addAttribute("client", contractService.showClientByNumber(number));
         return "clients/show_by_id";

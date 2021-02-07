@@ -1,6 +1,7 @@
 package ru.tkachenko.ecare.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ public class TariffsController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String showAllTariffs(Model model) {
         model.addAttribute("tariffs", tariffService.showAll());
         return "tariffs/show_all";
@@ -36,17 +38,20 @@ public class TariffsController {
     }
 
     @GetMapping("/new")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String newTariff(@ModelAttribute("tariff") TariffDTO tariffDTO) {
         return "tariffs/new";
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String createTariff(@ModelAttribute("tariff") TariffDTO tariffDTO) {
         tariffService.save(tariffDTO);
         return "redirect:/tariffs";
     }
 
     @GetMapping("/{id}/edit")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String editTariff(Model model, @PathVariable("id") int id) {
         model.addAttribute("tariff", tariffService.showById(id));
         model.addAttribute("options", optionService.showAll());
@@ -54,6 +59,7 @@ public class TariffsController {
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String updateTariff(@ModelAttribute("tariff") TariffDTO tariffDTO,
                                @RequestParam("options") List<Integer> optionList) {
         tariffService.update(tariffDTO, optionList);
@@ -61,6 +67,7 @@ public class TariffsController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String deleteTariff(@ModelAttribute("tariff") TariffDTO tariffDTO, @PathVariable("id") int id) {
         tariffService.delete(tariffDTO, id);
         return "redirect:/tariffs/all";

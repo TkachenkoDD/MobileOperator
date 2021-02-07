@@ -15,13 +15,15 @@
         <input type="text" th:field="*{email}" id="email"/>
         <br>
         <label for="password">Enter password</label>
-        <input type="text" th:field="*{password}" id="password">
+        <input type="password" th:field="*{password}" id="password">
         <br>
         <label for="name">Enter your name</label>
         <input type="text" th:field="*{name}" id="name">
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error message</div>
         <br>
         <label for="surname">Enter your surname</label>
         <input type="text" th:field="*{surname}" id="surname">
+        <div th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Error message</div>
 
         <input type="hidden" th:field="*{dateOfBirth}"/>
         <input type="hidden" th:field="*{numberOfPassport}"/>

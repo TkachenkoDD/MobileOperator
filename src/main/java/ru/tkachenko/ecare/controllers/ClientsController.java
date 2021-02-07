@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.tkachenko.ecare.dto.ClientDTO;
 import ru.tkachenko.ecare.service.ClientService;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/clients")
@@ -20,7 +23,7 @@ public class ClientsController {
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('ADMIN')")  //TODO check for error
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String showAllClients(Model model) {
         model.addAttribute("clients", clientService.showAll());
         return "clients/show_all";
@@ -32,18 +35,23 @@ public class ClientsController {
         return "clients/show_by_name";}
 
     @GetMapping("/{id}")
-    public String showClientById(@PathVariable("id") int id, Model model) {
+    @PreAuthorize("hasAuthority('ADMIN')")
+       public String showClientById(@PathVariable("id") int id, Model model) {
         model.addAttribute("client", clientService.showById(id));
         return "clients/show_by_id";
     }
 
     @GetMapping("/new")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String newClient(@ModelAttribute("client") ClientDTO clientDTO) {
         return "clients/new";
     }
 
     @PostMapping
-    public String createClient(@ModelAttribute("client") ClientDTO clientDTO) {
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String createClient(@ModelAttribute("client") @Valid ClientDTO clientDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "clients/new";
         clientService.save(clientDTO);
         return "redirect:/clients" + clientDTO.getId();
     }
@@ -57,10 +65,11 @@ public class ClientsController {
     @PatchMapping("/{id}")
     public String updateClient(@ModelAttribute("client") ClientDTO clientDTO) {
         clientService.update(clientDTO);
-        return "redirect:/clients/" + clientDTO.getId();
+        return "redirect:/clients";
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String deleteClient(@ModelAttribute("client") ClientDTO clientDTO, @PathVariable("id") int id) {
         clientService.delete(clientDTO, id);
         return "redirect:/clients";

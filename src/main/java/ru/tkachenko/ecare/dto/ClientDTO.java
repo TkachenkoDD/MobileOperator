@@ -1,5 +1,6 @@
 package ru.tkachenko.ecare.dto;
 
+import javax.validation.constraints.NotEmpty;
 import ru.tkachenko.ecare.models.enums.Role;
 
 import java.util.HashSet;
@@ -9,8 +10,15 @@ import java.util.Set;
 public class ClientDTO {
 
     private int id;
+
+    @NotEmpty(message = "Name should not be empty")
     private String name;
+
+    @NotEmpty(message = "Surname should not be empty")
     private String surname;
+
+//    @NotEmpty(message = "date should not be empty")
+//    @PastOrPresent(message = "date should be in past or present")
     private String dateOfBirth;
     private int numberOfPassport;
     private String address;
