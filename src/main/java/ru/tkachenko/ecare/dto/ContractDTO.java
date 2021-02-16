@@ -1,8 +1,8 @@
 package ru.tkachenko.ecare.dto;
 
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class ContractDTO {
 
@@ -11,7 +11,7 @@ public class ContractDTO {
     private int status;
     private TariffDTO tariffDTO;
     private ClientDTO clientDTO;
-    private Set<OptionDTO> optionDTOSet = new HashSet<>();
+    private Set<OptionDTO> optionDTOSet = new TreeSet<>();
 
     public int getId() {
         return id;

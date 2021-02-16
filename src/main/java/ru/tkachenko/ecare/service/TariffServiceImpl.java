@@ -13,6 +13,7 @@ import ru.tkachenko.ecare.dto.TariffDTO;
 import ru.tkachenko.ecare.models.Option;
 import ru.tkachenko.ecare.models.Tariff;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +37,9 @@ public class TariffServiceImpl implements TariffService {
     @Override
     @Transactional(readOnly = true)
     public List<TariffDTO> showAll() {
-        return modelMapper.map(tariffDAO.showAll(), new TypeToken<List<TariffDTO>>() {}.getType());
+        List<TariffDTO> tariffDTOList = modelMapper.map(tariffDAO.showAll(), new TypeToken<List<TariffDTO>>() {}.getType());
+        tariffDTOList.sort(Comparator.comparing(TariffDTO::getTariffName));
+        return tariffDTOList;
     }
 
     @Override
@@ -77,6 +80,21 @@ public class TariffServiceImpl implements TariffService {
     public void delete(TariffDTO tariffDTO, int id) {
         tariff = toEntity(tariffDTO);
         tariffDAO.delete(tariff, id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TariffDTO> loadTariffs() {
+        List<TariffDTO> tariffDTOList = modelMapper.map(tariffDAO.showAll(), new TypeToken<List<TariffDTO>>() {}.getType());
+        for (TariffDTO tariffDTO: tariffDTOList){
+            tariffDTO.setContractSet(null);
+            for (OptionDTO optionDTO: tariffDTO.getOptionAvailableSet()){
+                optionDTO.setTariffSet(null);
+                optionDTO.setContractDTOSet(null);
+            }
+        }
+        tariffDTOList.sort(Comparator.comparing(TariffDTO::getTariffName));
+        return tariffDTOList;
     }
 
     @Override

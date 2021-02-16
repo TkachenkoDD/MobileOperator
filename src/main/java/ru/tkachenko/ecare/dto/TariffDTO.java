@@ -3,14 +3,15 @@ package ru.tkachenko.ecare.dto;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
 
-public class TariffDTO {
+public class TariffDTO implements Comparable<TariffDTO>{
 
     private int id;
     private String tariffName;
     private int tariffCost;
     private Set<ContractDTO> contractSet = new HashSet<>();
-    private Set<OptionDTO> optionAvailableSet = new HashSet<>();
+    private Set<OptionDTO> optionAvailableSet = new TreeSet<>();
 
     public int getId() {
         return id;
@@ -66,5 +67,10 @@ public class TariffDTO {
         TariffDTO tariffDTO = (TariffDTO) obj;
 
         return id == tariffDTO.id;
+    }
+
+    @Override
+    public int compareTo(TariffDTO o) {
+        return this.tariffName.compareTo(o.tariffName);
     }
 }

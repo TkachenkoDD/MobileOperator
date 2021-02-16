@@ -1,6 +1,5 @@
 package ru.tkachenko.ecare.models;
 
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;

@@ -9,29 +9,26 @@ import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.dto.OptionDTO;
 import ru.tkachenko.ecare.service.*;
 
-import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.Set;
 
 @Controller
 @RequestMapping("/contracts")
-public class ContractsController {  //TODO sort all lists
+public class ContractsController {
 
     private final ContractService contractService;
     private final ClientService clientService;
     private final TariffService tariffService;
     private final OptionService optionService;
-    private final MessageService messageService;
 
     @Autowired
     public ContractsController(ContractService contractService, ClientService clientService,
-                               TariffService tariffService, OptionService optionService, MessageService messageService) {
+                               TariffService tariffService, OptionService optionService) {
         this.contractService = contractService;
         this.clientService = clientService;
         this.tariffService = tariffService;
         this.optionService = optionService;
-        this.messageService = messageService;
     }
 
     @GetMapping("/all")
@@ -42,9 +39,8 @@ public class ContractsController {  //TODO sort all lists
     }
 
     @GetMapping("/{id}")
-    public String showContractById(@PathVariable("id") int id, Model model) throws NamingException {
+    public String showContractById(@PathVariable("id") int id, Model model) {
         model.addAttribute("contract", contractService.showById(id));
-        messageService.sendMessage("hui");
         return "contracts/show_by_id";
     }
 
@@ -95,7 +91,7 @@ public class ContractsController {  //TODO sort all lists
         return "redirect:/contracts/" + id;
     }
 
-    @GetMapping("/{id}/available_options")
+    @GetMapping("/{id}/available_options") //todo hide logic
     public String showAvailableOptions(@PathVariable("id") int id, Model model, HttpSession session) {
         ContractDTO contractDTO = contractService.showById(id);
         Set<OptionDTO> availableOptionSet = contractDTO.getTariffDTO().getOptionAvailableSet();
@@ -117,7 +113,7 @@ public class ContractsController {  //TODO sort all lists
         return "contracts/available_options";
     }
 
-    @PatchMapping("/{id}/options_to_cart")
+    @PatchMapping("/{id}/options_to_cart") //todo hide logic
     public String addOptionToCart(@PathVariable("id") int id,
                                   @RequestParam("option") int optionId,
                                   HttpSession session) {

@@ -16,6 +16,7 @@ import ru.tkachenko.ecare.dto.TariffDTO;
 import ru.tkachenko.ecare.models.Client;
 import ru.tkachenko.ecare.models.Contract;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -39,8 +40,10 @@ public class ContractServiceImpl implements ContractService {
     @Override
     @Transactional(readOnly = true)
     public List<ContractDTO> showAll() {
-        return modelMapper.map(contractDAO.showAll(), new TypeToken<List<ContractDTO>>() {
+        List<ContractDTO> contractDTOList = modelMapper.map(contractDAO.showAll(), new TypeToken<List<ContractDTO>>() {
         }.getType());
+        contractDTOList.sort(Comparator.comparing(ContractDTO::getNumber));
+        return contractDTOList;
     }
 
     @Override

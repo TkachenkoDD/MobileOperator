@@ -11,8 +11,10 @@ import ru.tkachenko.ecare.dto.OptionDTO;
 import ru.tkachenko.ecare.dto.TariffDTO;
 import ru.tkachenko.ecare.models.Option;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class OptionServiceImpl implements OptionService {
@@ -41,6 +43,8 @@ public class OptionServiceImpl implements OptionService {
             optionDTO.setTariffSet(tariffDTOSet);
             optionDTO.setContractDTOSet(contractDTOSet);
         }
+        optionDTOList = optionDTOList.stream().sorted(Comparator.comparing(OptionDTO::getCategory)
+                .thenComparing(OptionDTO::getOptionName)).collect(Collectors.toList());
         return optionDTOList;
     }
 

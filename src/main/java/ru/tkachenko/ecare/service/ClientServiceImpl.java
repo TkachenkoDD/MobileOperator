@@ -14,6 +14,7 @@ import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.models.Client;
 import ru.tkachenko.ecare.models.enums.Role;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +37,9 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional(readOnly = true)
     public List<ClientDTO> showAll() {
-        return modelMapper.map(clientDAO.showAll(), new TypeToken<List<ClientDTO>>() {}.getType());
+        List<ClientDTO> clientDTOList = modelMapper.map(clientDAO.showAll(), new TypeToken<List<ClientDTO>>() {}.getType());
+        clientDTOList.sort(Comparator.comparing(ClientDTO::getSurname));
+        return clientDTOList;
     }
 
     @Override

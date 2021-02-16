@@ -18,4 +18,6 @@ public interface TariffService {
     void delete(TariffDTO tariffDTO, int id);
 
     Tariff toEntity(TariffDTO tariffDTO);
+
+    List<TariffDTO> loadTariffs();
 }

@@ -1,13 +1,14 @@
 package ru.tkachenko.ecare.dto;
 
 import javax.validation.constraints.NotEmpty;
+
 import ru.tkachenko.ecare.models.enums.Role;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class ClientDTO {
+public class ClientDTO implements Comparable<ClientDTO> {
 
     private int id;
 
@@ -122,5 +123,10 @@ public class ClientDTO {
         ClientDTO clientDTO = (ClientDTO) obj;
 
         return id == clientDTO.id;
+    }
+
+    @Override
+    public int compareTo(ClientDTO o) {
+        return this.surname.compareTo(o.surname);
     }
 }

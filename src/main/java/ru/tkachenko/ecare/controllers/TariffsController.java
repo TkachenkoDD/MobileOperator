@@ -6,9 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.tkachenko.ecare.dto.TariffDTO;
+import ru.tkachenko.ecare.service.MessageService;
 import ru.tkachenko.ecare.service.OptionService;
 import ru.tkachenko.ecare.service.TariffService;
 
+import javax.jms.JMSException;
+import javax.naming.NamingException;
 import java.util.List;
 
 @Controller
@@ -17,11 +20,13 @@ public class TariffsController {
 
     private final TariffService tariffService;
     private final OptionService optionService;
+    private final MessageService messageService;
 
     @Autowired
-    public TariffsController(TariffService tariffService, OptionService optionService) {
+    public TariffsController(TariffService tariffService, OptionService optionService, MessageService messageService) {
         this.tariffService = tariffService;
         this.optionService = optionService;
+        this.messageService = messageService;
     }
 
     @GetMapping("/all")
@@ -45,9 +50,10 @@ public class TariffsController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String createTariff(@ModelAttribute("tariff") TariffDTO tariffDTO) {
+    public String createTariff(@ModelAttribute("tariff") TariffDTO tariffDTO) throws JMSException, NamingException {
         tariffService.save(tariffDTO);
-        return "redirect:/tariffs";
+        messageService.sendMessage("Banzai!");
+        return "redirect:/tariffs/all";
     }
 
     @GetMapping("/{id}/edit")
@@ -71,5 +77,12 @@ public class TariffsController {
     public String deleteTariff(@ModelAttribute("tariff") TariffDTO tariffDTO, @PathVariable("id") int id) {
         tariffService.delete(tariffDTO, id);
         return "redirect:/tariffs/all";
+    }
+
+    @GetMapping("/billboard")
+    @ResponseBody
+    public List<TariffDTO> tariffsForBillboard(){
+
+        return tariffService.showAll();
     }
 }

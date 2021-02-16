@@ -5,15 +5,16 @@ import ru.tkachenko.ecare.models.enums.Category;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
 
-public class OptionDTO {
+public class OptionDTO implements Comparable<OptionDTO> {
 
     private int id;
     private String optionName;
     private int optionCost;
     private int connectionCost;
     private Category category;
-    private Set<TariffDTO> tariffSet = new HashSet<>();
+    private Set<TariffDTO> tariffSet = new TreeSet<>();
     private Set<ContractDTO> contractDTOSet = new HashSet<>();
 
     public int getId() {
@@ -87,5 +88,10 @@ public class OptionDTO {
         OptionDTO optionDTO = (OptionDTO) obj;
 
         return id == optionDTO.id;
+    }
+
+    @Override
+    public int compareTo(OptionDTO o) {
+        return this.category.compareTo(o.category);
     }
 }
