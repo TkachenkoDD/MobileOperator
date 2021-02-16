@@ -6,12 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.tkachenko.ecare.dto.ContractDTO;
-import ru.tkachenko.ecare.dto.OptionDTO;
 import ru.tkachenko.ecare.service.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashSet;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/contracts")
@@ -91,58 +88,26 @@ public class ContractsController {
         return "redirect:/contracts/" + id;
     }
 
-    @GetMapping("/{id}/available_options") //todo hide logic
+    @GetMapping("/{id}/available_options")
     public String showAvailableOptions(@PathVariable("id") int id, Model model, HttpSession session) {
         ContractDTO contractDTO = contractService.showById(id);
-        Set<OptionDTO> availableOptionSet = contractDTO.getTariffDTO().getOptionAvailableSet();
         model.addAttribute("contract", contractDTO);
-        if (contractDTO.getOptionDTOSet() != null){
-            for (OptionDTO optionDTO1: contractDTO.getOptionDTOSet()){
-                availableOptionSet.removeIf(optionDTO -> optionDTO.getCategory().equals(optionDTO1.getCategory()));
-            }
-        }
-        if (session.getAttribute("contract") == null) {
-            model.addAttribute("options", availableOptionSet);
-        } else {
-            ContractDTO contractDTO1 = (ContractDTO) session.getAttribute("contract");
-            for (OptionDTO optionDTO1 : contractDTO1.getOptionDTOSet()) {
-                availableOptionSet.removeIf(optionDTO -> optionDTO1.getCategory().equals(optionDTO.getCategory()));
-                model.addAttribute("options", availableOptionSet);
-            }
-        }
+        model.addAttribute("options", contractService.showAvailableOptions(contractDTO, session));
         return "contracts/available_options";
     }
 
-    @PatchMapping("/{id}/options_to_cart") //todo hide logic
+    @PatchMapping("/{id}/options_to_cart")
     public String addOptionToCart(@PathVariable("id") int id,
                                   @RequestParam("option") int optionId,
                                   HttpSession session) {
-
-        if (session.getAttribute("contract") == null){
-            ContractDTO contractDTO = contractService.showById(id);
-            Set<OptionDTO> optionDTOSet = new HashSet<>();
-            optionDTOSet.add(optionService.showById(optionId));
-            contractDTO.setOptionDTOSet(optionDTOSet);
-            session.setAttribute("contract", contractDTO);
-        }else {
-            ContractDTO contractDTO = (ContractDTO) session.getAttribute("contract");
-            contractDTO.getOptionDTOSet().add(optionService.showById(optionId));
-            session.setAttribute("contract", contractDTO);
-        }
-
+        contractService.addOptionToCart(id, optionId, session);
         return "redirect:/contracts/" + id + "/available_options";
     }
 
     @DeleteMapping("/delete_from_cart")
     public String deleteOptionFromCart (@RequestParam("option") int optionId,
                                         HttpSession session) {
-        ContractDTO contractDTO = (ContractDTO) session.getAttribute("contract");
-        contractDTO.getOptionDTOSet().remove(optionService.showById(optionId));
-        if (contractDTO.getOptionDTOSet().isEmpty()){
-            session.removeAttribute("contract");
-        }else {
-            session.setAttribute("contract", contractDTO);
-        }
+        contractService.deleteOptionFromCart(optionId, session);
         return "redirect:/contracts/cart";
     }
 
@@ -163,12 +128,7 @@ public class ContractsController {
     @PatchMapping("/confirm/{id}")
     public String confirmCartContract(@ModelAttribute("contract") ContractDTO contractDTO,
                                  HttpSession session) {
-        ContractDTO contractDTO1 = contractService.showById(contractDTO.getId());
-        contractDTO = (ContractDTO) session.getAttribute("contract");
-        for(OptionDTO optionDTO: contractDTO.getOptionDTOSet()){
-            contractDTO1.getOptionDTOSet().add(optionDTO);
-        }
-        contractService.update(contractDTO1);
+        contractService.confirmCartContract(contractDTO, session);
         session.removeAttribute("contract");
         return "redirect:/contracts/" + contractDTO.getId();
     }

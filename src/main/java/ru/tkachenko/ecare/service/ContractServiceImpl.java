@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tkachenko.ecare.dao.ClientDAO;
 import ru.tkachenko.ecare.dao.ContractDAO;
+import ru.tkachenko.ecare.dao.OptionDAO;
 import ru.tkachenko.ecare.dto.ClientDTO;
 import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.dto.OptionDTO;
@@ -16,22 +17,23 @@ import ru.tkachenko.ecare.dto.TariffDTO;
 import ru.tkachenko.ecare.models.Client;
 import ru.tkachenko.ecare.models.Contract;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 @Service
 public class ContractServiceImpl implements ContractService {
 
     private final ContractDAO contractDAO;
-   private final ClientDAO clientDAO;
+    private final ClientDAO clientDAO;
+    private final OptionDAO optionDAO;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ContractServiceImpl(ContractDAO contractDAO, ClientDAO clientDAO,
+    public ContractServiceImpl(ContractDAO contractDAO, ClientDAO clientDAO, OptionDAO optionDAO,
                                ModelMapper modelMapper) {
         this.contractDAO = contractDAO;
         this.clientDAO = clientDAO;
+        this.optionDAO = optionDAO;
         this.modelMapper = modelMapper;
     }
 
@@ -52,7 +54,8 @@ public class ContractServiceImpl implements ContractService {
         Contract contract = contractDAO.showById(id);
         ContractDTO contractDTO = modelMapper.map(contract, ContractDTO.class);
         contractDTO.setClientDTO(modelMapper.map(contract.getClient(), ClientDTO.class));
-        Set<OptionDTO> optionDTOSet = modelMapper.map(contract.getOptionSet(), new TypeToken<Set<OptionDTO>>() {}.getType());
+        Set<OptionDTO> optionDTOSet = modelMapper.map(contract.getOptionSet(), new TypeToken<Set<OptionDTO>>() {
+        }.getType());
         contractDTO.setOptionDTOSet(optionDTOSet);
         if (contract.getTariff() != null) {
             contractDTO.setTariffDTO(modelMapper.map(contract.getTariff(), TariffDTO.class));
@@ -119,5 +122,62 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public Contract toEntity(ContractDTO contractDTO) {
         return modelMapper.map(contractDTO, Contract.class);
+    }
+
+    @Override
+    @Transactional
+    public void confirmCartContract(ContractDTO contractDTO, HttpSession session) {
+        ContractDTO contractDTO1 = showById(contractDTO.getId());
+        contractDTO = (ContractDTO) session.getAttribute("contract");
+        for (OptionDTO optionDTO : contractDTO.getOptionDTOSet()) {
+            contractDTO1.getOptionDTOSet().add(optionDTO);
+        }
+        update(contractDTO1);
+    }
+
+    @Override
+    @Transactional
+    public void deleteOptionFromCart(int optionId, HttpSession session) {
+        ContractDTO contractDTO = (ContractDTO) session.getAttribute("contract");
+        contractDTO.getOptionDTOSet().remove(modelMapper.map(optionDAO.showById(optionId), OptionDTO.class));
+        if (contractDTO.getOptionDTOSet().isEmpty()) {
+            session.removeAttribute("contract");
+        } else {
+            session.setAttribute("contract", contractDTO);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void addOptionToCart(int contractId, int optionId, HttpSession session) {
+        ContractDTO contractDTO;
+        if (session.getAttribute("contract") == null) {
+            contractDTO = showById(contractId);
+            Set<OptionDTO> optionDTOSet = new TreeSet<>();
+            optionDTOSet.add(modelMapper.map(optionDAO.showById(optionId), OptionDTO.class));
+            contractDTO.setOptionDTOSet(optionDTOSet);
+        } else {
+            contractDTO = (ContractDTO) session.getAttribute("contract");
+            contractDTO.getOptionDTOSet().add(modelMapper.map(optionDAO.showById(optionId), OptionDTO.class));
+        }
+        session.setAttribute("contract", contractDTO);
+    }
+
+    @Override
+    @Transactional
+    public Set<OptionDTO> showAvailableOptions(ContractDTO contractDTO, HttpSession session) {
+        Set<OptionDTO> availableOptionSet = contractDTO.getTariffDTO().getOptionAvailableSet();
+        if (!contractDTO.getOptionDTOSet().isEmpty()) {
+            for (OptionDTO optionDTO1 : contractDTO.getOptionDTOSet()) {
+                availableOptionSet.removeIf(optionDTO -> optionDTO.getCategory().equals(optionDTO1.getCategory()));
+            }
+        }
+        if (session.getAttribute("contract") != null) {
+            ContractDTO contractDTO1 = (ContractDTO) session.getAttribute("contract");
+            for (OptionDTO optionDTO1 : contractDTO1.getOptionDTOSet()) {
+                availableOptionSet.removeIf(optionDTO -> optionDTO1.getCategory().equals(optionDTO.getCategory()));
+            }
+        }
+        return availableOptionSet;
     }
 }
