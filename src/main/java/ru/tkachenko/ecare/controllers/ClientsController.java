@@ -1,7 +1,9 @@
 package ru.tkachenko.ecare.controllers;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,8 @@ import ru.tkachenko.ecare.service.ClientService;
 public class ClientsController {
 
     private final ClientService clientService;
+
+    private final Logger logger = Logger.getLogger(ClientsController.class);
 
     @Autowired
     public ClientsController(ClientService clientService) {
@@ -48,6 +52,7 @@ public class ClientsController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String createClient(@ModelAttribute("client") ClientDTO clientDTO) {
         clientService.save(clientDTO);
+        logger.info("Create new Client by " + SecurityContextHolder.getContext().getAuthentication().getName());
         return "redirect:/clients" + clientDTO.getId();
     }
 

@@ -11,7 +11,7 @@
 <br>
 <div class="container" th:each="client : ${clients}">
     <a th:href="@{/clients/{id} (id=${client.getId()})}"
-       th:text="${client.getName() + ' ' + client.getSurname()}">client</a>
+       th:text="${client.getSurname() + ' ' + client.getName()}">client</a>
 </div>
 <br/>
 <hr/>

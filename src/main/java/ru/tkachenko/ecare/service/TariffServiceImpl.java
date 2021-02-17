@@ -1,5 +1,6 @@
 package ru.tkachenko.ecare.service;
 
+import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class TariffServiceImpl implements TariffService {
     private final TariffDAO tariffDAO;
     private final OptionDAO optionDAO;
     private final ModelMapper modelMapper;
+
+    private final Logger logger = Logger.getLogger(TariffServiceImpl.class);
 
     @Autowired
     public TariffServiceImpl(TariffDAO tariffDAO, OptionDAO optionDAO, ModelMapper modelMapper) {
@@ -59,6 +62,7 @@ public class TariffServiceImpl implements TariffService {
     public void save(TariffDTO tariffDTO) {
         tariff = toEntity(tariffDTO);
         tariffDAO.save(tariff);
+        logger.info("Tariff created");
     }
 
     @Override
@@ -73,6 +77,7 @@ public class TariffServiceImpl implements TariffService {
         if (!optionSet.isEmpty())
         tariff.setOptionAvailableSet(optionSet);
         tariffDAO.update(tariff);
+        logger.info("Tariff updated");
     }
 
     @Override
@@ -80,6 +85,7 @@ public class TariffServiceImpl implements TariffService {
     public void delete(TariffDTO tariffDTO, int id) {
         tariff = toEntity(tariffDTO);
         tariffDAO.delete(tariff, id);
+        logger.info("Tariff deleted");
     }
 
     @Override
@@ -87,6 +93,7 @@ public class TariffServiceImpl implements TariffService {
     public List<TariffDTO> loadTariffs() {
         List<TariffDTO> tariffDTOList = modelMapper.map(tariffDAO.showAll(), new TypeToken<List<TariffDTO>>() {}.getType());
         for (TariffDTO tariffDTO: tariffDTOList){
+            tariffDTO.setContractCount(tariffDTO.getContractSet().size());
             tariffDTO.setContractSet(null);
             for (OptionDTO optionDTO: tariffDTO.getOptionAvailableSet()){
                 optionDTO.setTariffSet(null);
@@ -94,6 +101,7 @@ public class TariffServiceImpl implements TariffService {
             }
         }
         tariffDTOList.sort(Comparator.comparing(TariffDTO::getTariffName));
+        logger.info("Tariffs data sent to another application");
         return tariffDTOList;
     }
 

@@ -67,22 +67,17 @@ public class TariffsController {
     @PatchMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String updateTariff(@ModelAttribute("tariff") TariffDTO tariffDTO,
-                               @RequestParam("options") List<Integer> optionList) {
+                               @RequestParam("options") List<Integer> optionList) throws JMSException, NamingException {
         tariffService.update(tariffDTO, optionList);
+        messageService.sendMessage("Banzai!");
         return "redirect:/tariffs/" + tariffDTO.getId();
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String deleteTariff(@ModelAttribute("tariff") TariffDTO tariffDTO, @PathVariable("id") int id) {
+    public String deleteTariff(@ModelAttribute("tariff") TariffDTO tariffDTO, @PathVariable("id") int id) throws JMSException, NamingException {
         tariffService.delete(tariffDTO, id);
+        messageService.sendMessage("Banzai!");
         return "redirect:/tariffs/all";
-    }
-
-    @GetMapping("/billboard")
-    @ResponseBody
-    public List<TariffDTO> tariffsForBillboard(){
-
-        return tariffService.showAll();
     }
 }

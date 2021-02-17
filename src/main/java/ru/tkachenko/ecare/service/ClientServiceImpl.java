@@ -1,5 +1,6 @@
 package ru.tkachenko.ecare.service;
 
+import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,9 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientDAO clientDAO;
     private final ModelMapper modelMapper;
-   private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    private final Logger logger = Logger.getLogger(ClientServiceImpl.class);
 
     @Autowired
     public ClientServiceImpl(ClientDAO clientDAO, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
@@ -71,6 +74,7 @@ public class ClientServiceImpl implements ClientService {
         clientDTO.setRole(Role.USER);
         client = toEntity(clientDTO);
         clientDAO.save(client);
+        logger.info("Client created");
     }
 
     @Override
@@ -78,6 +82,7 @@ public class ClientServiceImpl implements ClientService {
     public void update(ClientDTO clientDTO) {
         client = toEntity(clientDTO);
         clientDAO.update(client);
+        logger.info("Client updated");
     }
 
     @Override
@@ -85,6 +90,7 @@ public class ClientServiceImpl implements ClientService {
     public void delete(ClientDTO clientDTO, int id) {
         client = toEntity(clientDTO);
         clientDAO.delete(client, id);
+        logger.info("Client deleted");
     }
 
     @Override

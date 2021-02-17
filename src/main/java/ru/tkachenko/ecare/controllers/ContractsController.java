@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.service.*;
 
+import javax.jms.JMSException;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -18,14 +20,17 @@ public class ContractsController {
     private final ClientService clientService;
     private final TariffService tariffService;
     private final OptionService optionService;
+    private final MessageService messageService;
 
     @Autowired
     public ContractsController(ContractService contractService, ClientService clientService,
-                               TariffService tariffService, OptionService optionService) {
+                               TariffService tariffService, OptionService optionService,
+                               MessageService messageService) {
         this.contractService = contractService;
         this.clientService = clientService;
         this.tariffService = tariffService;
         this.optionService = optionService;
+        this.messageService = messageService;
     }
 
     @GetMapping("/all")
@@ -80,11 +85,12 @@ public class ContractsController {
 
     @PatchMapping("/{id}/change_tariff")
     public String changeTariffOnContract(@PathVariable("id") int id,
-                                  @RequestParam("tariff") int tariffId) {
+                                  @RequestParam("tariff") int tariffId) throws JMSException, NamingException {
         ContractDTO contractDTO = contractService.showById(id);
         contractDTO.setTariffDTO(tariffService.showById(tariffId));
         contractDTO.getOptionDTOSet().clear();
         contractService.update(contractDTO);
+        messageService.sendMessage("Banzai!");
         return "redirect:/contracts/" + id;
     }
 

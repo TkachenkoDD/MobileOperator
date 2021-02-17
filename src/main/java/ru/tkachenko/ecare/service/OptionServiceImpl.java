@@ -1,5 +1,6 @@
 package ru.tkachenko.ecare.service;
 
+import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class OptionServiceImpl implements OptionService {
 
     private final OptionDAO optionDAO;
     private final ModelMapper modelMapper;
+
+    private final Logger logger = Logger.getLogger(OptionServiceImpl.class);
 
     @Autowired
     public OptionServiceImpl(OptionDAO optionDAO, ModelMapper modelMapper) {
@@ -64,7 +67,7 @@ public class OptionServiceImpl implements OptionService {
     public void save(OptionDTO optionDTO) {
         option = toEntity(optionDTO);
         optionDAO.save(option);
-
+        logger.info("Option created");
     }
 
     @Override
@@ -72,7 +75,7 @@ public class OptionServiceImpl implements OptionService {
     public void update(OptionDTO optionDTO) {
         option = toEntity(optionDTO);
         optionDAO.update(option);
-
+        logger.info("Option updated");
     }
 
     @Override
@@ -80,6 +83,7 @@ public class OptionServiceImpl implements OptionService {
     public void delete(OptionDTO optionDTO, int id) {
         option = toEntity(optionDTO);
         optionDAO.delete(option, id);
+        logger.info("Option deleted");
     }
 
     @Override

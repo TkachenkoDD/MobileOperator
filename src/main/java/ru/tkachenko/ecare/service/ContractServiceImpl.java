@@ -1,5 +1,6 @@
 package ru.tkachenko.ecare.service;
 
+import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class ContractServiceImpl implements ContractService {
     private final ClientDAO clientDAO;
     private final OptionDAO optionDAO;
     private final ModelMapper modelMapper;
+
+    private final Logger logger = Logger.getLogger(ContractServiceImpl.class);
 
     @Autowired
     public ContractServiceImpl(ContractDAO contractDAO, ClientDAO clientDAO, OptionDAO optionDAO,
@@ -72,6 +75,7 @@ public class ContractServiceImpl implements ContractService {
         Set<ContractDTO> contractDTOSet = modelMapper.map(contract.getClient().getContractSet(), new TypeToken<Set<ContractDTO>>() {
         }.getType());
         contractDTO.getClientDTO().setContractSetDTO(contractDTOSet);
+        logger.info("Searching client with number " + number);
         return contractDTO.getClientDTO();
     }
 
@@ -80,6 +84,7 @@ public class ContractServiceImpl implements ContractService {
     public void save(ContractDTO contractDTO) {
         contract = toEntity(contractDTO);
         contractDAO.save(contract);
+        logger.info("Contract created");
     }
 
     @Override
@@ -87,6 +92,7 @@ public class ContractServiceImpl implements ContractService {
     public void update(ContractDTO contractDTO) {
         contract = toEntity(contractDTO);
         contractDAO.update(contract);
+        logger.info("Contract updated");
     }
 
     @Override
@@ -94,6 +100,7 @@ public class ContractServiceImpl implements ContractService {
     public void delete(ContractDTO contractDTO, int id) {
         contract = toEntity(contractDTO);
         contractDAO.delete(contract, id);
+        logger.info("Contract deleted");
     }
 
     @Override
@@ -117,6 +124,7 @@ public class ContractServiceImpl implements ContractService {
             contract.setStatus(0);
         }
         contractDAO.update(contract);
+        logger.info("Contract blocked/unblocked by " + currentName + ". Set status: " + status);
     }
 
     @Override
@@ -126,25 +134,20 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     @Transactional
-    public void confirmCartContract(ContractDTO contractDTO, HttpSession session) {
-        ContractDTO contractDTO1 = showById(contractDTO.getId());
-        contractDTO = (ContractDTO) session.getAttribute("contract");
-        for (OptionDTO optionDTO : contractDTO.getOptionDTOSet()) {
-            contractDTO1.getOptionDTOSet().add(optionDTO);
+    public Set<OptionDTO> showAvailableOptions(ContractDTO contractDTO, HttpSession session) {
+        Set<OptionDTO> availableOptionSet = contractDTO.getTariffDTO().getOptionAvailableSet();
+        if (!contractDTO.getOptionDTOSet().isEmpty()) {
+            for (OptionDTO optionDTO1 : contractDTO.getOptionDTOSet()) {
+                availableOptionSet.removeIf(optionDTO -> optionDTO.getCategory().equals(optionDTO1.getCategory()));
+            }
         }
-        update(contractDTO1);
-    }
-
-    @Override
-    @Transactional
-    public void deleteOptionFromCart(int optionId, HttpSession session) {
-        ContractDTO contractDTO = (ContractDTO) session.getAttribute("contract");
-        contractDTO.getOptionDTOSet().remove(modelMapper.map(optionDAO.showById(optionId), OptionDTO.class));
-        if (contractDTO.getOptionDTOSet().isEmpty()) {
-            session.removeAttribute("contract");
-        } else {
-            session.setAttribute("contract", contractDTO);
+        if (session.getAttribute("contract") != null) {
+            ContractDTO contractDTO1 = (ContractDTO) session.getAttribute("contract");
+            for (OptionDTO optionDTO1 : contractDTO1.getOptionDTOSet()) {
+                availableOptionSet.removeIf(optionDTO -> optionDTO1.getCategory().equals(optionDTO.getCategory()));
+            }
         }
+        return availableOptionSet;
     }
 
     @Override
@@ -165,19 +168,26 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     @Transactional
-    public Set<OptionDTO> showAvailableOptions(ContractDTO contractDTO, HttpSession session) {
-        Set<OptionDTO> availableOptionSet = contractDTO.getTariffDTO().getOptionAvailableSet();
-        if (!contractDTO.getOptionDTOSet().isEmpty()) {
-            for (OptionDTO optionDTO1 : contractDTO.getOptionDTOSet()) {
-                availableOptionSet.removeIf(optionDTO -> optionDTO.getCategory().equals(optionDTO1.getCategory()));
-            }
+    public void deleteOptionFromCart(int optionId, HttpSession session) {
+        ContractDTO contractDTO = (ContractDTO) session.getAttribute("contract");
+        contractDTO.getOptionDTOSet().remove(modelMapper.map(optionDAO.showById(optionId), OptionDTO.class));
+        if (contractDTO.getOptionDTOSet().isEmpty()) {
+            session.removeAttribute("contract");
+        } else {
+            session.setAttribute("contract", contractDTO);
         }
-        if (session.getAttribute("contract") != null) {
-            ContractDTO contractDTO1 = (ContractDTO) session.getAttribute("contract");
-            for (OptionDTO optionDTO1 : contractDTO1.getOptionDTOSet()) {
-                availableOptionSet.removeIf(optionDTO -> optionDTO1.getCategory().equals(optionDTO.getCategory()));
-            }
+    }
+
+
+    @Override
+    @Transactional
+    public void confirmCartContract(ContractDTO contractDTO, HttpSession session) {
+        ContractDTO contractDTO1 = showById(contractDTO.getId());
+        contractDTO = (ContractDTO) session.getAttribute("contract");
+        for (OptionDTO optionDTO : contractDTO.getOptionDTOSet()) {
+            contractDTO1.getOptionDTOSet().add(optionDTO);
         }
-        return availableOptionSet;
+        update(contractDTO1);
+        logger.info("Confirmed changes from cart");
     }
 }
