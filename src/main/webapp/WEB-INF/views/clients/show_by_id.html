@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Client</title>
-    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css">
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
@@ -24,7 +25,7 @@
 
             <form th:method="DELETE" th:action="@{/clients/{id} (id=${client.getId()})}" th:object="${client}"
                   sec:authorize="hasAuthority('ADMIN')">
-                <button class="btn btn-outline-success" type="submit">Delete client!</button>
+                <button class="btn btn-outline-primary" type="submit">Delete client!</button>
             </form>
         </div>
         <div class="col">
@@ -36,7 +37,7 @@
             </div>
             <form th:action="@{/contracts/{id}/new (id=${client.getId()})}"
                   sec:authorize="hasAuthority('ADMIN')">
-                <button class="btn btn-outline-success">New contract</button>
+                <button class="btn btn-outline-primary">New contract</button>
             </form>
         </div>
     </div>

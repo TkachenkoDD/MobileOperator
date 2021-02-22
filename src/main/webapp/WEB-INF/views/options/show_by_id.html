@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Option</title>
-    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css">
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
@@ -18,7 +19,7 @@
 
     <form th:method="DELETE" th:action="@{/options/{id} (id=${option.getId()})}" th:object="${option}"
           sec:authorize="hasAuthority('ADMIN')">
-        <button class="btn btn-outline-success" type="submit">Delete!</button>
+        <button class="btn btn-outline-primary" type="submit">Delete!</button>
     </form>
 </div>
 

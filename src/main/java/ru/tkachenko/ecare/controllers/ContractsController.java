@@ -86,10 +86,7 @@ public class ContractsController {
     @PatchMapping("/{id}/change_tariff")
     public String changeTariffOnContract(@PathVariable("id") int id,
                                   @RequestParam("tariff") int tariffId) throws JMSException, NamingException {
-        ContractDTO contractDTO = contractService.showById(id);
-        contractDTO.setTariffDTO(tariffService.showById(tariffId));
-        contractDTO.getOptionDTOSet().clear();
-        contractService.update(contractDTO);
+        contractService.changeTariffOnContract(id, tariffId);
         messageService.sendMessage("Banzai!");
         return "redirect:/contracts/" + id;
     }
@@ -120,9 +117,7 @@ public class ContractsController {
     @DeleteMapping("/{id}/delete_option")
     public String deleteOptionFromContract(@PathVariable("id") int id,
                                            @RequestParam("option") int optionId) {
-        ContractDTO contractDTO = contractService.showById(id);
-        contractDTO.getOptionDTOSet().remove(optionService.showById(optionId));
-        contractService.update(contractDTO);
+        contractService.deleteOptionFromContract(id, optionId);
         return "redirect:/contracts/" + id + "/available_options";
     }
 

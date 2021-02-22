@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Tariff</title>
-    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css">
 </head>
 <body>
 
@@ -22,7 +23,7 @@
 
     <form th:method="DELETE" th:action="@{/tariffs/{id} (id=${tariff.getId()})}" th:object="${tariff}"
           sec:authorize="hasAuthority('ADMIN')">
-        <button class="btn btn-outline-success" type="submit">Delete!</button>
+        <button class="btn btn-outline-primary" type="submit">Delete!</button>
     </form>
 </div>
 

@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Contract</title>
-    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css">
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
@@ -21,7 +22,7 @@
                    th:href="@{/contracts/{id}/available_options (id=${contract.getId()})}">
                     My options</a>
                 <form th:method="PATCH" th:action="@{/contracts/{id}/block (id=${contract.getId()})}">
-                    <button class="btn btn-outline-success" th:value="true" name="click">Block/Unblock</button>
+                    <button class="btn btn-outline-primary" th:value="true" name="click">Block/Unblock</button>
                 </form>
             </nav>
         </div>
@@ -41,7 +42,7 @@
             <br>
             <form th:method="DELETE" th:action="@{/contracts/{id} (id=${contract.getId()})}" th:object="${contract}"
                   sec:authorize="hasAuthority('ADMIN')">
-                <button class="btn btn-outline-success" type="submit">Delete contract!</button>
+                <button class="btn btn-outline-primary" type="submit">Delete contract!</button>
             </form>
         </div>
     </div>

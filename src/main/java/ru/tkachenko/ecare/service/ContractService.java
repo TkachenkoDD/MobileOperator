@@ -34,4 +34,8 @@ public interface ContractService {
     void addOptionToCart(int contractId, int optionId, HttpSession session);
 
     Set<OptionDTO> showAvailableOptions(ContractDTO contractDTO, HttpSession session);
+
+    void changeTariffOnContract(int contractId, int tariffId);
+
+    void deleteOptionFromContract(int contractId, int optionId);
 }

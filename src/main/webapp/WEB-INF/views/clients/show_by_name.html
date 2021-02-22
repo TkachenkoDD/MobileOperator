@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Client</title>
     <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
@@ -42,7 +43,7 @@
             </div>
             <form th:action="@{/contracts/{id}/new (id=${client.getId()})}"
                   sec:authorize="hasAuthority('ADMIN')">
-                <button class="btn btn-outline-success">New contract</button>
+                <button class="btn btn-outline-primary">New contract</button>
             </form>
             </fieldset>
         </div>

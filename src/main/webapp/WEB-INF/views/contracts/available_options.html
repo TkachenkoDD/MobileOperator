@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Options</title>
-    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css">
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
@@ -18,7 +19,7 @@
         </div>
         <div class="col">
             <form th:method="DELETE" th:action="@{/contracts/{id}/delete_option (id=${contract.getId()})}">
-                <button class="btn btn-outline-success" type="submit" th:value="${option.getId()}" name="option">
+                <button class="btn btn-outline-primary" type="submit" th:value="${option.getId()}" name="option">
                     Delete
                 </button>
             </form>
@@ -38,7 +39,7 @@
             </div>
             <div class="col">
                 <form th:method="PATCH" th:action="@{/contracts/{id}/options_to_cart (id=${contract.getId()})}">
-                    <button class="btn btn-outline-success"
+                    <button class="btn btn-outline-primary"
                             th:if="${contract.getTariffDTO().getOptionAvailableSet().contains(option)} and
                             ${option.getCategory().equals(cat)}"
                             type="submit" th:value="${option.getId()}"

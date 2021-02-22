@@ -92,8 +92,17 @@ public class TariffServiceImpl implements TariffService {
     @Transactional(readOnly = true)
     public List<TariffDTO> loadTariffs() {
         List<TariffDTO> tariffDTOList = modelMapper.map(tariffDAO.showAll(), new TypeToken<List<TariffDTO>>() {}.getType());
+        int contractSetSize = 0;
+        for(TariffDTO tariffDTO: tariffDTOList){
+            int x = tariffDTO.getContractSet().size();
+            if (x > contractSetSize){
+                contractSetSize = x;
+            }
+        }
         for (TariffDTO tariffDTO: tariffDTOList){
-            tariffDTO.setContractCount(tariffDTO.getContractSet().size());
+            if (tariffDTO.getContractSet().size() == contractSetSize){
+                tariffDTO.setHot(true);
+            }
             tariffDTO.setContractSet(null);
             for (OptionDTO optionDTO: tariffDTO.getOptionAvailableSet()){
                 optionDTO.setTariffSet(null);

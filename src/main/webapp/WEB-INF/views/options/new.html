@@ -3,22 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>New option</title>
-    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css">
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 <br>
 <div class="container">
     <form th:method="POST" th:action="@{/options}" th:object="${option}">
-        <label for="name">Enter option name: </label>
-        <input type="text" th:field="*{optionName}" id="name"/>
-        <br/>
-        <label for="cost">Enter option cost</label>
-        <input type="text" th:field="*{optionCost}" id="cost"/>
-        <br/>
-        <label for="connection">Enter cost of connection</label>
-        <input type="text" th:field="*{connectionCost}" id="connection"/>
-        <br/>
+        <div class="row mb-3">
+            <label for="name" class="col-sm-2 col-form-label">Enter option name: </label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{optionName}" id="name"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="cost" class="col-sm-2 col-form-label">Enter option cost</label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{optionCost}" id="cost"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="connection" class="col-sm-2 col-form-label">Enter cost of connection</label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{connectionCost}" id="connection"/>
+            </div>
+        </div>
         <label for="category">Select category:
             <select th:field="*{category}" id="category">
                 <option th:each="cat : ${T(ru.tkachenko.ecare.models.enums.Category).values()}"
@@ -26,7 +36,8 @@
             </select>
         </label>
         <br/>
-        <button class="btn btn-outline-success" type="submit">Create!</button>
+        <br/>
+        <button class="btn btn-outline-primary" type="submit">Create!</button>
     </form>
 </div>
 

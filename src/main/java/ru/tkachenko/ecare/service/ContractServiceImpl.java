@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.tkachenko.ecare.dao.ClientDAO;
 import ru.tkachenko.ecare.dao.ContractDAO;
 import ru.tkachenko.ecare.dao.OptionDAO;
+import ru.tkachenko.ecare.dao.TariffDAO;
 import ru.tkachenko.ecare.dto.ClientDTO;
 import ru.tkachenko.ecare.dto.ContractDTO;
 import ru.tkachenko.ecare.dto.OptionDTO;
@@ -26,6 +27,7 @@ public class ContractServiceImpl implements ContractService {
 
     private final ContractDAO contractDAO;
     private final ClientDAO clientDAO;
+    private final TariffDAO tariffDAO;
     private final OptionDAO optionDAO;
     private final ModelMapper modelMapper;
 
@@ -33,9 +35,10 @@ public class ContractServiceImpl implements ContractService {
 
     @Autowired
     public ContractServiceImpl(ContractDAO contractDAO, ClientDAO clientDAO, OptionDAO optionDAO,
-                               ModelMapper modelMapper) {
+                               TariffDAO tariffDAO, ModelMapper modelMapper) {
         this.contractDAO = contractDAO;
         this.clientDAO = clientDAO;
+        this.tariffDAO = tariffDAO;
         this.optionDAO = optionDAO;
         this.modelMapper = modelMapper;
     }
@@ -189,5 +192,22 @@ public class ContractServiceImpl implements ContractService {
         }
         update(contractDTO1);
         logger.info("Confirmed changes from cart");
+    }
+
+    @Override
+    @Transactional
+    public void changeTariffOnContract(int contractId, int tariffId) {
+        ContractDTO contractDTO = showById(contractId);
+        contractDTO.setTariffDTO(modelMapper.map(tariffDAO.showById(tariffId), TariffDTO.class));
+        contractDTO.getOptionDTOSet().clear();
+        update(contractDTO);
+    }
+
+    @Override
+    @Transactional
+    public void deleteOptionFromContract(int contractId, int optionId) {
+        ContractDTO contractDTO = showById(contractId);
+        contractDTO.getOptionDTOSet().remove(modelMapper.map(optionDAO.showById(optionId), OptionDTO.class));
+        update(contractDTO);
     }
 }

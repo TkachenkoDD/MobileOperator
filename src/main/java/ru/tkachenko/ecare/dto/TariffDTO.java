@@ -12,7 +12,7 @@ public class TariffDTO implements Comparable<TariffDTO>{
     private int tariffCost;
     private Set<ContractDTO> contractSet = new HashSet<>();
     private Set<OptionDTO> optionAvailableSet = new TreeSet<>();
-    private int contractCount;
+    private boolean isHot;
 
     public int getId() {
         return id;
@@ -54,12 +54,12 @@ public class TariffDTO implements Comparable<TariffDTO>{
         this.optionAvailableSet = optionAvailableSet;
     }
 
-    public int getContractCount() {
-        return contractCount;
+    public boolean isHot() {
+        return isHot;
     }
 
-    public void setContractCount(int contractCount) {
-        this.contractCount = contractCount;
+    public void setHot(boolean hot) {
+        isHot = hot;
     }
 
     @Override
