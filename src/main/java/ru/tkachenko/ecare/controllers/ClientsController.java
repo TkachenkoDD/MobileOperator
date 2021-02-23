@@ -48,7 +48,7 @@ public class ClientsController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String createClient(@ModelAttribute("client") ClientDTO clientDTO) {
         clientService.save(clientDTO);
-        return "redirect:/clients/" + clientDTO.getId();
+        return "redirect:/clients/all";
     }
 
     @GetMapping("/{id}/edit")
