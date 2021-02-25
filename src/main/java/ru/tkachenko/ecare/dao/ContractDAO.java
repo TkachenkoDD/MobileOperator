@@ -4,5 +4,5 @@ import ru.tkachenko.ecare.models.Contract;
 
 public interface ContractDAO extends GenericDAO<Contract>{
 
-    Object showClientByNumber(int num);
+    Object showClientByNumber(String num);
 }

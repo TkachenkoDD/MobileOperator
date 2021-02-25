@@ -13,7 +13,7 @@ public class ContractDAOImpl extends GenericDAOImpl<Contract> implements Contrac
 
     @Override
 
-    public Object showClientByNumber(int num) {
+    public Object showClientByNumber(String num) {
         return entityManager.createQuery("FROM Contract WHERE number = :castNumber")
                 .setParameter("castNumber", num).getSingleResult();
     }

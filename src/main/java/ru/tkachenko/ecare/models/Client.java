@@ -55,7 +55,7 @@ public class Client {
         this.numberOfPassport = numberOfPassport;
         this.address = address;
         this.contractSet = contractSet;
-        this.email = email;     //TODO - add validation
+        this.email = email;
         this.password = password;
         this.role = role;
     }

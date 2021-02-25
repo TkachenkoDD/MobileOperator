@@ -34,7 +34,7 @@
         <div class="row mb-3">
             <label for="passport" class="col-sm-2 col-form-label">Enter passport number: </label>
             <div class="col-sm-10">
-                <input type="text" th:field="*{numberOfPassport}" id="passport"/>
+                <input type="text" th:field="*{numberOfPassport}" id="passport" pattern="[0-9]{6}"/>
             </div>
         </div>
         <div class="row mb-3">
@@ -46,7 +46,7 @@
         <div class="row mb-3">
             <label for="email" class="col-sm-2 col-form-label">Enter e-mail: </label>
             <div class="col-sm-10">
-                <input type="text" th:field="*{email}" id="email"/>
+                <input type="email" th:field="*{email}" id="email" required/>
             </div>
         </div>
         <input type="hidden" th:field="*{password}" id="password">

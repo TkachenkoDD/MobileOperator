@@ -37,26 +37,38 @@ public class TariffServiceImpl implements TariffService {
 
     Tariff tariff = new Tariff();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public List<TariffDTO> showAll() {
-        List<TariffDTO> tariffDTOList = modelMapper.map(tariffDAO.showAll(), new TypeToken<List<TariffDTO>>() {}.getType());
+        List<TariffDTO> tariffDTOList = modelMapper.map(tariffDAO.showAll(), new TypeToken<List<TariffDTO>>() {
+        }.getType());
         tariffDTOList.sort(Comparator.comparing(TariffDTO::getTariffName));
         return tariffDTOList;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public TariffDTO showById(int id) {
         Tariff tariff = tariffDAO.showById(id);
         TariffDTO tariffDTO = modelMapper.map(tariff, TariffDTO.class);
-        Set<ContractDTO> contractDTOSet = modelMapper.map(tariff.getContractSet(), new TypeToken<Set<ContractDTO>>() {}.getType());
-        Set<OptionDTO> optionDTOSet = modelMapper.map(tariff.getOptionAvailableSet(), new TypeToken<Set<OptionDTO>>() {}.getType());
+        Set<ContractDTO> contractDTOSet = modelMapper.map(tariff.getContractSet(), new TypeToken<Set<ContractDTO>>() {
+        }.getType());
+        Set<OptionDTO> optionDTOSet = modelMapper.map(tariff.getOptionAvailableSet(), new TypeToken<Set<OptionDTO>>() {
+        }.getType());
         tariffDTO.setContractSet(contractDTOSet);
         tariffDTO.setOptionAvailableSet(optionDTOSet);
         return tariffDTO;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void save(TariffDTO tariffDTO) {
@@ -65,21 +77,27 @@ public class TariffServiceImpl implements TariffService {
         logger.info("Tariff created");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void update(TariffDTO tariffDTO, List<Integer> optionList) {
         tariff = toEntity(tariffDTO);
         Set<Option> optionSet = new HashSet<>();
-        for(Integer x: optionList){
+        for (Integer x : optionList) {
             if (x != null)
-            optionSet.add(optionDAO.showById(x));
+                optionSet.add(optionDAO.showById(x));
         }
         if (!optionSet.isEmpty())
-        tariff.setOptionAvailableSet(optionSet);
+            tariff.setOptionAvailableSet(optionSet);
         tariffDAO.update(tariff);
         logger.info("Tariff updated");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void delete(TariffDTO tariffDTO, int id) {
@@ -88,23 +106,27 @@ public class TariffServiceImpl implements TariffService {
         logger.info("Tariff deleted");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public List<TariffDTO> loadTariffs() {
-        List<TariffDTO> tariffDTOList = modelMapper.map(tariffDAO.showAll(), new TypeToken<List<TariffDTO>>() {}.getType());
+        List<TariffDTO> tariffDTOList = modelMapper.map(tariffDAO.showAll(), new TypeToken<List<TariffDTO>>() {
+        }.getType());
         int contractSetSize = 0;
-        for(TariffDTO tariffDTO: tariffDTOList){
+        for (TariffDTO tariffDTO : tariffDTOList) {
             int x = tariffDTO.getContractSet().size();
-            if (x > contractSetSize){
+            if (x > contractSetSize) {
                 contractSetSize = x;
             }
         }
-        for (TariffDTO tariffDTO: tariffDTOList){
-            if (tariffDTO.getContractSet().size() == contractSetSize){
+        for (TariffDTO tariffDTO : tariffDTOList) {
+            if (tariffDTO.getContractSet().size() == contractSetSize) {
                 tariffDTO.setHot(true);
             }
             tariffDTO.setContractSet(null);
-            for (OptionDTO optionDTO: tariffDTO.getOptionAvailableSet()){
+            for (OptionDTO optionDTO : tariffDTO.getOptionAvailableSet()) {
                 optionDTO.setTariffSet(null);
                 optionDTO.setContractDTOSet(null);
             }
@@ -114,6 +136,9 @@ public class TariffServiceImpl implements TariffService {
         return tariffDTOList;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tariff toEntity(TariffDTO tariffDTO) {
         return modelMapper.map(tariffDTO, Tariff.class);

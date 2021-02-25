@@ -15,13 +15,13 @@
         <div class="row mb-3">
             <label for="name" class="col-sm-2 col-form-label">Enter tariff name: </label>
             <div class="col-sm-10">
-                <input type="text" th:field="*{tariffName}" id="name"/>
+                <input type="text" th:field="*{tariffName}" id="name" required/>
             </div>
         </div>
         <div class="row mb-3">
             <label for="cost" class="col-sm-2 col-form-label">Enter tariffs cost</label>
             <div class="col-sm-10">
-                <input type="text" th:field="*{tariffCost}" id="cost"/>
+                <input type="text" th:field="*{tariffCost}" id="cost" required/>
             </div>
         </div>
         <button class="btn btn-outline-primary" type="submit">Create!</button>

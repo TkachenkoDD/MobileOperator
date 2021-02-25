@@ -14,19 +14,19 @@
         <div class="row mb-3">
             <label for="name" class="col-sm-2 col-form-label">Enter option name: </label>
             <div class="col-sm-10">
-                <input type="text" th:field="*{optionName}" id="name"/>
+                <input type="text" th:field="*{optionName}" id="name" required/>
             </div>
         </div>
         <div class="row mb-3">
             <label for="cost" class="col-sm-2 col-form-label">Enter option cost</label>
             <div class="col-sm-10">
-                <input type="text" th:field="*{optionCost}" id="cost"/>
+                <input type="text" th:field="*{optionCost}" id="cost" required/>
             </div>
         </div>
         <div class="row mb-3">
             <label for="connection" class="col-sm-2 col-form-label">Enter cost of connection</label>
             <div class="col-sm-10">
-                <input type="text" th:field="*{connectionCost}" id="connection"/>
+                <input type="text" th:field="*{connectionCost}" id="connection" required/>
             </div>
         </div>
         <label for="category">Select category:

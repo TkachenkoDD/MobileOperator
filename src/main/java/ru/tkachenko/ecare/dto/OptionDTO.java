@@ -2,12 +2,13 @@ package ru.tkachenko.ecare.dto;
 
 import ru.tkachenko.ecare.models.enums.Category;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class OptionDTO implements Comparable<OptionDTO> {
+public class OptionDTO implements Serializable, Comparable<OptionDTO> {
 
     private int id;
     private String optionName;

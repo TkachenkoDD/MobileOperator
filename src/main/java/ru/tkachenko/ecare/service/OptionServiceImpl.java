@@ -33,6 +33,9 @@ public class OptionServiceImpl implements OptionService {
 
     Option option = new Option();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public List<OptionDTO> showAll() {
@@ -40,7 +43,8 @@ public class OptionServiceImpl implements OptionService {
         }.getType());
         for (OptionDTO optionDTO : optionDTOList) {
             Option option = optionDAO.showById(optionDTO.getId());
-            Set<TariffDTO> tariffDTOSet = modelMapper.map(option.getTariffSet(), new TypeToken<Set<TariffDTO>>() {}.getType());
+            Set<TariffDTO> tariffDTOSet = modelMapper.map(option.getTariffSet(), new TypeToken<Set<TariffDTO>>() {
+            }.getType());
             Set<ContractDTO> contractDTOSet = modelMapper.map(option.getContractSet(), new TypeToken<Set<ContractDTO>>() {
             }.getType());
             optionDTO.setTariffSet(tariffDTOSet);
@@ -51,6 +55,9 @@ public class OptionServiceImpl implements OptionService {
         return optionDTOList;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public OptionDTO showById(int id) {
@@ -62,6 +69,9 @@ public class OptionServiceImpl implements OptionService {
         return optionDTO;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void save(OptionDTO optionDTO) {
@@ -70,6 +80,9 @@ public class OptionServiceImpl implements OptionService {
         logger.info("Option created");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void update(OptionDTO optionDTO) {
@@ -78,6 +91,9 @@ public class OptionServiceImpl implements OptionService {
         logger.info("Option updated");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void delete(OptionDTO optionDTO, int id) {
@@ -86,6 +102,9 @@ public class OptionServiceImpl implements OptionService {
         logger.info("Option deleted");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Option toEntity(OptionDTO optionDTO) {
         return modelMapper.map(optionDTO, Option.class);

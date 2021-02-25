@@ -37,24 +37,36 @@ public class ClientServiceImpl implements ClientService {
 
     Client client = new Client();
 
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public List<ClientDTO> showAll() {
-        List<ClientDTO> clientDTOList = modelMapper.map(clientDAO.showAll(), new TypeToken<List<ClientDTO>>() {}.getType());
+        List<ClientDTO> clientDTOList = modelMapper.map(clientDAO.showAll(), new TypeToken<List<ClientDTO>>() {
+        }.getType());
         clientDTOList.sort(Comparator.comparing(ClientDTO::getSurname));
         return clientDTOList;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public ClientDTO showById(int id) {
         Client client = clientDAO.showById(id);
         ClientDTO clientDTO = modelMapper.map(client, ClientDTO.class);
-        Set<ContractDTO> contractDTOSet = modelMapper.map(client.getContractSet(), new TypeToken<Set<ContractDTO>>() {}.getType());
+        Set<ContractDTO> contractDTOSet = modelMapper.map(client.getContractSet(), new TypeToken<Set<ContractDTO>>() {
+        }.getType());
         clientDTO.setContractSetDTO(contractDTOSet);
         return clientDTO;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public ClientDTO showByName() {
@@ -62,11 +74,15 @@ public class ClientServiceImpl implements ClientService {
         String currentName = authentication.getName();
         Client client = (Client) clientDAO.showByName(currentName);
         ClientDTO clientDTO = modelMapper.map(clientDAO.showByName(currentName), ClientDTO.class);
-        Set<ContractDTO> contractDTOSet = modelMapper.map(client.getContractSet(), new TypeToken<Set<ContractDTO>>() {}.getType());
+        Set<ContractDTO> contractDTOSet = modelMapper.map(client.getContractSet(), new TypeToken<Set<ContractDTO>>() {
+        }.getType());
         clientDTO.setContractSetDTO(contractDTOSet);
         return clientDTO;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void save(ClientDTO clientDTO) {
@@ -77,6 +93,9 @@ public class ClientServiceImpl implements ClientService {
         logger.info("Client created");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void update(ClientDTO clientDTO) {
@@ -85,6 +104,9 @@ public class ClientServiceImpl implements ClientService {
         logger.info("Client updated");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void delete(ClientDTO clientDTO, int id) {
@@ -93,6 +115,9 @@ public class ClientServiceImpl implements ClientService {
         logger.info("Client deleted");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Client toEntity(ClientDTO clientDTO) {
         return modelMapper.map(clientDTO, Client.class);

@@ -72,14 +72,17 @@ class TariffServiceImplTest {
         Tariff tariff = new Tariff();
         when(tariffService.toEntity(tariffDTO)).thenReturn(tariff);
         doNothing().when(tariffDAO).save(tariff);
+        assertDoesNotThrow(()-> tariffService.save(tariffDTO));
     }
 
     @Test
     void update() {
         TariffDTO tariffDTO = new TariffDTO();
         Tariff tariff = new Tariff();
+        List<Integer> optionList = new ArrayList<>();
         when(tariffService.toEntity(tariffDTO)).thenReturn(tariff);
         doNothing().when(tariffDAO).update(tariff);
+        assertDoesNotThrow(()-> tariffService.update(tariffDTO, optionList));
     }
 
     @Test
@@ -88,6 +91,7 @@ class TariffServiceImplTest {
         Tariff tariff = new Tariff();
         when(tariffService.toEntity(tariffDTO)).thenReturn(tariff);
         doNothing().when(tariffDAO).delete(any(), anyInt());
+        assertDoesNotThrow(()-> tariffService.delete(any(), anyInt()));
     }
 
     @Test

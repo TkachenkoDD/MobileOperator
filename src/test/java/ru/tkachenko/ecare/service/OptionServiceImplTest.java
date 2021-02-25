@@ -76,6 +76,7 @@ class OptionServiceImplTest {
         Option option = new Option();
         when(optionService.toEntity(optionDTO)).thenReturn(option);
         doNothing().when(optionDAO).save(option);
+        assertDoesNotThrow(()-> optionService.save(optionDTO));
     }
 
     @Test
@@ -84,6 +85,7 @@ class OptionServiceImplTest {
         Option option = new Option();
         when(optionService.toEntity(optionDTO)).thenReturn(option);
         doNothing().when(optionDAO).update(option);
+        assertDoesNotThrow(()-> optionService.update(optionDTO));
     }
 
     @Test
@@ -92,6 +94,7 @@ class OptionServiceImplTest {
         Option option = new Option();
         when(optionService.toEntity(optionDTO)).thenReturn(option);
         doNothing().when(optionDAO).delete(any(), anyInt());
+        assertDoesNotThrow(()-> optionService.delete(any(), anyInt()));
     }
 
     @Test

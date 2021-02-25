@@ -1,13 +1,14 @@
 package ru.tkachenko.ecare.dto;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class ContractDTO {
+public class ContractDTO implements Serializable {
 
     private int id;
-    private int number;
+    private String number;
     private int status;
     private TariffDTO tariffDTO;
     private ClientDTO clientDTO;
@@ -21,11 +22,11 @@ public class ContractDTO {
         this.id = id;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 

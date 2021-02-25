@@ -45,6 +45,9 @@ public class ContractServiceImpl implements ContractService {
 
     Contract contract = new Contract();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public List<ContractDTO> showAll() {
@@ -54,6 +57,9 @@ public class ContractServiceImpl implements ContractService {
         return contractDTOList;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional(readOnly = true)
     public ContractDTO showById(int id) {
@@ -69,9 +75,13 @@ public class ContractServiceImpl implements ContractService {
         return contractDTO;
     }
 
+    /**
+     * {@inheritDoc}
+     * @param number
+     */
     @Override
     @Transactional(readOnly = true)
-    public ClientDTO showClientByNumber(int number) {
+    public ClientDTO showClientByNumber(String number) {
         Contract contract = (Contract) contractDAO.showClientByNumber(number);
         ContractDTO contractDTO = modelMapper.map(contract, ContractDTO.class);
         contractDTO.setClientDTO(modelMapper.map(contract.getClient(), ClientDTO.class));
@@ -82,6 +92,9 @@ public class ContractServiceImpl implements ContractService {
         return contractDTO.getClientDTO();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void save(ContractDTO contractDTO) {
@@ -90,6 +103,9 @@ public class ContractServiceImpl implements ContractService {
         logger.info("Contract created");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void update(ContractDTO contractDTO) {
@@ -98,6 +114,9 @@ public class ContractServiceImpl implements ContractService {
         logger.info("Contract updated");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void delete(ContractDTO contractDTO, int id) {
@@ -106,6 +125,9 @@ public class ContractServiceImpl implements ContractService {
         logger.info("Contract deleted");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void contractBlock(int id) {
@@ -130,11 +152,17 @@ public class ContractServiceImpl implements ContractService {
         logger.info("Contract blocked/unblocked by " + currentName + ". Set status: " + status);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Contract toEntity(ContractDTO contractDTO) {
         return modelMapper.map(contractDTO, Contract.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public Set<OptionDTO> showAvailableOptions(ContractDTO contractDTO, HttpSession session) {
@@ -153,6 +181,9 @@ public class ContractServiceImpl implements ContractService {
         return availableOptionSet;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void addOptionToCart(int contractId, int optionId, HttpSession session) {
@@ -169,6 +200,9 @@ public class ContractServiceImpl implements ContractService {
         session.setAttribute("contract", contractDTO);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void deleteOptionFromCart(int optionId, HttpSession session) {
@@ -181,7 +215,9 @@ public class ContractServiceImpl implements ContractService {
         }
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void confirmCartContract(ContractDTO contractDTO, HttpSession session) {
@@ -194,6 +230,9 @@ public class ContractServiceImpl implements ContractService {
         logger.info("Confirmed changes from cart");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void changeTariffOnContract(int contractId, int tariffId) {
@@ -203,6 +242,9 @@ public class ContractServiceImpl implements ContractService {
         update(contractDTO);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void deleteOptionFromContract(int contractId, int optionId) {

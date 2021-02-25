@@ -12,6 +12,9 @@ import javax.naming.NamingException;
 import java.util.Properties;
 import javax.jms.Queue;
 
+/**
+ * created by Dmitrii Tkachenko
+ */
 @Component
 public class MessageService {
 
@@ -23,6 +26,13 @@ public class MessageService {
 
     private final Logger logger = Logger.getLogger(MessageService.class);
 
+    /**
+     * This method send message to second application to inform about changes with tariffs condition
+     *
+     * @param message - just text
+     * @throws NamingException
+     * @throws JMSException
+     */
     public void sendMessage(String message) throws NamingException, JMSException {
 
 

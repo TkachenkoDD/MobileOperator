@@ -1,11 +1,12 @@
 package ru.tkachenko.ecare.dto;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class TariffDTO implements Comparable<TariffDTO>{
+public class TariffDTO implements Serializable, Comparable<TariffDTO>{
 
     private int id;
     private String tariffName;

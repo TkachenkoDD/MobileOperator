@@ -15,7 +15,7 @@ public class Contract {
     private int id;
 
     @Column(name = "number")
-    private int number;     //TODO add validation
+    private String number;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "contracts_options",
@@ -37,7 +37,7 @@ public class Contract {
     public Contract() {
     }
 
-    public Contract(int id, int number, Set<Option> optionSet, Client client, Tariff tariff, int status) {
+    public Contract(int id, String number, Set<Option> optionSet, Client client, Tariff tariff, int status) {
         this.id = id;
         this.number = number;
         this.optionSet = optionSet;
@@ -54,11 +54,11 @@ public class Contract {
         this.id = id;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 

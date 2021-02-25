@@ -136,7 +136,7 @@ public class ContractsController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String searchClientByContract(Model model, @RequestParam(value = "number", required = false) int number) {
+    public String searchClientByContract(Model model, @RequestParam(value = "number", required = false) String number) {
         model.addAttribute("client", contractService.showClientByNumber(number));
         return "clients/show_by_id";
     }

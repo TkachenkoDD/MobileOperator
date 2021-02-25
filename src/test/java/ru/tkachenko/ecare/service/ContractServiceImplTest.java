@@ -21,8 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 class ContractServiceImplTest {
@@ -79,11 +78,11 @@ class ContractServiceImplTest {
         ContractDTO contractDTO = new ContractDTO();
         contract.setClient(client);
         contractDTO.setClientDTO(clientDTO);
-        when(contractDAO.showClientByNumber(anyInt())).thenReturn(contract);
+        when(contractDAO.showClientByNumber(any())).thenReturn(contract);
         when(modelMapper.map(contract, ContractDTO.class)).thenReturn(contractDTO);
         when(modelMapper.map(client, ClientDTO.class)).thenReturn(clientDTO);
-        assertNotNull(contractService.showClientByNumber(anyInt()));
-        assertEquals(contractDTO.getClientDTO(), contractService.showClientByNumber(anyInt()));
+        assertNotNull(contractService.showClientByNumber(any()));
+        assertEquals(contractDTO.getClientDTO(), contractService.showClientByNumber(any()));
     }
 
     @Test
@@ -92,6 +91,8 @@ class ContractServiceImplTest {
         Contract contract = new Contract();
         when(contractService.toEntity(contractDTO)).thenReturn(contract);
         doNothing().when(contractDAO).save(contract);
+        assertDoesNotThrow(()-> contractService.save(contractDTO));
+
     }
 
     @Test
@@ -100,6 +101,7 @@ class ContractServiceImplTest {
         Contract contract = new Contract();
         when(contractService.toEntity(contractDTO)).thenReturn(contract);
         doNothing().when(contractDAO).update(contract);
+        assertDoesNotThrow(()-> contractService.update(contractDTO));
     }
 
     @Test
@@ -108,6 +110,7 @@ class ContractServiceImplTest {
         Contract contract = new Contract();
         when(contractService.toEntity(contractDTO)).thenReturn(contract);
         doNothing().when(contractDAO).delete(any(), anyInt());
+        assertDoesNotThrow(()-> contractService.delete(any(), anyInt()));
     }
 
     @Test

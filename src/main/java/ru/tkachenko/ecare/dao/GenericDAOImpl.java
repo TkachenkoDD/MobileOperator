@@ -37,7 +37,8 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
 
     @Override
     public void delete(T entity, int id) {
-        entity = showById(id);
-        entityManager.remove(entity);
+        T entity1;
+        entity1 = showById(id);
+        entityManager.remove(entity1);
     }
 }

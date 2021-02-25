@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.tkachenko.ecare.dao.ClientDAO;
 import ru.tkachenko.ecare.dto.ClientDTO;
 import ru.tkachenko.ecare.models.Client;
@@ -26,6 +27,9 @@ class ClientServiceImplTest {
 
     @Mock
     private ClientDAO clientDAO;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @Mock
     private ModelMapper modelMapper;
@@ -71,9 +75,13 @@ class ClientServiceImplTest {
     @Test
     void save() {
         ClientDTO clientDTO = new ClientDTO();
+        ClientDTO clientDTO1 = new ClientDTO();
+        clientDTO1.setPassword(passwordEncoder.encode(clientDTO1.getPassword()));
         Client client = new Client();
+        when(passwordEncoder.encode(clientDTO.getPassword())).thenReturn(String.valueOf(clientDTO1));
         when(clientService.toEntity(clientDTO)).thenReturn(client);
         doNothing().when(clientDAO).save(client);
+        assertDoesNotThrow(()-> clientService.save(clientDTO));
     }
 
     @Test
@@ -82,6 +90,7 @@ class ClientServiceImplTest {
         Client client = new Client();
         when(clientService.toEntity(clientDTO)).thenReturn(client);
         doNothing().when(clientDAO).update(client);
+        assertDoesNotThrow(()-> clientService.update(clientDTO));
     }
 
     @Test
@@ -90,6 +99,7 @@ class ClientServiceImplTest {
         Client client = new Client();
         when(clientService.toEntity(clientDTO)).thenReturn(client);
         doNothing().when(clientDAO).delete(any(), anyInt());
+        assertDoesNotThrow(()-> clientService.delete(any(), anyInt()));
     }
 
     @Test
