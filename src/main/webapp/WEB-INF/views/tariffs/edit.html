@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update tariff</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css">
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+<br>
+<div class="container">
+    <form th:method="PATCH" th:action="@{/tariffs/{id}(id=${tariff.getId()})}">
+        <div class="row mb-3">
+            <label for="name" class="col-sm-2 col-form-label">Enter tariff name: </label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{tariff.tariffName}" id="name" required/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="cost" class="col-sm-2 col-form-label">Enter tariffs cost</label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{tariff.tariffCost}" id="cost" required/>
+            </div>
+        </div>
+        <br>
+        <label for="options">Select available options:</label>
+        <input type="hidden" th:value="''" name="options">
+        <table>
+            <tr>
+                <td th:each="cat: ${T(ru.tkachenko.ecare.models.enums.Category).values()}">
+                    <p th:text="${cat}">Categories: </p>
+                    <p th:each="option: ${options}">
+                        <input type="checkbox" th:if="${option.getCategory().equals(cat)}" th:value="${option.getId()}"
+                               th:text="${option.getOptionName()}"
+                               th:checked="${tariff.getOptionAvailableSet().contains(option)}" id="options"
+                               name="options"/>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <br/>
+        <button class="btn btn-outline-primary" type="submit">Update!</button>
+    </form>
+</div>
+
+</body>
+</html>

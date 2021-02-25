@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ecare</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css">
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <p class="login-badge">eCare</p>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="functional-buttons">
+                <ul>
+                    <li><a th:href="@{/clients}">Log in</a></li>
+                    <li><a th:href="@{/registration}">Sign Up</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="banner">
+
+    <div class="container heading" th:if="${!tariffs.isEmpty()}">
+        <div class="row">
+            <div class="section-heading">
+                <h1 class="central-text">Try our best tariffs!</h1>
+            </div>
+        </div>
+        <div class=row>
+            <div class="col bol" th:each="tarif: ${tariffs}">
+                <div class="tariff-name">
+                    <h4 class="tariffname" th:text="${tarif.getTariffName()}">Tariff name</h4>
+                    <div class="cost">
+                        <h6 class="central-text" th:text="${tarif.getTariffCost()}">TariffCost</h6>
+                        <span class="central-text">monthly</span>
+                    </div>
+                    <p>Available options</p>
+                    <div class="dev"></div>
+                    <ul th:each="option: ${tarif.getOptionAvailableSet()}">
+                        <li class="option-list" th:text="${option.getOptionName()}"></li>
+                    </ul>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

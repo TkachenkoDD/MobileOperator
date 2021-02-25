@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Options</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<br>
+<div class="container">
+    <h3>Active options</h3>
+    <div class="row" th:if="${!contract.getOptionDTOSet().isEmpty()}" th:each="option: ${contract.getOptionDTOSet()}">
+        <div class="col">
+            <ul>
+                <li><a th:href="@{/options/{id} (id=${option.getId()})}" th:text="${option.getOptionName()}"></a></li>
+            </ul>
+        </div>
+        <div class="col">
+            <form th:method="DELETE" th:action="@{/contracts/{id}/delete_option (id=${contract.getId()})}">
+                <button class="btn btn-outline-primary" type="submit" th:value="${option.getId()}" name="option">
+                    Delete
+                </button>
+            </form>
+        </div>
+
+
+    </div>
+    <hr>
+    <h3>Available options</h3>
+    <div th:each="cat: ${T(ru.tkachenko.ecare.models.enums.Category).values()}">
+        <h5 th:text="${cat}">categories</h5>
+        <div class="row" th:each="option: ${options}">
+            <div class="col">
+                <a th:if="${option.getCategory().equals(cat)}"
+                   th:href="@{/options/{id} (id=${option.getId()})}"
+                   th:text="${option.getOptionName()}">option</a>
+            </div>
+            <div class="col">
+                <form th:method="PATCH" th:action="@{/contracts/{id}/options_to_cart (id=${contract.getId()})}">
+                    <button class="btn btn-outline-primary"
+                            th:if="${contract.getTariffDTO().getOptionAvailableSet().contains(option)} and
+                            ${option.getCategory().equals(cat)}"
+                            type="submit" th:value="${option.getId()}"
+                            name="option">Select option
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

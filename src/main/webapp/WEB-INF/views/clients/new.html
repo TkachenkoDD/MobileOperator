@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New client</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<br>
+<div class="container">
+    <form th:method="POST" th:action="@{/clients}" th:object="${client}">
+        <div class="row mb-3">
+            <label for="name" class="col-sm-2 col-form-label">Enter name: </label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{name}" id="name" required/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="surname" class="col-sm-2 col-form-label">Enter surname: </label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{surname}" id="surname" required/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="email" class="col-sm-2 col-form-label">Enter e-mail: </label>
+            <div class="col-sm-10">
+                <input type="email" th:field="*{email}" id="email" required/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="password" class="col-sm-2 col-form-label">Enter password: </label>
+            <div class="col-sm-10">
+                <input type="password" th:field="*{password}" id="password" required>
+            </div>
+        </div>
+        <input type="hidden" th:field="*{dateOfBirth}"/>
+        <input type="hidden" th:field="*{numberOfPassport}"/>
+        <input type="hidden" th:field="*{address}"/>
+        <input type="hidden" th:field="*{role}">
+        <button class="btn btn-outline-primary" type="submit">Create!</button>
+    </form>
+</div>
+
+</body>
+</html>

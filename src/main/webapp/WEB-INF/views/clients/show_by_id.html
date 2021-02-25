@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Client</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <br>
+            <p>Name: <span th:text="${client.getName()}">NAME</span></p>
+            <p>Surname: <span th:text="${client.getSurname()}">SURNAME</span></p>
+            <p>Birthday: <span th:text="${client.getDateOfBirth()}">BIRTHDAY</span></p>
+            <p>Passport: <span th:text="${client.getNumberOfPassport()}">PASSPORT</span></p>
+            <p>Address: <span th:text="${client.getAddress()}">ADDRESS</span></p>
+            <p>e-mail: <span th:text="${client.getEmail()}">E-MAIL</span></p>
+
+            <a th:href="@{/clients/{id}/edit (id=${client.getId()})}">Edit client</a>
+
+            <form th:method="DELETE" th:action="@{/clients/{id} (id=${client.getId()})}" th:object="${client}"
+                  sec:authorize="hasAuthority('ADMIN')">
+                <button class="btn btn-outline-primary" type="submit">Delete client!</button>
+            </form>
+        </div>
+        <div class="col">
+            <br>
+            <p>Contracts:</p>
+            <div th:each="contract : ${client.getContractSetDTO()}">
+                <a th:href="@{/contracts/{id} (id=${contract.getId()})}" th:text="${contract.getNumber()}">Contracts</a>
+                <br>
+            </div>
+            <form th:action="@{/contracts/{id}/new (id=${client.getId()})}"
+                  sec:authorize="hasAuthority('ADMIN')">
+                <button class="btn btn-outline-primary">New contract</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Option</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<br>
+<div class="container">
+    <p>Option name: <span th:text="${option.getOptionName()}">OPTION</span></p>
+    <p>Option cost: <span th:text="${option.getOptionCost()}">COST</span></p>
+    <p>Connection cost: <span th:text="${option.getConnectionCost()}">CONNECTION COST</span></p>
+
+    <a th:href="@{/options/{id}/edit (id=${option.getId()})}" sec:authorize="hasAuthority('ADMIN')">Edit option</a>
+
+    <form th:method="DELETE" th:action="@{/options/{id} (id=${option.getId()})}" th:object="${option}"
+          sec:authorize="hasAuthority('ADMIN')">
+        <button class="btn btn-outline-primary" type="submit">Delete!</button>
+    </form>
+</div>
+
+</body>
+</html>

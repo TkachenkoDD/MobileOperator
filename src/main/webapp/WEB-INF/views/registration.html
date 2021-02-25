@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css">
+</head>
+<body>
+<!-- Header -->
+<header>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="login-badge" th:href="@{/ecare}">eCare</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+</header>
+<!-- Page Content -->
+<!-- Banner Starts Here -->
+<div class="banner">
+    <div class="container login-container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col loginfone">
+                <h3>Registration form</h3>
+                <form th:method="POST" th:action="@{/registration}" th:object="${client}">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Enter e-mail</label>
+                        <input type="email" th:field="*{email}" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Enter password</label>
+                        <input type="password" th:field="*{password}" class="form-control" id="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Enter your name</label>
+                        <input type="text" th:field="*{name}" class="form-control" id="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="surname" class="form-label">Enter your surname</label>
+                        <input type="text" th:field="*{surname}" class="form-control" id="surname" required>
+                    </div>
+                    <input type="hidden" th:field="*{dateOfBirth}"/>
+                    <input type="hidden" th:field="*{numberOfPassport}"/>
+                    <input type="hidden" th:field="*{address}"/>
+                    <button class="btn btn-primary" type="submit">Registration!</button>
+                </form>
+                <br>
+            </div>
+            <div class="col-1"></div>
+        </div>
+    </div>
+</div>
+<!-- Banner Ends Here -->
+</body>
+</html>

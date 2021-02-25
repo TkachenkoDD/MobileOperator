@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All clients</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<br>
+<div class="container" th:each="client : ${clients}">
+    <a th:href="@{/clients/{id} (id=${client.getId()})}"
+       th:text="${client.getSurname() + ' ' + client.getName()}">client</a>
+</div>
+<br/>
+<hr/>
+<div class="container">
+    <a th:href="@{/clients/new}">New client</a>
+</div>
+
+</body>
+</html>

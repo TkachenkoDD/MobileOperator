@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>All options</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<br>
+<div class="container">
+    <div th:each="option : ${options}">
+        <a th:href="@{/options/{id} (id=${option.getId()})}" th:text="${option.getOptionName()}">option</a>
+    </div>
+    <br/>
+    <hr/>
+    <a th:href="@{/options/new}" sec:authorize="hasAuthority('ADMIN')">New option</a>
+</div>
+
+</body>
+</html>
