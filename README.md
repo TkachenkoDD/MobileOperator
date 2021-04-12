@@ -1,6 +1,6 @@
 # JavaSchoolDT
 
-This is an application that simulates the operation of the information system of a cellular operator.
+This is an application that simulates the operation of the information system of a mobile operator.
 
 The app provides the following functionality:
 • For clients of the company:
