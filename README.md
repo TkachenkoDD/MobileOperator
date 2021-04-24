@@ -1,4 +1,4 @@
-# JavaSchoolDT
+# MobileOperator
 
 This is an application that simulates the operation of the information system of a mobile operator.
 
